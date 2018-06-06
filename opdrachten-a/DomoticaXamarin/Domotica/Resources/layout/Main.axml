@@ -154,7 +154,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner1"
+        android:id="@+id/powerOutletSpinner"
         android:entries="@array/power_outlets"
         android:paddingTop="5dp" />
     <TextView
@@ -162,12 +162,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
+        android:id="@+id/textViewPowerSocketState"
         android:paddingTop="10dp" />
     <Button
         android:text="@string/power_outlet_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button1"
+        android:id="@+id/togglePowerOutletButton"
         android:layout_marginTop="10dp" />
 </LinearLayout>

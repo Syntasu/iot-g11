@@ -25,6 +25,8 @@ NewRemoteTransmitter kakuTransmitter(UNIT_CODE, RF_PIN, 260, 3);
 bool pinState = false;                   // Variable to store actual pin state
 bool pinChange = false;                  // Variable to store actual pin change
 int  sensorValue = 0;                    // Variable to store actual sensor value
+int currentPowerOutlet = 0;
+bool p1state, p2state, p3state;          // Variables to store the states for the power outlet transmitter.
 
 void setup()
 {
@@ -109,8 +111,7 @@ void loop()
         
       // Activate pin based op pinState
       if (pinChange) {
-         if (pinState) { digitalWrite(ledPin, HIGH); switchDefault(true); }
-         else { switchDefault(false); digitalWrite(ledPin, LOW); }
+         if (pinState) { digitalWrite(ledPin, HIGH); }
          pinChange = false;
       }
    
@@ -126,9 +127,28 @@ void loop()
 }
 
 // Choose and switch your Kaku device, state is true/false (HIGH/LOW)
-void switchDefault(bool state)
-{   
-   kakuTransmitter.sendUnit(0, state);          // APA3 Kaku (Gamma)                
+bool toggleKakuDevice(int unit)
+{ 
+   // Set state acorrdingly.
+   switch(unit)
+   {
+      case 1:
+        p1state = !p1state;
+        //kakuTransmitter.sendUnit(1, p1state);
+        return p1state;
+      case 2:
+        p2state = !p2state;
+        //kakuTransmitter.sendUnit(2, p2state);
+        return p2state;
+      case 3: 
+        p3state = !p3state;
+        //kakuTransmitter.sendUnit(3, p3state);
+        return p3state;
+      default:
+        Serial.println("Unknown power outlet");
+        return false;
+   }
+
    delay(100);
 }
 
@@ -141,6 +161,7 @@ void executeCommand(char cmd)
 
          // Command protocol
          Serial.print("["); Serial.print(cmd); Serial.print("] -> ");
+         
          switch (cmd) {
          case 'a': // Report sensor value to the app  
             intToCharBuf(sensorValue, buf, 4);                // convert to charbuffer
@@ -159,6 +180,39 @@ void executeCommand(char cmd)
          case 'i':    
             digitalWrite(infoPin, HIGH);
             break;
+            
+         case '1':
+            Serial.println("Set outlet to 1");
+            currentPowerOutlet = 1;
+            intToCharBuf(p1state, buf, 4);
+            server.write(buf, 4);
+            break;
+         case '2':
+            Serial.println("Set outlet to 2");
+            currentPowerOutlet = 2;
+            intToCharBuf(p2state, buf, 4);
+            server.write(buf, 4);
+            break;
+         case '3':
+            Serial.println("Set outlet to 3");
+            currentPowerOutlet = 3;
+            intToCharBuf(p3state, buf, 4);
+            server.write(buf, 4);
+            break;
+            
+          case 'T':
+            if(currentPowerOutlet == 0)
+            {
+              break;
+            }
+            else
+            {
+              bool state = toggleKakuDevice(currentPowerOutlet);
+              intToCharBuf(state, buf, 4);
+              server.write(buf, 4);
+              break;
+            }
+            
          default:
             digitalWrite(infoPin, LOW);
          }

@@ -32,21 +32,16 @@ using System.Net;
 using System.Net.Sockets;
 using System.Timers;
 using Android.App;
-using Android.Content;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
-using Android.Content.PM;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Android.Graphics;
-using System.Threading.Tasks;
 
 namespace Domotica
 {
     [Activity(Label = "@string/application_name", MainLauncher = true, Icon = "@drawable/icon", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
-
     public class MainActivity : Activity
     {
         // Variables (components/controls)
@@ -57,10 +52,16 @@ namespace Domotica
         public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
         EditText editTextIPAddress, editTextIPPort;
 
+        Spinner powerSockets;
+        TextView powerSocketState;
+        Button powerSocketToggle;
+
         Timer timerClock, timerSockets;             // Timers   
         Socket socket = null;                       // Socket   
         List<Tuple<string, TextView>> commandList = new List<Tuple<string, TextView>>();  // List for commands and response places on UI
+
         int listIndex = 0;
+        int currentPowerOutlet = 0;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -79,17 +80,51 @@ namespace Domotica
             textViewDebugValue = FindViewById<TextView>(Resource.Id.textViewDebugValue);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
             editTextIPPort = FindViewById<EditText>(Resource.Id.editTextIPPort);
+            powerSocketState = FindViewById<TextView>(Resource.Id.textViewPowerSocketState);
+            powerSockets = FindViewById<Spinner>(Resource.Id.powerOutletSpinner);
+            powerSocketToggle = FindViewById<Button>(Resource.Id.togglePowerOutletButton);
 
+            //On changing a value from the spinner, get the state and display on screen.
+            powerSockets.ItemSelected += (obj, args) =>
+            {
+                int value = powerSockets.SelectedItemPosition;
+
+                if(value == 0)
+                {
+                    powerSocketState.Text = "Select power socket...";
+                    return;
+                }
+
+                currentPowerOutlet = value;
+
+                string result = executeCommand(value.ToString());
+                string state = "n.a.";
+
+                if (result == "000") state = "off";
+                else if (result == "001") state = "on";
+
+                powerSocketState.Text = $"Power socket {currentPowerOutlet} is currently {state}";
+            };
+
+            powerSocketToggle.Click += (obj, args) =>
+            {
+                string result = executeCommand("T");
+                string state = "n.a.";
+
+                if (result == "000") state = "off";
+                else if (result == "001") state = "on";
+
+                powerSocketState.Text = $"Power socket {currentPowerOutlet} is currently {state}";
+            };
+            
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
             commandList.Add(new Tuple<string, TextView>("s", textViewChangePinStateValue));
             commandList.Add(new Tuple<string, TextView>("a", textViewSensorValue));
 
-            this.Title = this.Title + " (timer sockets)";
-
             // timer object, running clock
-            timerClock = new System.Timers.Timer() { Interval = 2000, Enabled = true }; // Interval >= 1000
+            timerClock = new Timer() { Interval = 2000, Enabled = true }; // Interval >= 1000
             timerClock.Elapsed += (obj, args) =>
             {
                 RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("h:mm:ss"); }); 
@@ -97,7 +132,7 @@ namespace Domotica
 
             // timer object, check Arduino state
             // Only one command can be serviced in an timer tick, schedule from list
-            timerSockets = new System.Timers.Timer() { Interval = 1000, Enabled = false }; // Interval >= 750
+            timerSockets = new Timer() { Interval = 1000, Enabled = false }; // Interval >= 750
             timerSockets.Elapsed += (obj, args) =>
             {
                 //RunOnUiThread(() =>

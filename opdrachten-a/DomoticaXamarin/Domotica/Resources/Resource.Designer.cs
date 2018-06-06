@@ -79,9 +79,6 @@ namespace Domotica
 			// aapt resource value: 0x7f070016
 			public const int abort = 2131165206;
 			
-			// aapt resource value: 0x7f070014
-			public const int button1 = 2131165204;
-			
 			// aapt resource value: 0x7f07000a
 			public const int buttonChangePinState = 2131165194;
 			
@@ -100,14 +97,11 @@ namespace Domotica
 			// aapt resource value: 0x7f070011
 			public const int powerOutletHeader = 2131165201;
 			
+			// aapt resource value: 0x7f070012
+			public const int powerOutletSpinner = 2131165202;
+			
 			// aapt resource value: 0x7f070000
 			public const int relativeLayout1 = 2131165184;
-			
-			// aapt resource value: 0x7f070012
-			public const int spinner1 = 2131165202;
-			
-			// aapt resource value: 0x7f070013
-			public const int textView1 = 2131165203;
 			
 			// aapt resource value: 0x7f07000b
 			public const int textViewChangePinState = 2131165195;
@@ -127,6 +121,9 @@ namespace Domotica
 			// aapt resource value: 0x7f070006
 			public const int textViewIPPort = 2131165190;
 			
+			// aapt resource value: 0x7f070013
+			public const int textViewPowerSocketState = 2131165203;
+			
 			// aapt resource value: 0x7f07000d
 			public const int textViewSensor = 2131165197;
 			
@@ -144,6 +141,9 @@ namespace Domotica
 			
 			// aapt resource value: 0x7f070002
 			public const int textViewTimerStateValue = 2131165186;
+			
+			// aapt resource value: 0x7f070014
+			public const int togglePowerOutletButton = 2131165204;
 			
 			static Id()
 			{
