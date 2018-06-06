@@ -1,52 +1,18 @@
-// Arduino Domotica server with Klik-Aan-Klik-Uit-controller 
-//
-// By Sibbele Oosterhaven, Computer Science NHL, Leeuwarden
-// V1.2, 16/12/2016, published on BB. Works with Xamarin (App: Domotica)
-//
-// Hardware: Arduino Uno, Ethernet shield W5100; RF transmitter on RFpin; debug LED for serverconnection on ledPin
-// The Ethernet shield uses pin 10, 11, 12 and 13
-// Use Ethernet2.h libary with the (new) Ethernet board, model 2
-// IP address of server is based on DHCP. No fallback to static IP; use a wireless router
-// Arduino server and smartphone should be in the same network segment (192.168.1.x)
-// 
-// Supported kaku-devices
-// https://eeo.tweakblogs.net/blog/11058/action-klik-aan-klik-uit-modulen (model left)
-// kaku Action device, old model (with dipswitches); system code = 31, device = 'A' 
-// system code = 31, device = 'A' true/false
-// system code = 31, device = 'B' true/false
-//
-// // https://eeo.tweakblogs.net/blog/11058/action-klik-aan-klik-uit-modulen (model right)
-// Based on https://github.com/evothings/evothings-examples/blob/master/resources/arduino/arduinoethernet/arduinoethernet.ino.
-// kaku, Action, new model, codes based on Arduino -> Voorbeelden -> RCsw-2-> ReceiveDemo_Simple
-//   on      off       
-// 1 2210415 2210414   replace with your own codes
-// 2 2210413 2210412
-// 3 2210411 2210410
-// 4 2210407 2210406
-//
-// https://github.com/hjgode/homewatch/blob/master/arduino/libraries/NewRemoteSwitch/README.TXT
-// kaku, Gamma, APA3, codes based on Arduino -> Voorbeelden -> NewRemoteSwitch -> ShowReceivedCode
-// 1 Addr 21177114 unit 0 on/off, period: 270us   replace with your own code
-// 2 Addr 21177114 unit 1 on/off, period: 270us
-// 3 Addr 21177114 unit 2 on/off, period: 270us
+#define UNIT_CODE 28620750 
+#define PORT 3300
+#define USE_DHCP false
 
-// Supported KaKu devices -> find, download en install corresponding libraries
-#define unitCodeApa3      21177114  // replace with your own code
-#define unitCodeActionOld 31        // replace with your own code
-#define unitCodeActionNew 2210406   // replace with your own code
+#include <SPI.h> 
+#include <Ethernet.h>
+#include <NewRemoteTransmitter.h> 
 
-// Include files.
-#include <SPI.h>                  // Ethernet shield uses SPI-interface
-#include <Ethernet.h>             // Ethernet library (use Ethernet2.h for new ethernet shield v2)
-#include <NewRemoteTransmitter.h> // Remote Control, Gamma, APA3
-#include <RemoteTransmitter.h>    // Remote Control, Action, old model
-//#include <RCSwitch.h>           // Remote Control, Action, new model
+//Set up the socket server.
+byte mac[] = { 0x40, 0x6c, 0x8f, 0x36, 0x84, 0x8a };
+IPAddress ipAddress = IPAddress(192, 168, 1, 16);
+EthernetServer server(PORT);
 
-// Set Ethernet Shield MAC address  (check yours)
-byte mac[] = { 0x40, 0x6c, 0x8f, 0x36, 0x84, 0x8a }; // Ethernet adapter shield S. Oosterhaven
-int ethPort = 3300;                                  // Take a free port (check your router)
-
-#define RFPin        3  // output, pin to control the RF-sender (and Click-On Click-Off-device)
+//Define pin stuff.
+#define RF_PIN       3  // output, pin to control the RF-sender (and Click-On Click-Off-device)
 #define lowPin       5  // output, always LOW
 #define highPin      6  // output, always HIGH
 #define switchPin    7  // input, connected to some kind of inputswitch
@@ -54,12 +20,8 @@ int ethPort = 3300;                                  // Take a free port (check 
 #define infoPin      9  // output, more information
 #define analogPin    0  // sensor value
 
-EthernetServer server(ethPort);              // EthernetServer instance (listening on port <ethPort>).
-NewRemoteTransmitter apa3Transmitter(unitCodeApa3, RFPin, 260, 3);  // APA3 (Gamma) remote, use pin <RFPin> 
-ActionTransmitter actionTransmitter(RFPin);  // Remote Control, Action, old model (Impulse), use pin <RFPin>
-//RCSwitch mySwitch = RCSwitch();            // Remote Control, Action, new model (on-off), use pin <RFPin>
+NewRemoteTransmitter kakuTransmitter(UNIT_CODE, RF_PIN, 260, 3);
 
-char actionDevice = 'A';                 // Variable to store Action Device id ('A', 'B', 'C')
 bool pinState = false;                   // Variable to store actual pin state
 bool pinChange = false;                  // Variable to store actual pin change
 int  sensorValue = 0;                    // Variable to store actual sensor value
@@ -67,26 +29,25 @@ int  sensorValue = 0;                    // Variable to store actual sensor valu
 void setup()
 {
    Serial.begin(9600);
-   //while (!Serial) { ; }               // Wait for serial port to connect. Needed for Leonardo only.
-
    Serial.println("Domotica project, Arduino Domotica Server\n");
    
    //Init I/O-pins
-   pinMode(switchPin, INPUT);            // hardware switch, for changing pin state
+   pinMode(switchPin, INPUT);
    pinMode(lowPin, OUTPUT);
    pinMode(highPin, OUTPUT);
-   pinMode(RFPin, OUTPUT);
+   pinMode(RF_PIN, OUTPUT);
    pinMode(ledPin, OUTPUT);
    pinMode(infoPin, OUTPUT);
    
    //Default states
-   digitalWrite(switchPin, HIGH);        // Activate pullup resistors (needed for input pin)
+   digitalWrite(switchPin, HIGH);
    digitalWrite(lowPin, LOW);
    digitalWrite(highPin, HIGH);
-   digitalWrite(RFPin, LOW);
+   digitalWrite(RF_PIN, LOW);
    digitalWrite(ledPin, LOW);
    digitalWrite(infoPin, LOW);
 
+#if USE_DHCP
    //Try to get an IP address from the DHCP server.
    if (Ethernet.begin(mac) == 0)
    {
@@ -94,9 +55,16 @@ void setup()
       while (true){     // no point in carrying on, so do nothing forevermore; check your router
       }
    }
+#else
+  Ethernet.begin(mac, ipAddress);
+#endif
    
-   Serial.print("LED (for connect-state and pin-state) on pin "); Serial.println(ledPin);
-   Serial.print("Input switch on pin "); Serial.println(switchPin);
+   Serial.print("LED (for connect-state and pin-state) on pin "); 
+   Serial.println(ledPin);
+   
+   Serial.print("Input switch on pin "); 
+   Serial.println(switchPin);
+   
    Serial.println("Ethernetboard connected (pins 10, 11, 12, 13 and SPI)");
    Serial.println("Connect to DHCP source in local network (blinking led -> waiting for connection)");
    
@@ -109,8 +77,15 @@ void setup()
    
    // for hardware debug: LED indication of server state: blinking = waiting for connection
    int IPnr = getIPComputerNumber(Ethernet.localIP());   // Get computernumber in local network 192.168.1.3 -> 3)
-   Serial.print(" ["); Serial.print(IPnr); Serial.print("] "); 
-   Serial.print("  [Testcase: telnet "); Serial.print(Ethernet.localIP()); Serial.print(" "); Serial.print(ethPort); Serial.println("]");
+   Serial.print(" ["); 
+   Serial.print(IPnr); 
+   Serial.print("] "); 
+   Serial.print("  [Testcase: telnet "); 
+   Serial.print(Ethernet.localIP()); 
+   Serial.print(" "); 
+   Serial.print(PORT); 
+   Serial.println("]");
+   
    signalNumber(ledPin, IPnr);
 }
 
@@ -153,12 +128,8 @@ void loop()
 // Choose and switch your Kaku device, state is true/false (HIGH/LOW)
 void switchDefault(bool state)
 {   
-   apa3Transmitter.sendUnit(0, state);          // APA3 Kaku (Gamma)                
+   kakuTransmitter.sendUnit(0, state);          // APA3 Kaku (Gamma)                
    delay(100);
-   actionTransmitter.sendSignal(unitCodeActionOld, actionDevice, state);  // Action Kaku, old model
-   delay(100);
-   //mySwitch.send(2210410 + state, 24);  // tricky, false = 0, true = 1  // Action Kaku, new model
-   //delay(100);
 }
 
 // Implementation of (simple) protocol between app and Arduino
