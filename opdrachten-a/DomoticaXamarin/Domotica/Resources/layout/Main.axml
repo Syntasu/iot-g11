@@ -145,4 +145,29 @@
             android:layout_below="@id/textViewSensorValue"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
+    <TextView
+        android:text="@string/poweroutlet_header"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/powerOutletHeader" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner1"
+        android:entries="@array/power_outlets"
+        android:paddingTop="5dp" />
+    <TextView
+        android:text="n.a."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:paddingTop="10dp" />
+    <Button
+        android:text="@string/power_outlet_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button1"
+        android:layout_marginTop="10dp" />
 </LinearLayout>
