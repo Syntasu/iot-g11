@@ -18,13 +18,16 @@ EthernetServer server(PORT);
 #define switchPin    7  // input, connected to some kind of inputswitch
 #define ledPin       8  // output, led used for "connect state": blinking = searching; continuously = connected
 #define infoPin      9  // output, more information
-#define analogPin    A0  // sensor value
+
+#define potmeterPin    A0  // sensor value
+#define ldrPin         A1 
 
 NewRemoteTransmitter kakuTransmitter(UNIT_CODE, RF_PIN, 260, 3);
 
 bool pinState = false;                   // Variable to store actual pin state
 bool pinChange = false;                  // Variable to store actual pin change
 int  sensorValue = 0;                    // Variable to store actual sensor value
+int  sensor2Value = 0;
 int currentPowerOutlet = 0;
 bool p1state, p2state, p3state;          // Variables to store the states for the power outlet transmitter.
 
@@ -107,8 +110,10 @@ void loop()
    while (ethernetClient.connected()) 
    {
       checkEvent(switchPin, pinState);          // update pin state
-      sensorValue = readSensor(A0, 100);         // update sensor value
-        
+      
+      sensorValue = readAnalogPin(potmeterPin, 100);         // update sensor value
+      sensor2Value = readAnalogPin(ldrPin, 100);
+              
       // Activate pin based op pinState
       if (pinChange) {
          if (pinState) { digitalWrite(ledPin, HIGH); }
@@ -221,10 +226,11 @@ void executeCommand(char cmd)
 }
 
 // read value from pin pn, return value is mapped between 0 and mx-1
-int readSensor(int pn, int mx)
+int readAnalogPin(int pin, int mx)
 {
-  return map(analogRead(pn), 0, 1023, 0, mx-1);    
+  return map(analogRead(pin), 0, 1023, 0, mx-1);    
 }
+
 
 // Convert int <val> char buffer with length <len>
 void intToCharBuf(int val, char buf[], int len)

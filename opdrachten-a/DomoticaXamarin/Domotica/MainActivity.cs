@@ -249,15 +249,25 @@ namespace Domotica
         {
             RunOnUiThread(() =>
             {
-                if (result == "OFF")
+                bool isNummeric = int.TryParse(result, out int num);
+
+                if (!isNummeric)
                 {
-                    textview.SetTextColor(Color.Red);
-                    textview.Text = result;
+                    if (result == "OFF")
+                    {
+                        textview.SetTextColor(Color.Red);
+                        textview.Text = result;
+                    }
+                    else if (result == "ON")
+                    {
+                        textview.SetTextColor(Color.Green);
+                        textview.Text = result;
+                    }
                 }
-                else if (result == "ON")
+                else
                 {
-                    textview.SetTextColor(Color.Green);
-                    textview.Text = result;
+                    textview.SetTextColor(Color.Orange);
+                    textview.Text = num.ToString();
                 }
             });
         }
