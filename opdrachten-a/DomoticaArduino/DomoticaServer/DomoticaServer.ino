@@ -171,10 +171,15 @@ void executeCommand(char cmd)
          Serial.print("["); Serial.print(cmd); Serial.print("] -> ");
          
          switch (cmd) {
-         case 'a': // Report sensor value to the app  
+         case 'p': // Report sensor value to the app  
             intToCharBuf(sensorValue, buf, 4);                // convert to charbuffer
             server.write(buf, 4);                             // response is always 4 chars (\n included)
-            Serial.print("Sensor: "); Serial.println(buf);
+            Serial.print("Sensor (POT): "); Serial.println(buf);
+            break;
+        case 'l': // Report sensor value to the app  
+            intToCharBuf(sensor2Value, buf, 4);                // convert to charbuffer
+            server.write(buf, 4);                             // response is always 4 chars (\n included)
+            Serial.print("Sensor (LDR): "); Serial.println(buf);
             break;
          case 's': // Report switch state to the app
             if (pinState) { server.write("ON\n"); Serial.println("Pin state is ON"); }  // always send 4 chars

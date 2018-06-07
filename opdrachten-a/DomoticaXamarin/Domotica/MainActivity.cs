@@ -49,7 +49,7 @@ namespace Domotica
         Button buttonConnect;
         Button buttonChangePinState;
         TextView textViewServerConnect, textViewTimerStateValue;
-        public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
+        public TextView textViewChangePinStateValue, textViewSensorValue, textViewSensorValue2, textViewDebugValue;
         EditText editTextIPAddress, editTextIPPort;
 
         Spinner powerSockets;
@@ -77,6 +77,8 @@ namespace Domotica
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
             textViewChangePinStateValue = FindViewById<TextView>(Resource.Id.textViewChangePinStateValue);
             textViewSensorValue = FindViewById<TextView>(Resource.Id.textViewSensorValue);
+            textViewSensorValue2 = FindViewById<TextView>(Resource.Id.textViewSensor2Value);
+
             textViewDebugValue = FindViewById<TextView>(Resource.Id.textViewDebugValue);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
             editTextIPPort = FindViewById<EditText>(Resource.Id.editTextIPPort);
@@ -121,7 +123,9 @@ namespace Domotica
 
             // Init commandlist, scheduled by socket timer
             commandList.Add(new Tuple<string, TextView>("s", textViewChangePinStateValue));
-            commandList.Add(new Tuple<string, TextView>("a", textViewSensorValue));
+            commandList.Add(new Tuple<string, TextView>("p", textViewSensorValue));
+            commandList.Add(new Tuple<string, TextView>("l", textViewSensorValue2));
+
 
             // timer object, running clock
             timerClock = new Timer() { Interval = 2000, Enabled = true }; // Interval >= 1000

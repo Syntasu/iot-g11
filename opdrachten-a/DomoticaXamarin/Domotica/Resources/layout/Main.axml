@@ -150,7 +150,7 @@
             android:layout_height="30dp"
             android:id="@+id/textViewDebug"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/textViewSensor2Value"
+            android:layout_below="@id/textView2Sensor"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         <TextView
             android:text="@string/debug_value"
