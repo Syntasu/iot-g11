@@ -107,7 +107,7 @@ void loop()
    while (ethernetClient.connected()) 
    {
       checkEvent(switchPin, pinState);          // update pin state
-      sensorValue = readSensor(0, 100);         // update sensor value
+      sensorValue = readSensor(A0, 100);         // update sensor value
         
       // Activate pin based op pinState
       if (pinChange) {
@@ -128,7 +128,10 @@ void loop()
 
 // Choose and switch your Kaku device, state is true/false (HIGH/LOW)
 bool toggleKakuDevice(int unit)
-{ 
+{
+   //Some interference from other project groups seem to trigger our RF outlet lol.   
+   Serial.println("woooooh i'm being spoopy!");
+   
    // Set state acorrdingly.
    switch(unit)
    {
@@ -169,7 +172,7 @@ void executeCommand(char cmd)
             Serial.print("Sensor: "); Serial.println(buf);
             break;
          case 's': // Report switch state to the app
-            if (pinState) { server.write(" ON\n"); Serial.println("Pin state is ON"); }  // always send 4 chars
+            if (pinState) { server.write("ON\n"); Serial.println("Pin state is ON"); }  // always send 4 chars
             else { server.write("OFF\n"); Serial.println("Pin state is OFF"); }
             break;
          case 't': // Toggle state; If state is already ON then turn it OFF
