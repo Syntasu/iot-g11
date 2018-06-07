@@ -12,13 +12,13 @@ IPAddress ipAddress = IPAddress(192, 168, 1, 16);
 EthernetServer server(PORT);
 
 //Define pin stuff.
-#define RF_PIN       3  // output, pin to control the RF-sender (and Click-On Click-Off-device)
+#define RF_PIN       7  // output, pin to control the RF-sender (and Click-On Click-Off-device)
 #define lowPin       5  // output, always LOW
 #define highPin      6  // output, always HIGH
 #define switchPin    7  // input, connected to some kind of inputswitch
 #define ledPin       8  // output, led used for "connect state": blinking = searching; continuously = connected
 #define infoPin      9  // output, more information
-#define analogPin    0  // sensor value
+#define analogPin    A0  // sensor value
 
 NewRemoteTransmitter kakuTransmitter(UNIT_CODE, RF_PIN, 260, 3);
 
@@ -134,15 +134,15 @@ bool toggleKakuDevice(int unit)
    {
       case 1:
         p1state = !p1state;
-        //kakuTransmitter.sendUnit(1, p1state);
+        kakuTransmitter.sendUnit(0, p1state);
         return p1state;
       case 2:
         p2state = !p2state;
-        //kakuTransmitter.sendUnit(2, p2state);
+        kakuTransmitter.sendUnit(1, p2state);
         return p2state;
       case 3: 
         p3state = !p3state;
-        //kakuTransmitter.sendUnit(3, p3state);
+        kakuTransmitter.sendUnit(2, p3state);
         return p3state;
       default:
         Serial.println("Unknown power outlet");
@@ -180,7 +180,6 @@ void executeCommand(char cmd)
          case 'i':    
             digitalWrite(infoPin, HIGH);
             break;
-            
          case '1':
             Serial.println("Set outlet to 1");
             currentPowerOutlet = 1;
