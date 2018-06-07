@@ -160,6 +160,20 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/textViewSensor2Value"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:text="@string/tick_rate_text"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:id="@+id/tickRateText"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/textViewDebugValue"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <SeekBar
+            android:id="@+id/seekBarTickRate"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/textViewDebugValue" />
     </RelativeLayout>
     <TextView
         android:text="@string/poweroutlet_header"

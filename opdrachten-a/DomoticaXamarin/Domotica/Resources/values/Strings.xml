@@ -29,4 +29,5 @@
       <item> Power outlet 3 </item>
   </string-array>
   <string name="power_outlet_button">Toggle power outlet</string>
+  <string name="tick_rate_text">Tickrate</string>
 </resources>

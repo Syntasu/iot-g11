@@ -76,8 +76,8 @@ namespace Domotica
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070018
-			public const int abort = 2131165208;
+			// aapt resource value: 0x7f07001a
+			public const int abort = 2131165210;
 			
 			// aapt resource value: 0x7f07000a
 			public const int buttonChangePinState = 2131165194;
@@ -91,17 +91,20 @@ namespace Domotica
 			// aapt resource value: 0x7f070008
 			public const int editTextIPPort = 2131165192;
 			
-			// aapt resource value: 0x7f070017
-			public const int exit = 2131165207;
+			// aapt resource value: 0x7f070019
+			public const int exit = 2131165209;
 			
-			// aapt resource value: 0x7f070013
-			public const int powerOutletHeader = 2131165203;
+			// aapt resource value: 0x7f070015
+			public const int powerOutletHeader = 2131165205;
 			
-			// aapt resource value: 0x7f070014
-			public const int powerOutletSpinner = 2131165204;
+			// aapt resource value: 0x7f070016
+			public const int powerOutletSpinner = 2131165206;
 			
 			// aapt resource value: 0x7f070000
 			public const int relativeLayout1 = 2131165184;
+			
+			// aapt resource value: 0x7f070014
+			public const int seekBarTickRate = 2131165204;
 			
 			// aapt resource value: 0x7f07000f
 			public const int textView2Sensor = 2131165199;
@@ -124,8 +127,8 @@ namespace Domotica
 			// aapt resource value: 0x7f070006
 			public const int textViewIPPort = 2131165190;
 			
-			// aapt resource value: 0x7f070015
-			public const int textViewPowerSocketState = 2131165205;
+			// aapt resource value: 0x7f070017
+			public const int textViewPowerSocketState = 2131165207;
 			
 			// aapt resource value: 0x7f07000d
 			public const int textViewSensor = 2131165197;
@@ -148,8 +151,11 @@ namespace Domotica
 			// aapt resource value: 0x7f070002
 			public const int textViewTimerStateValue = 2131165186;
 			
-			// aapt resource value: 0x7f070016
-			public const int togglePowerOutletButton = 2131165206;
+			// aapt resource value: 0x7f070013
+			public const int tickRateText = 2131165203;
+			
+			// aapt resource value: 0x7f070018
+			public const int togglePowerOutletButton = 2131165208;
 			
 			static Id()
 			{
@@ -258,6 +264,9 @@ namespace Domotica
 			
 			// aapt resource value: 0x7f04000f
 			public const int sensor_value = 2130968591;
+			
+			// aapt resource value: 0x7f040017
+			public const int tick_rate_text = 2130968599;
 			
 			// aapt resource value: 0x7f040001
 			public const int timer_state_text = 2130968577;

@@ -56,6 +56,11 @@ namespace Domotica
         TextView powerSocketState;
         Button powerSocketToggle;
 
+        SeekBar tickrate;
+        TextView tickRateText;
+        int tickMin = 100;
+        int tickMax = 900;
+
         Timer timerClock, timerSockets;             // Timers   
         Socket socket = null;                       // Socket   
         List<Tuple<string, TextView>> commandList = new List<Tuple<string, TextView>>();  // List for commands and response places on UI
@@ -85,6 +90,21 @@ namespace Domotica
             powerSocketState = FindViewById<TextView>(Resource.Id.textViewPowerSocketState);
             powerSockets = FindViewById<Spinner>(Resource.Id.powerOutletSpinner);
             powerSocketToggle = FindViewById<Button>(Resource.Id.togglePowerOutletButton);
+            tickrate = FindViewById<SeekBar>(Resource.Id.seekBarTickRate);
+            tickRateText = FindViewById<TextView>(Resource.Id.tickRateText);
+
+            tickrate.ProgressChanged += (o, a) =>
+            {
+                int progress = a.Progress;
+                float f = (float)progress / 100.0f;
+                int max = (int)(tickMax * f);
+                int interval = tickMin + max;
+
+                tickRateText.Text = $"Tickrate - {interval}ms";
+
+                timerClock.Interval = interval;
+                timerSockets.Interval = interval;
+            };
 
             //On changing a value from the spinner, get the state and display on screen.
             powerSockets.ItemSelected += (obj, args) =>
