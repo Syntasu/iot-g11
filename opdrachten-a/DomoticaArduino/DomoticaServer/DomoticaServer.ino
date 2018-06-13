@@ -15,7 +15,7 @@ EthernetServer server(PORT);
 #define RF_PIN       7  // output, pin to control the RF-sender (and Click-On Click-Off-device)
 #define lowPin       5  // output, always LOW
 #define highPin      6  // output, always HIGH
-#define switchPin    7  // input, connected to some kind of inputswitch
+#define switchPin    4  // input, connected to some kind of inputswitch
 #define ledPin       8  // output, led used for "connect state": blinking = searching; continuously = connected
 #define infoPin      9  // output, more information
 
