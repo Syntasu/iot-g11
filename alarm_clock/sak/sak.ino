@@ -12,6 +12,7 @@
 #define PIN_CLOCK_SDA       A4
 #define PIN_CLOCK_SCL       A5
 
+#include <avr/pgmspace.h>
 #include <G11Util.h>
 #include <G11Time.h>
 #include <G11Speaker.h>
@@ -25,6 +26,8 @@ G11Alarm m_alarm;
 void setup()
 {
   Serial.begin(9600);
+  delay(1000);
+  
   //TODO: Fetch time from the correct source (RTC? NET? APP?)
   m_time.initialize(date_time(2018, 1, 1, 12, 0, 0));
   
@@ -44,9 +47,9 @@ void loop()
 
   if(m_alarm.check_alarms(t))
   {
-    //TODO: Do more stuff than just ring the alarm for infinite amoun of time.
-    enable_alarm();
-    Serial.print("Ring the bells!");
+    //TODO: Stop playing when the alarm is snoozed or finished.
+    m_speaker.play_pattern();
+    m_util.virtual_delay(13152);
   }
 
   Serial.print("This frame took ");
