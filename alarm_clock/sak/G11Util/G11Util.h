@@ -7,6 +7,7 @@ class G11Util
 {
 public:
     void timed_delay(int);
+    void virtual_delay(int);
     int get_total_delay(bool);
 
 private:

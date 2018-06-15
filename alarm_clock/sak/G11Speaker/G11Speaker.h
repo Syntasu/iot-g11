@@ -6,16 +6,13 @@
 class G11Speaker
 {   
 public:
-    G11Speaker(int, bool);
+    G11Speaker(int);
 
-    void play(int, int);
-    void stop(int);
+    int play(int, int);
+    int stop(int);
 
 private:
     int speaker_pin = -1;
-    bool debug = false;
-
-    void print(String);
 };
 
 #endif

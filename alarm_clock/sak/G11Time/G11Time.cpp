@@ -59,6 +59,35 @@ void G11Time::sync_with_net()
     //TODO: Syncronize over net.
 }
 
+//Compare the current time date (time date within this object) with the given time date.
+bool G11Time::compare(unsigned int years, unsigned int months, unsigned int days, unsigned int hours, unsigned int minutes, unsigned int seconds)
+{
+    if(time.years != years || time.months != months ||
+       time.days != days || time.hours != hours ||
+       time.minutes != minutes || time.seconds != seconds)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+//Get the difference in time in seconds.
+long int G11Time::difference(unsigned int years, unsigned int months, unsigned int days, unsigned int hours, unsigned int minutes, unsigned int seconds)
+{
+    long diff = time.seconds - seconds;
+    diff += (time.minutes - minutes) * 60;
+    diff += (time.hours - hours) * 3600;
+    diff += (time.days - days) * 86400;
+    diff += (time.months - months) * 2629743;
+    diff += (time.years - years) * 31556926;
+
+    return abs(diff);
+}
+
+
 time_date_data G11Time::get_time()
 {
     return time;

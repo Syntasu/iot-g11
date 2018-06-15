@@ -1,34 +1,41 @@
 #include "Arduino.h"
 #include "G11Speaker.h"
 
-G11Speaker::G11Speaker(int pin, bool debug)
+//Constructor for the speaker object.
+G11Speaker::G11Speaker(int pin)
 {
     this->speaker_pin = pin;
-    this->debug = debug;
-
     pinMode(speaker_pin, OUTPUT);
 }
 
-void G11Speaker::play(int pitch, int duration)
+//Play a pitch for x amount of time.
+//PITCH: Pitch that the speaker needs to produce
+//DURATION: For how long it needs to keep that tone.
+//RETURN: 0 = OK, 1 = Pin not connected.
+int G11Speaker::play(int pitch, int duration)
 {
-    if(speaker_pin <= 0) this->print("Speaker pin is not defined or configured,");
+    if(speaker_pin <= 0) 
+    { 
+        return 1;
+    }
 
     tone(speaker_pin, pitch);
     delay(duration);
+
+    return 0;
 }
 
-void G11Speaker::stop(int duration)
+//Stop the speaker with what ever it was doing.
+//DURATION: For how long it we want to stop playing
+//RETURN: 0 = OK, 1 = Speaker class was not initialed
+int G11Speaker::stop(int duration)
 {
-    if(speaker_pin <= 0) this->print("Speaker pin is not defined or configured.");
+    if(speaker_pin <= 0)
+    {
+        return 1;
+    }
 
     noTone(speaker_pin);
     delay(duration);
-}
-
-void G11Speaker::print(String message)
-{
-    if(debug)
-    {
-        Serial.println(message);
-    }
+    return 0;
 }

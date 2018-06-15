@@ -1,9 +1,6 @@
-#include <G11Util.h>
-#include <G11Time.h>
-#include <G11Speaker.h>
+#define ENABLE_DEBUG true;
 
 // Pin configuration for the alarm clock.
-#define ENABLE_DEBUG true
 #define PIN_DISPLAY_DATA    1
 #define PIN_DISPLAY_CLK     2
 #define PIN_DISPLAY_CS      3
@@ -15,8 +12,12 @@
 #define PIN_CLOCK_SDA       A4
 #define PIN_CLOCK_SCL       A5
 
+#include <G11Util.h>
+#include <G11Time.h>
+#include <G11Speaker.h>
+
 G11Util m_util;
-G11Speaker m_speaker(PIN_SPEAKER, ENABLE_DEBUG);
+G11Speaker m_speaker(PIN_SPEAKER);
 G11Time m_time;
 
 void setup() 
@@ -45,7 +46,9 @@ void enable_alarm()
     m_speaker.play(4000, 33);
     m_speaker.stop(33);
   }
-  m_speaker.stop(500);
+  
+  m_speaker.stop(100);
+  m_util.virtual_delay(166);
 }
 
 

@@ -43,6 +43,9 @@ public:
     void sync_with_rtc();        //Syncronize the time with the realtime clock module.
     void sync_with_net();        //Syncronize the time from the net (NTP server).
 
+    bool compare(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    long int difference(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+
     time_date_data get_time();
     String get_time_string();
 
