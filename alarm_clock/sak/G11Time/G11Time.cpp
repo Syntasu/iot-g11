@@ -1,14 +1,23 @@
 #include "Arduino.h"
 #include "G11Time.h"
 
-void G11Time::setup(unsigned int year, unsigned int month, unsigned int day, unsigned int hour, unsigned int minutes, unsigned int seconds)
+void G11Time::setup(date_time time)
 {
-    this->time = time_date_data(year, month, day, hour, minutes, seconds);
+    this->time = time;
 }
 
-void G11Time::simulate(unsigned int seconds_elapsed)
+void G11Time::simulate(unsigned int ms_elapsed)
 {
-    int seconds = time.seconds + seconds_elapsed;
+    int inc = 0;
+    this->milli_bucket += ms_elapsed;
+
+    if(milli_bucket > 1000)
+    {
+        inc = ceil(this->milli_bucket / 1000);
+        this->milli_bucket -= (inc * 1000);
+    }
+
+    int seconds = time.seconds + inc;
     int minutes = time.minutes;
     int hours = time.hours;
     int days = time.days;
@@ -46,7 +55,7 @@ void G11Time::simulate(unsigned int seconds_elapsed)
         years++;
     }
 
-    time = time_date_data(years, months, days, hours, minutes, seconds);
+    time = date_time(years, months, days, hours, minutes, seconds);
 }
 
 void G11Time::sync_with_rtc()
@@ -59,36 +68,7 @@ void G11Time::sync_with_net()
     //TODO: Syncronize over net.
 }
 
-//Compare the current time date (time date within this object) with the given time date.
-bool G11Time::compare(unsigned int years, unsigned int months, unsigned int days, unsigned int hours, unsigned int minutes, unsigned int seconds)
-{
-    if(time.years != years || time.months != months ||
-       time.days != days || time.hours != hours ||
-       time.minutes != minutes || time.seconds != seconds)
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
-//Get the difference in time in seconds.
-long int G11Time::difference(unsigned int years, unsigned int months, unsigned int days, unsigned int hours, unsigned int minutes, unsigned int seconds)
-{
-    long diff = time.seconds - seconds;
-    diff += (time.minutes - minutes) * 60;
-    diff += (time.hours - hours) * 3600;
-    diff += (time.days - days) * 86400;
-    diff += (time.months - months) * 2629743;
-    diff += (time.years - years) * 31556926;
-
-    return abs(diff);
-}
-
-
-time_date_data G11Time::get_time()
+date_time G11Time::get_time()
 {
     return time;
 }

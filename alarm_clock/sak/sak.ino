@@ -15,40 +15,52 @@
 #include <G11Util.h>
 #include <G11Time.h>
 #include <G11Speaker.h>
+#include <G11Alarm.h>
 
 G11Util m_util;
 G11Speaker m_speaker(PIN_SPEAKER);
 G11Time m_time;
+G11Alarm m_alarm;
 
-void setup() 
+void setup()
 {
   Serial.begin(9600);
-  m_time.setup(2018, 6, 14, 14, 55, 0);
+
+  //TODO: Fetch time from the correct source (RTC? NET? APP?)
+  m_time.setup(date_time(2018, 1, 1, 12, 0, 0)); // <-- 01/01/2018 12:00
+  //m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 1, 0));
 }
 
-void loop() 
+void loop()
 {
+  m_util.timed_delay(500);
+
   int timeDelay = m_util.get_total_delay(true);
-  
+
+  if(m_alarm.check_alarms(m_time.get_time()))
+  {
+    //Ring the alarm bells!
+    enable_alarm();
+  }
+
   Serial.print("This frame took ");
   Serial.print(timeDelay);
   Serial.print(", the current time is ");
   Serial.println(m_time.get_time_string());
   
   m_time.simulate(timeDelay);
-  m_util.timed_delay(1000);
 }
 
 void enable_alarm()
 {
-  for(int i = 0; i <  3; i++)
+  for (int i = 0; i <  3; i++)
   {
     m_speaker.play(4000, 33);
     m_speaker.stop(33);
   }
-  
-  m_speaker.stop(100);
-  m_util.virtual_delay(166);
+
+  m_speaker.stop(50);
+  m_util.virtual_delay(116);
 }
 
 

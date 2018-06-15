@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-struct time_date_data
+struct date_time
 {
     unsigned int years;
     unsigned int months;
@@ -12,7 +12,7 @@ struct time_date_data
     unsigned int minutes;
     unsigned int seconds;
 
-    time_date_data() 
+    date_time() 
     {        
         this->years = 0;
         this->months = 0;
@@ -22,7 +22,7 @@ struct time_date_data
         this->seconds = 0;   
     }
 
-    time_date_data(int years, int months, int days, int hours, 
+    date_time(int years, int months, int days, int hours, 
                    int minutes, int seconds)
     {
         this->years = years;
@@ -32,25 +32,38 @@ struct time_date_data
         this->minutes = minutes;
         this->seconds = seconds;
     }
+
+    // -1 = time was earlier than given time
+    // 0 = time is equal to given time
+    // 1 = given time is in the future.
+    long int difference(date_time t)
+    {
+        long int diff = this->seconds - t.seconds;
+        diff += (this->minutes - t.minutes) * 60;
+        diff += (this->hours - t.hours) * 3600;
+        diff += (this->days - t.days) * 86400;
+        diff += (this->months - t.months) * 2629743;
+        diff += (this->years - t.years) * 31556926;
+
+        return diff;
+    }
 };
 
 class G11Time
 {   
 public:
     G11Time() {};
-    void setup(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    void setup(date_time);
     void simulate(unsigned int); //Simulate the time locally (very inaccurate)
     void sync_with_rtc();        //Syncronize the time with the realtime clock module.
     void sync_with_net();        //Syncronize the time from the net (NTP server).
 
-    bool compare(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-    long int difference(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-
-    time_date_data get_time();
+    date_time get_time();
     String get_time_string();
 
 private:
-    time_date_data time;
+    int milli_bucket = 0;
+    date_time time;
     String padValue(int);
 };
 
