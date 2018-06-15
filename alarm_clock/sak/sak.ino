@@ -1,3 +1,4 @@
+#include <G11Time.h>
 #include <G11Speaker.h>
 
 // Pin configuration for the alarm clock.
@@ -13,27 +14,34 @@
 #define PIN_CLOCK_SDA       A4
 #define PIN_CLOCK_SCL       A5
 
-G11Speaker speaker(PIN_SPEAKER, ENABLE_DEBUG);
+G11Speaker m_speaker(PIN_SPEAKER, ENABLE_DEBUG);
+G11Time m_time;
 
 void setup() 
 {
   Serial.begin(9600);
+  m_time.setup(2018, 6, 14, 14, 55, 0);
 }
 
 void loop() 
-{  
-  enable_alarm();
+{
+  Serial.println(m_time.get_time_string());
+  
+  m_time.simulate(1);
+  delay(1000);
+
+  //enable_alarm();
 }
 
 void enable_alarm()
 {
   for(int i = 0; i <  3; i++)
   {
-    speaker.play(4000, 33);
-    speaker.stop(33);
+    m_speaker.play(4000, 33);
+    m_speaker.stop(33);
   }
-
-  speaker.stop(500);
+  m_speaker.stop(500);
 }
+
 
 
