@@ -1,3 +1,4 @@
+#include <G11Util.h>
 #include <G11Time.h>
 #include <G11Speaker.h>
 
@@ -14,6 +15,7 @@
 #define PIN_CLOCK_SDA       A4
 #define PIN_CLOCK_SCL       A5
 
+G11Util m_util;
 G11Speaker m_speaker(PIN_SPEAKER, ENABLE_DEBUG);
 G11Time m_time;
 
@@ -25,12 +27,15 @@ void setup()
 
 void loop() 
 {
+  int timeDelay = m_util.get_total_delay(true);
+  
+  Serial.print("This frame took ");
+  Serial.print(timeDelay);
+  Serial.print(", the current time is ");
   Serial.println(m_time.get_time_string());
   
-  m_time.simulate(1);
-  delay(1000);
-
-  //enable_alarm();
+  m_time.simulate(timeDelay);
+  m_util.timed_delay(1000);
 }
 
 void enable_alarm()
@@ -42,6 +47,5 @@ void enable_alarm()
   }
   m_speaker.stop(500);
 }
-
 
 

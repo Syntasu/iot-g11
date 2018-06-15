@@ -68,17 +68,17 @@ String G11Time::get_time_string()
 {
     String timeStr = String("");
 
-    timeStr += this->padValue(time.days);
+    timeStr += padValue(time.days);
     timeStr += "/";
-    timeStr += this->padValue(time.months);
+    timeStr += padValue(time.months);
     timeStr += "/";
-    timeStr += this->padValue(time.years);
+    timeStr += padValue(time.years);
     timeStr += " ";
-    timeStr += this->padValue(time.hours);
+    timeStr += padValue(time.hours);
     timeStr += ":";
-    timeStr += this->padValue(time.minutes);
+    timeStr += padValue(time.minutes);
     timeStr += ".";
-    timeStr += this->padValue(time.seconds);
+    timeStr += padValue(time.seconds);
 
     return timeStr;
 }

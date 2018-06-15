@@ -48,7 +48,7 @@ public:
 
 private:
     time_date_data time;
-    String padValue(int input);
+    String padValue(int);
 };
 
 #endif
