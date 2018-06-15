@@ -25,22 +25,28 @@ G11Alarm m_alarm;
 void setup()
 {
   Serial.begin(9600);
-
   //TODO: Fetch time from the correct source (RTC? NET? APP?)
-  m_time.setup(date_time(2018, 1, 1, 12, 0, 0)); // <-- 01/01/2018 12:00
-  //m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 1, 0));
+  m_time.initialize(date_time(2018, 1, 1, 12, 0, 0));
+  
+  m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 0, 15)); 
+  m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 0, 30)); 
+  m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 0, 45));
+  m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 1, 0));
+  m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 2, 0));
 }
 
 void loop()
 {
   m_util.timed_delay(500);
 
+  date_time t = m_time.get_time();
   int timeDelay = m_util.get_total_delay(true);
 
-  if(m_alarm.check_alarms(m_time.get_time()))
+  if(m_alarm.check_alarms(t))
   {
-    //Ring the alarm bells!
+    //TODO: Do more stuff than just ring the alarm for infinite amoun of time.
     enable_alarm();
+    Serial.print("Ring the bells!");
   }
 
   Serial.print("This frame took ");

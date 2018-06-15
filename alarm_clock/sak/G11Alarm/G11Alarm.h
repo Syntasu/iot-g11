@@ -2,7 +2,7 @@
 #define G11ALARM_H
 
 #include "Arduino.h"
-#include "G11Time.h"
+#include "datetime.h"
 
 class G11Alarm
 {
@@ -12,7 +12,7 @@ public:
 
 private:
     int alarm_count = 0;
-    date_time alarms[];
+    date_time alarms[24];
 };
 
 #endif

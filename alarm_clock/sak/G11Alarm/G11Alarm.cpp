@@ -1,9 +1,9 @@
 #include "Arduino.h"
 #include "G11Alarm.h"
 
-void G11Alarm::schedule_alarm(date_time time)
+void G11Alarm::schedule_alarm(date_time alarm_time)
 {
-    alarms[alarm_count] = time;
+    this->alarms[alarm_count] = alarm_time;
     alarm_count++;
 }
 
@@ -14,7 +14,10 @@ bool G11Alarm::check_alarms(date_time current_time)
         date_time alarm_time = alarms[i];
         long int diff = alarm_time.difference(current_time);
 
-        Serial.println(diff);
+        if(diff <= 0)
+        {
+            return true;
+        }
     }
 
     return false;
