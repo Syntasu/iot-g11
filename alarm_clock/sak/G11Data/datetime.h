@@ -12,6 +12,7 @@ struct date_time
     unsigned int minutes;
     unsigned int seconds;
 
+    //Default constructor, set everything to 0.
     date_time() 
     {        
         this->years = 0;
@@ -22,6 +23,7 @@ struct date_time
         this->seconds = 0;   
     }
 
+    //Constructor, set the given variables accordingly.
     date_time(int years, int months, int days, int hours, 
                    int minutes, int seconds)
     {
@@ -33,6 +35,7 @@ struct date_time
         this->seconds = seconds;
     }
 
+    //Find the difference between two date_times in seconds.
     long int difference(date_time t)
     {
         int seconds = this->seconds - t.seconds;

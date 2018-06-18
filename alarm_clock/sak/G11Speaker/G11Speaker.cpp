@@ -2,6 +2,7 @@
 #include "G11Speaker.h"
 
 //Constructor for the speaker object.
+//PIN: The pin where the speaker is connected to.
 G11Speaker::G11Speaker(int pin)
 {
     this->speaker_pin = pin;
@@ -25,33 +26,23 @@ int G11Speaker::play(int pitch, int duration)
     return 0;
 }
 
+//Play a pattern (currently super mario theme song).
 int G11Speaker::play_pattern()
 {
-    byte operand = 0;
-    int t = 0;
     for(int i = 0; i < 234; i += 3)
     {
+        //Read the operand byte from the program memory.
         int operand = pgm_read_byte(&super_mario_pattern[i]);
+
+        //Read the pitch and multiply it by 20.
         int pitch = pgm_read_byte(&super_mario_pattern[i+1]) * 20;
-        int duration = 2000 / pgm_read_byte(&super_mario_pattern[i+2]) ;
 
-        t += duration;
+        //Read the duration from program memory, see how many times per second.
+        int duration = 1000 / pgm_read_byte(&super_mario_pattern[i+2]);
 
-        Serial.print("Index is: ");
-        Serial.print(i);
-
-        Serial.print(" operand is: ");
-        Serial.print(operand);
-        
-        Serial.print(", pitch is: ");
-        Serial.print(pitch);
-        
-        Serial.print(", duration is: ");
-        Serial.print(duration);
-
-        Serial.print(", total duration is: ");
-        Serial.println(t);
-
+        //Check what operand we are dealing with.
+        // 0x0 = Stop playing for x amount of time.
+        // 0x1 = Play with pitch x and duration of y.
         if(operand == 0x0)
         {
             this->stop(duration);
@@ -62,9 +53,9 @@ int G11Speaker::play_pattern()
         }
     }
 
+    //Immediately terminate any sound.
     stop(1);
 }
-
 
 
 //Stop the speaker with what ever it was doing.

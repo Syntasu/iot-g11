@@ -17,11 +17,12 @@ void G11Util::virtual_delay(int duration)
     this->delayed += duration;
 }
 
-//Gets the total time we have delayed for.
+//Gets the total time we have delayed for (in this frame).
 //RESET: True will force the delay counter back to zero.
 int G11Util::get_total_delay(bool reset)
 {
     int value = this->delayed;
+    
     if(reset) 
     {
         this->delayed = 0;

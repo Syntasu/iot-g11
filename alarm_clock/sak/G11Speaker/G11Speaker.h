@@ -24,7 +24,7 @@ private:
     ********Speaker patterns***********
     ***********************************
 
-    Pattenr consists of 3 bytes:
+    Patten consists of 3 bytes:
     
     ------------------------------------
     |  operand  |  pitch  |  duration  |
@@ -42,6 +42,8 @@ private:
     The pitch is multiplied by 20 and the duration by 10.
 */
 
+//The bytes of super mario main theme song.
+// (yes, I spend way too long converting these....)
 const byte super_mario_pattern[234] PROGMEM =
 {
     1, 132, 12, 1, 132, 12, 0, 0, 12, 1, 132, 12, 0, 0, 12, 1, 105, 12, 1, 132, 12,

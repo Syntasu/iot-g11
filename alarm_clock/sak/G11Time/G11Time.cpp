@@ -1,13 +1,18 @@
 #include "Arduino.h"
 #include "G11Time.h"
 
+//Set the time from where the timer should start.
+//INTIAL_TIME: The time where we want to start from.
 void G11Time::initialize(date_time initial_time)
 {
     this->current_time = initial_time;
 }
 
+// Simulate the time based on a given elasped time (very inaccurate, debug purposes).
+// MS_ELAPSED: The amout of millisecond that have elapsed this frame.
 void G11Time::simulate(unsigned int ms_elapsed)
 {
+    //Convert milliseconds to seconds, keep the remainder in the millisecond bucket.
     int inc = 0;
     this->milli_bucket += ms_elapsed;
 
@@ -17,6 +22,7 @@ void G11Time::simulate(unsigned int ms_elapsed)
         this->milli_bucket -= (inc * 1000);
     }
 
+    //Increment time.
     int seconds = this->current_time.seconds + inc;
     int minutes = this->current_time.minutes;
     int hours = this->current_time.hours;
@@ -24,6 +30,7 @@ void G11Time::simulate(unsigned int ms_elapsed)
     int months = this->current_time.months;
     int years = this->current_time.years;
 
+    //Check if each of the time units needs to wrap around.
     if(seconds >= 60)
     {
         seconds = 0;
@@ -55,6 +62,7 @@ void G11Time::simulate(unsigned int ms_elapsed)
         years++;
     }
 
+    //Update the struct (we can't just say this->time.seconds = x, because it's a copy). #justcppthings.
     this->current_time = date_time(years, months, days, hours, minutes, seconds);
 }
 
@@ -68,11 +76,13 @@ void G11Time::sync_with_net()
     //TODO: Syncronize over net.
 }
 
+//Boilerplate to return the current time.
 date_time G11Time::get_time()
 {
     return this->current_time;
 }
 
+//Return the time as a string.
 String G11Time::get_time_string()
 {
     String timeStr = String("");
@@ -92,6 +102,7 @@ String G11Time::get_time_string()
     return timeStr;
 }
 
+//Convert 0 to a padded string (i.e. 5 becomes 05).
 String G11Time::padValue(int input)
 {
     String outVal = "";
