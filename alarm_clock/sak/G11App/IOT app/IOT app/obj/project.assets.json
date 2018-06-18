@@ -445,20 +445,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\JohnW\\.nuget\\packages\\": {}
+    "C:\\Users\\Syntasu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\JohnW\\source\\repos\\IOT app\\IOT app\\IOT app.csproj",
+      "projectUniqueName": "W:\\iot-g11\\alarm_clock\\sak\\G11App\\IOT app\\IOT app\\IOT app.csproj",
       "projectName": "IOT app",
-      "projectPath": "C:\\Users\\JohnW\\source\\repos\\IOT app\\IOT app\\IOT app.csproj",
-      "packagesPath": "C:\\Users\\JohnW\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\JohnW\\source\\repos\\IOT app\\IOT app\\obj\\",
+      "projectPath": "W:\\iot-g11\\alarm_clock\\sak\\G11App\\IOT app\\IOT app\\IOT app.csproj",
+      "packagesPath": "C:\\Users\\Syntasu\\.nuget\\packages\\",
+      "outputPath": "W:\\iot-g11\\alarm_clock\\sak\\G11App\\IOT app\\IOT app\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\JohnW\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Syntasu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
