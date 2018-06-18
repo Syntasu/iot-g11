@@ -9,23 +9,26 @@ class G11Speaker
 public:
     G11Speaker(int);
 
-    int play(int, int);
-    int play_pattern();
-    int stop(int);
+    int update(int);
+    void play(int, bool);
+    void stop();
 
 private:
     int speaker_pin = -1;
-    int pattern;
+
+    bool state = 0;
+    int offset = 0;
+    bool repeat = false;
+    int max = 0;
+    int time = 0;
+    int elapsed = 0;
+    int diff = 0;
+
+    int do_step();
 };
 
-
 /*
-    ***********************************
-    ********Speaker patterns***********
-    ***********************************
-
     Patten consists of 3 bytes:
-    
     ------------------------------------
     |  operand  |  pitch  |  duration  |
     ------------------------------------
@@ -42,9 +45,8 @@ private:
     The pitch is multiplied by 20 and the duration by 10.
 */
 
-//The bytes of super mario main theme song.
-// (yes, I spend way too long converting these....)
-const byte super_mario_pattern[234] PROGMEM =
+//The bytes of super mario main theme song (yes, I spend way too long converting the this...)
+const byte p0[234] PROGMEM =
 {
     1, 132, 12, 1, 132, 12, 0, 0, 12, 1, 132, 12, 0, 0, 12, 1, 105, 12, 1, 132, 12,
     0, 0, 12, 1, 157, 12, 0, 0, 12, 0, 0, 12, 0, 0, 12, 1, 78, 12, 0, 0, 12, 0, 0, 

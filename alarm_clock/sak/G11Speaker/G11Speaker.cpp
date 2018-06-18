@@ -6,69 +6,105 @@
 G11Speaker::G11Speaker(int pin)
 {
     this->speaker_pin = pin;
-    pinMode(speaker_pin, OUTPUT);
+    pinMode(this->speaker_pin, OUTPUT);
 }
 
-//Play a pitch for x amount of time.
-//PITCH: Pitch that the speaker needs to produce
-//DURATION: For how long it needs to keep that tone.
-//RETURN: 0 = OK, 1 = Pin not connected.
-int G11Speaker::play(int pitch, int duration)
+//Update the speakers.
+//RETURN: How much time we have consumed.
+int G11Speaker::update(int milliseconds)
 {
-    if(speaker_pin <= 0) 
-    { 
-        return 1;
+    //We currently don't have a pin, no need to update.s
+    if(this->speaker_pin <= 0)
+    {
+        return 0;
     }
 
-    tone(speaker_pin, pitch);
-    delay(duration);
+    //We don't have anything to play, skip.
+    if(this->state == 0)
+    {
+        //Make sure the speakers doesn't make sound.
+        noTone(this->speaker_pin);
+        delay(1);
+
+        return 0;
+    }
+    //Play the next step of the pattern.
+    else if(this->state == 1)
+    {
+        this->elapsed = milliseconds;
+        return do_step();
+    }
 
     return 0;
 }
 
 //Play a pattern (currently super mario theme song).
-int G11Speaker::play_pattern()
+void G11Speaker::play(int pattern, bool repeat)
 {
-    for(int i = 0; i < 234; i += 3)
+    if(pattern == 0)
     {
-        //Read the operand byte from the program memory.
-        int operand = pgm_read_byte(&super_mario_pattern[i]);
-
-        //Read the pitch and multiply it by 20.
-        int pitch = pgm_read_byte(&super_mario_pattern[i+1]) * 20;
-
-        //Read the duration from program memory, see how many times per second.
-        int duration = 1000 / pgm_read_byte(&super_mario_pattern[i+2]);
-
-        //Check what operand we are dealing with.
-        // 0x0 = Stop playing for x amount of time.
-        // 0x1 = Play with pitch x and duration of y.
-        if(operand == 0x0)
-        {
-            this->stop(duration);
-        }
-        else if(operand == 0x1)
-        {
-            this->play(pitch, duration);
-        }
+        this->max = 234;
+        this->offset = 0;
+        this->state = 1;
+        this->repeat = repeat;
     }
-
-    //Immediately terminate any sound.
-    stop(1);
 }
 
-
-//Stop the speaker with what ever it was doing.
-//DURATION: For how long it we want to stop playing
-//RETURN: 0 = OK, 1 = Speaker class was not initialed
-int G11Speaker::stop(int duration)
+//Stop playing the speaker, reset all the variables.
+void G11Speaker::stop()
 {
-    if(speaker_pin <= 0)
+    this->max = 0;
+    this->offset = 0;
+    this->state = 0;
+    this->repeat = false;
+}
+
+int G11Speaker::do_step()
+{
+    //Read the operand byte from the program memory.
+    int operand = pgm_read_byte(&p0[this->offset]);
+
+    //Read the pitch and multiply it by 20.
+    int pitch = pgm_read_byte(&p0[this->offset + 1]) * 20;
+
+    //Read the duration from program memory, see how many times per second.
+    int duration = 1000 / pgm_read_byte(&p0[this->offset + 2]);
+
+    //Check what operand we are dealing with.
+    // 0x0 = Stop playing for x amount of time.
+    // 0x1 = Play with pitch x and duration of y.
+    if(operand == 0x0)
     {
-        return 1;
+        noTone(this->speaker_pin);
+        delay(duration);
+    }
+    else if(operand == 0x1)
+    {
+        tone(this->speaker_pin, pitch);
+        delay(duration);
     }
 
-    noTone(speaker_pin);
-    delay(duration);
-    return 0;
+    //Check if we reached the end of the pattern.
+    this->offset += 3;
+    //Serial.println(this->offset);
+
+    if(this->offset == this->max)
+    {
+        //Check if we want to repeat it.
+        if(this->repeat)
+        {
+            Serial.println("Repeat!");
+            this->offset = 0;
+        }
+        else
+        {
+            Serial.println("Stop!");
+            this->stop();
+        }
+    }
+
+    noTone(this->speaker_pin);
+    delay(1);
+
+    return duration;
 }

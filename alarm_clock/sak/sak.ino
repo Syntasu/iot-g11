@@ -1,5 +1,5 @@
 //Bool to tell the system we are in debug mode, so we want to print all the Serial.print(ln) messages.
-#define ENABLE_DEBUG true
+#define ENABLE_DEBUG false
 
 // Pin configuration for the alarm clock.
 #define PIN_DISPLAY_DATA    1
@@ -34,40 +34,55 @@ void setup()
   {
     Serial.begin(9600);
   }
-  
+
+  time_setup();
+  alarm_setup();
+
+  m_speaker.play(0, true);
+}
+
+void time_setup()
+{  
   //TODO: Fetch time from the correct source (RTC? NET? APP?)
   //Set the starting time by a given date_time struct.
   //Format is as following: yyyy/mm/dd hh:mm:ss
-  m_time.initialize(date_time(2018, 1, 1, 12, 0, 0));
-
-  //TEST, REMOVE: Schedule an alarms on 01/01/218 12:00.15
-  m_alarm.schedule_alarm(date_time(2018, 1, 1, 12, 0, 15)); 
+  date_time start_time = date_time(2018, 1, 1, 12, 0, 0);
+  m_time.initialize(start_time);
 }
 
+void alarm_setup()
+{
+  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 15); 
+  m_alarm.schedule_alarm(alarm_time); 
+}
+
+int c = 0;
 void loop()
 {
-  //Delay for 500 milliseconds, keep track of the time we delayed.
+  //Get how much time this frame took (incl. delay).
+  //True means we want to reset the counter internally.
+  int delta = m_util.get_total_delay(true);
+  
+  time_update(delta);
+  alarm_update();
+  speaker_update(delta);
+
+  c++;
+
+  if(c > 100)
+  {
+    m_speaker.stop();
+  }
+}
+
+void time_update(int timeDelay)
+{
+  //Delay for 1 milliseconds, keep track of the time we delayed.
   //The total time delayed will be used to increment the simulated time.
-  m_util.timed_delay(500);
+  m_util.timed_delay(1);
 
   //Grab the current time and return it as date_time.
   date_time t = m_time.get_time();
-
-  //Get how much time this frame took (incl. delay).
-  //True means we want to reset the counter internally.
-  int timeDelay = m_util.get_total_delay(true);
-
-  //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
-  //TODO: More information about the alarm that is playing. Things like last time it rang, is it snoozed, which tune etc...
-  if(m_alarm.check_alarms(t))
-  {
-    //Play the speaker.
-    m_speaker.play_pattern();
-
-    //The current pattern takes 13152 milliseconds.
-    //Virtual delay will add the 13152 milliseconds to the total counter, but will not actually cause a delay.
-    m_util.virtual_delay(13152);
-  }
 
   //TEST, REMOVE: Print the current time.
   if(ENABLE_DEBUG)
@@ -82,5 +97,26 @@ void loop()
   //TODO: Replace this with RTC or time via internet.
   m_time.simulate(timeDelay);
 }
+
+void alarm_update()
+{
+  //Grab the current time.
+  date_time t = m_time.get_time();
+  
+  //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
+  //TODO: More information about the alarm that is playing. Things like last time it rang, is it snoozed, which tune etc...
+  if(m_alarm.check_alarms(t))
+  {
+    //Play the speaker with pattern 0.
+    m_speaker.play(0, true);
+  }
+}
+
+void speaker_update(int timeDelay)
+{
+  int consumed_time = m_speaker.update(timeDelay);
+  m_util.virtual_delay(consumed_time + 1);
+}
+
 
 
