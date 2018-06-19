@@ -7,7 +7,7 @@
 class G11Ultrasone
 {
 public:
-	void Snooze();
+	String alarm_state();
 
 private:
 	long duration;
@@ -16,8 +16,8 @@ private:
 	int sum;
 	int SensVals[6];
 	int count = 0;
-	int trigPin = 8;
-	int echoPin = 7;
+	int trigPin = 6;
+	int echoPin = 8;
 };
 
 #endif

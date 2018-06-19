@@ -1,9 +1,10 @@
 #include "Arduino.h"
 #include "G11Ultrasone.h"
 
-void G11Ultrasone::Snooze()
+String G11Ultrasone::alarm_state()
 {
 	sum = 0; s = 0; avg = 0;
+	
 	for (int x = 0; x<6; x++)
 	{
 		pinMode(echoPin, INPUT);
@@ -19,21 +20,27 @@ void G11Ultrasone::Snooze()
 		sum += SensVals[x];
 	}
 	avg = sum / 6;
+
+	delay(300);
 	if (avg == 0)
 	{
 		count = 0;
+		return "nothing";
 	}
-	if ((avg>0) && (avg<100))
+	else if (count>4)
 	{
-		Serial.println("HAND IS BOVEN DE WEKKER");
-		count++;
-		if (count>4)
-		{
-			Serial.println("SNOOZE");
-			count = 0;
-		}
+
+		count = 0;
+		return "snooze";
 	}
-	delay(300);
+
+	else if ((avg>0) && (avg<100))
+	{
+
+		count++;
+		return "off";
+	}
+
 
 }
 
