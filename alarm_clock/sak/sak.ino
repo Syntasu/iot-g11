@@ -21,6 +21,7 @@
 //Include our own headers.
 #include <G11Util.h>
 #include <G11Socket.h>
+#include <G11Kaku.h>
 #include <G11Time.h>
 #include <G11Speaker.h>
 #include <G11Alarm.h>
@@ -28,13 +29,10 @@
 //Create an instance of all our classes (defined in the header files).
 G11Util m_util;
 G11Socket m_net;
+G11Kaku m_kaku(28620750, PIN_RF_TRANSMITTER, 260, 3);
 G11Speaker m_speaker(PIN_SPEAKER);
 G11Time m_time;
 G11Alarm m_alarm;
-
-//Variables
-EthernetServer server(3300);
-bool hasClient = false;
 
 void setup()
 {
@@ -48,21 +46,10 @@ void setup()
   net_setup();
   time_setup();
   alarm_setup();
+  kaku_setup();
 
   //TEST, REMOVE: Play pattern 0.
   //m_speaker.play(0, true);
-}
-
-void test_bind(String command, String arg0, String arg1, String arg2)
-{
-  Serial.print("Command: ");
-  Serial.print(command);
-  Serial.print(", arg 0: ");
-  Serial.print(arg0);
-  Serial.print(", arg 1: ");
-  Serial.print(arg1);
-  Serial.print(", arg 2: ");
-  Serial.println(arg2);
 }
 
 //Make a connection to the interwebs.
@@ -74,7 +61,7 @@ void net_setup()
   m_net.begin(ip, mac);
 
   //Setting up the binds for the commands.
-  m_net.bind("hello", test_bind);
+  //m_net.bind("hello", test_bind);
   
   if (ENABLE_DEBUG)
   {
@@ -96,6 +83,13 @@ void alarm_setup()
 {
   date_time alarm_time = date_time(2018, 1, 1, 12, 0, 15);
   m_alarm.schedule_alarm(alarm_time);
+}
+
+void kaku_setup()
+{
+  //Ready unit 0 and 1 kakus.
+  m_kaku.init_kaku(0);
+  m_kaku.init_kaku(1);
 }
 
 void loop()
@@ -143,18 +137,24 @@ void alarm_update()
   if (m_alarm.check_alarms(t))
   {
     //Play the speaker with pattern 0.
+    //TODO: Stop after playing it once.
     m_speaker.play(0, true);
+
+    //Turn 0 and 1 kakus on.
+    m_kaku.set_kaku(0, true);
+    m_kaku.set_kaku(1, true);
   }
 }
 
 void net_update()
 {
-  //Receive any incoming messagesr
+  //Receive any incoming message
   m_net.update();
 }
 
 void speaker_update(int timeDelay)
 {
+  //Update the speaker, check how much time the speaker has consumed.
   int consumed_time = m_speaker.update(timeDelay);
   m_util.virtual_delay(consumed_time + 1);
 }
