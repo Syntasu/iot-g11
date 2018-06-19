@@ -34,6 +34,8 @@ G11Speaker m_speaker(PIN_SPEAKER);
 G11Time m_time;
 G11Alarm m_alarm;
 
+bool is_playing = false;
+
 void setup()
 {
   //Setup serial communication.
@@ -61,7 +63,7 @@ void net_setup()
   m_net.begin(ip, mac);
 
   //Setting up the binds for the commands.
-  //m_net.bind("hello", test_bind);
+  m_net.bind("snooze", cmd_snooze);
   
   if (ENABLE_DEBUG)
   {
@@ -81,7 +83,7 @@ void time_setup()
 
 void alarm_setup()
 {
-  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 15);
+  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 10);
   m_alarm.schedule_alarm(alarm_time);
 }
 
@@ -133,16 +135,29 @@ void alarm_update()
   date_time t = m_time.get_time();
 
   //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
-  //TODO: More information about the alarm that is playing. Things like last time it rang, is it snoozed, which tune etc...
-  if (m_alarm.check_alarms(t))
-  {
-    //Play the speaker with pattern 0.
-    //TODO: Stop after playing it once.
-    m_speaker.play(0, true);
+  int alarm_state = m_alarm.check_alarms(t);
+  Serial.println(alarm_state);
 
-    //Turn 0 and 1 kakus on.
-    m_kaku.set_kaku(0, true);
-    m_kaku.set_kaku(1, true);
+  if(alarm_state == 1)
+  {
+    if(!is_playing)
+    {
+      m_speaker.play(0, true);
+      m_kaku.set_kaku(0, true);
+      m_kaku.set_kaku(1, true);
+      is_playing = true;
+    }
+  }
+
+  if(alarm_state == 2)
+  {
+    if(is_playing)
+    {
+      m_speaker.stop();
+      m_kaku.set_kaku(0, false);
+      m_kaku.set_kaku(1, false);
+      is_playing = false;
+    }
   }
 }
 
@@ -159,5 +174,10 @@ void speaker_update(int timeDelay)
   m_util.virtual_delay(consumed_time + 1);
 }
 
+void cmd_snooze(String command, String a0, String a1, String a2)
+{
+  Serial.println("Snooze!");
+  m_alarm.snooze(10);
+}
 
 

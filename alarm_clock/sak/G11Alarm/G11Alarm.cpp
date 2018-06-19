@@ -11,23 +11,46 @@ void G11Alarm::schedule_alarm(date_time alarm_time)
 
 //Check if any of the alarms needs to be played.
 //CURRENT_TIME: The current time of the arduino.
-bool G11Alarm::check_alarms(date_time current_time)
+//RETURN: 0 = no event, 1 = ring, 2 = stop
+int G11Alarm::check_alarms(date_time current_time)
 {
-    for(int i = 0; i < alarm_count; i++)
+    for(int i = 0; i < this->alarm_count; i++)
     {
         date_time alarm_time = alarms[i];
 
         //Get the time difference in seconds
-        long int diff = alarm_time.difference(current_time);
+        int diff = alarm_time.difference(current_time);
 
-        //If it's either negative (surpassed the time) or equal (exactly that time)
-        //Then we want to sound the alarm.
-        if(diff <= 0)
+        if(snoozing)
         {
-            return true;
-        }
-    }
+            if(abs(diff) > (snooze_countdown * snooze_count))
+            {
+                snoozing = false;
+                snooze_count++;
+                return 1;
+            }
 
-    //We did not find any alarm that needs to ring.
-    return false;
+            return 2;
+        }
+        else
+        {
+            if(!ringing)
+            {
+                if(diff < 0)
+                {
+                    ringing = true;
+                    return 1;
+                }
+            }
+        }
+
+        return 0;
+    }
+}
+
+void G11Alarm::snooze(int snooze_sec)
+{
+    snooze_countdown = snooze_sec;
+    snooze_count++;
+    snoozing = true;
 }

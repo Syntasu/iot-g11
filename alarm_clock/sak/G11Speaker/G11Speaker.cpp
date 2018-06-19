@@ -93,12 +93,10 @@ int G11Speaker::do_step()
         //Check if we want to repeat it.
         if(this->repeat)
         {
-            Serial.println("Repeat!");
             this->offset = 0;
         }
         else
         {
-            Serial.println("Stop!");
             this->stop();
         }
     }
