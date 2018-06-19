@@ -1,7 +1,8 @@
 #include "Arduino.h"
 #include "G11Ultrasone.h"
-
-String G11Ultrasone::alarm_state()
+//returns 1 when the ultrasone sensor detects an object within 100cm, returns 0 when it doesn't. 
+//returns 2 when it detects said object for 1.6 seconds or more (=snooze)
+int G11Ultrasone::alarm_state()
 {
 	sum = 0; s = 0; avg = 0;
 	
@@ -25,20 +26,20 @@ String G11Ultrasone::alarm_state()
 	if (avg == 0)
 	{
 		count = 0;
-		return "nothing";
+		return 0;
 	}
 	else if (count>4)
 	{
 
 		count = 0;
-		return "snooze";
+		return 2;
 	}
 
 	else if ((avg>0) && (avg<100))
 	{
 
 		count++;
-		return "off";
+		return 1;
 	}
 
 

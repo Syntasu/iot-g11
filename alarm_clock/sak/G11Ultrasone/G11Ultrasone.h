@@ -7,7 +7,7 @@
 class G11Ultrasone
 {
 public:
-	String alarm_state();
+	int alarm_state();
 
 private:
 	long duration;
