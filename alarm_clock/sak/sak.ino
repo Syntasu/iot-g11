@@ -34,7 +34,7 @@ G11Speaker m_speaker(PIN_SPEAKER);
 G11Time m_time;
 G11Alarm m_alarm;
 
-bool is_playing = false;
+bool alarm_playing = false;
 
 void setup()
 {
@@ -141,7 +141,7 @@ void alarm_update()
   
   if(alarm_state == 1)
   {
-    if(!is_playing)
+    if(!alarm_playing)
     {
       m_speaker.play(0, true);
       m_kaku.set_kaku(0, true);
@@ -152,7 +152,7 @@ void alarm_update()
 
   if(alarm_state == 2 || alarm_state == 3)
   {
-    if(is_playing)
+    if(alarm_playing)
     {
       m_speaker.stop();
       m_kaku.set_kaku(0, false);
