@@ -11,7 +11,7 @@ public:
     int check_alarms(date_time);
 
     void snooze(int);
-    void kill();
+    void kill(date_time);
 
 private:
     int alarm_count = 0;

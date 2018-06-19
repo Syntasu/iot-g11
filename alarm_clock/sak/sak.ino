@@ -64,6 +64,8 @@ void net_setup()
 
   //Setting up the binds for the commands.
   m_net.bind("snooze", cmd_snooze);
+  m_net.bind("stop", cmd_stop);
+  
   
   if (ENABLE_DEBUG)
   {
@@ -136,8 +138,7 @@ void alarm_update()
 
   //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
   int alarm_state = m_alarm.check_alarms(t);
-  Serial.println(alarm_state);
-
+  
   if(alarm_state == 1)
   {
     if(!is_playing)
@@ -149,7 +150,7 @@ void alarm_update()
     }
   }
 
-  if(alarm_state == 2)
+  if(alarm_state == 2 || alarm_state == 3)
   {
     if(is_playing)
     {
@@ -177,7 +178,13 @@ void speaker_update(int timeDelay)
 void cmd_snooze(String command, String a0, String a1, String a2)
 {
   Serial.println("Snooze!");
+  //Snooze for 10 seconds.
   m_alarm.snooze(10);
 }
 
+void cmd_stop(String command, String a0, String a1, String a2)
+{
+  Serial.println("Stop!");
+  m_alarm.kill(m_time.get_time());
+}
 

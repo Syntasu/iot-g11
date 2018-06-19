@@ -47,6 +47,13 @@ struct date_time
         
         return seconds + minutes + hours + days + months + years;
     }
+
+    bool is_identity()
+    {
+        return this->years == 0 && this->months == 0 &&
+               this->days == 0 && this->minutes == 0 &&
+               this->seconds == 0;
+    }
 };
 
 #endif
