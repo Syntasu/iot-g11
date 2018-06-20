@@ -7,6 +7,16 @@
     
     <!-- General strings -->
     <string name="btn_cancel">Back</string>
+    
+    <!-- Main activity -->
+    <string name="text_main_header">Quick menu</string>
+    <string name="text_main_header2">Settings</string>
+    <string name="btn_quick_snooze">Snooze alarms</string>
+    <string name="btn_quick_stop">Stop alarms</string>
+    <string name="btn_alarm_management">Alarm management</string>
+    <string name="btn_light_management">Light management</string>
+    <string name="btn_connection_management">Connection management</string>
+    <string name="text_status">Status: disconnected</string>
 
     <!-- Connection actvity-->
     <string name="text_connection_status">Status</string>

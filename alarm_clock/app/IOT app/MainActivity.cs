@@ -9,7 +9,7 @@ namespace IOT_app
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.Connection);
+            SetContentView(Resource.Layout.main);
         }
     }
 }

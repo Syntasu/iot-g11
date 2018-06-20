@@ -2,30 +2,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <Button
-        android:text="Connect"
+    android:layout_height="match_parent"
+    android:id="@+id/linearLayout1">
+    <TextView
+        android:text="@string/text_main_header"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button1" />
-    <Button
-        android:text="Display on/of"
+        android:id="@+id/header_main"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" />
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button2" />
-    <Button
-        android:text="Lights"
+        android:id="@+id/relativeLayout1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp">
+        <Button
+            android:text="@string/btn_quick_snooze"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_quick_snooze"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:enabled="false" />
+        <Button
+            android:text="@string/btn_quick_stop"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_quick_stop"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_below="@id/btn_quick_snooze"
+            android:enabled="false" />
+        <TextView
+            android:text="@string/text_status"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_quick_stop"
+            android:id="@+id/text_status"
+            android:textColor="#ffb72e2e" />
+    </RelativeLayout>
+    <TextView
+        android:text="@string/text_main_header2"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button3" />
-    <Button
-        android:text="Alarm"
+        android:id="@+id/header_main2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" />
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button4" />
-    <Button
-        android:text="Information"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button5" />
+        android:id="@+id/relativeLayout2"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp">
+        <Button
+            android:text="@string/btn_connection_management"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/btn_connection_management" />
+        <Button
+            android:text="@string/btn_alarm_management"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_connection_management"
+            android:id="@+id/btn_alarm_management"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <Button
+            android:text="@string/btn_light_management"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_alarm_management"
+            android:id="@+id/btn_light_management"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </RelativeLayout>
 </LinearLayout>
