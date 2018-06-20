@@ -1,10 +1,16 @@
 ﻿using Android.App;
-using Android.Widget;
 using Android.OS;
-using Android.Support.V7.App;
 
 namespace IOT_app
 {
-
+    [Activity(MainLauncher = true, Label = "MainActivity", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+    public class MainActivity : Activity
+    {
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            SetContentView(Resource.Layout.main);
+        }
+    }
 }
 

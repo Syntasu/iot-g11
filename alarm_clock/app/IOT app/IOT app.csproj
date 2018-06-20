@@ -55,6 +55,9 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlarmActivity.cs" />
+    <Compile Include="ConnectionActivity.cs" />
+    <Compile Include="KakuActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

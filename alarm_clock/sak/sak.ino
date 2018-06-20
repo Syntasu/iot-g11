@@ -63,8 +63,9 @@ void net_setup()
   m_net.begin(ip, mac);
 
   //Setting up the binds for the commands.
-  m_net.bind("snooze", cmd_snooze);
-  m_net.bind("stop", cmd_stop);
+  m_net.bind("alarm_set", cmd_alarm_set);
+  m_net.bind("alarm_snooze", cmd_alarm_snooze);
+  m_net.bind("alarm_stop", cmd_alarm_stop);
   
   
   if (ENABLE_DEBUG)
@@ -146,7 +147,7 @@ void alarm_update()
       m_speaker.play(0, true);
       m_kaku.set_kaku(0, true);
       m_kaku.set_kaku(1, true);
-      is_playing = true;
+      alarm_playing = true;
     }
   }
 
@@ -157,7 +158,7 @@ void alarm_update()
       m_speaker.stop();
       m_kaku.set_kaku(0, false);
       m_kaku.set_kaku(1, false);
-      is_playing = false;
+      alarm_playing = false;
     }
   }
 }
@@ -175,14 +176,20 @@ void speaker_update(int timeDelay)
   m_util.virtual_delay(consumed_time + 1);
 }
 
-void cmd_snooze(String command, String a0, String a1, String a2)
+void cmd_alarm_set(String command, String a0, String a1, String a2)
+{
+  //TODO: Parse time.
+  //TODO: Set schedule.
+}
+
+void cmd_alarm_snooze(String command, String a0, String a1, String a2)
 {
   Serial.println("Snooze!");
   //Snooze for 10 seconds.
   m_alarm.snooze(10);
 }
 
-void cmd_stop(String command, String a0, String a1, String a2)
+void cmd_alarm_stop(String command, String a0, String a1, String a2)
 {
   Serial.println("Stop!");
   m_alarm.kill(m_time.get_time());
