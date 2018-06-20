@@ -102,13 +102,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/etext_connection_ip"
             android:id="@+id/btn_connection_connect"
-            android:backgroundTint="#ffcfffc1" />
+            android:backgroundTint="#ffcfffc1"
+            android:textColor="@android:color/background_dark" />
         <Button
             android:text="@string/btn_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_connection_connect"
             android:id="@+id/btn_cancel"
-            android:backgroundTint="#ffffbebe" />
+            android:backgroundTint="#ffffbebe"
+            android:textColor="#ff000000" />
     </RelativeLayout>
 </LinearLayout>
