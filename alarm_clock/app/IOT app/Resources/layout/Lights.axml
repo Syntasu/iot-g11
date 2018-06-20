@@ -3,20 +3,66 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:text="LIGHTS 1 "
+    <TextView
+        android:text="@string/header_lights"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button1" />
-    <Button
-        android:text="lights 2"
+        android:id="@+id/header_lights"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" />
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:layout_marginBottom="411.0dp" />
+        android:id="@+id/relativeLayout1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp">
+        <CheckBox
+            android:text="@string/cb_light1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cb_light1" />
+        <CheckBox
+            android:text="@string/cb_light2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_light1"
+            android:id="@+id/cb_light2" />
+        <CheckBox
+            android:text="@string/cb_light3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_light2"
+            android:id="@+id/cb_light3" />
+        <CheckBox
+            android:text="@string/cb_light4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_light3"
+            android:id="@+id/cb_light4" />
+        <CheckBox
+            android:text="@string/cb_light5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_light4"
+            android:id="@+id/cb_light5" />
+        <TextView
+            android:text="@string/text_lights_explanation"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cb_light5"
+            android:id="@+id/text_alarm_explanation" />
+    </RelativeLayout>
     <Button
-        android:text="back"
+        android:text="@string/btn_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button3" />
+        android:id="@+id/button1"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:backgroundTint="#ffffbebe"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
 </LinearLayout>

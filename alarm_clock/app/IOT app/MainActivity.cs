@@ -11,7 +11,7 @@ namespace IOT_app
             base.OnCreate(savedInstanceState);
             base.SetContentView(Resource.Layout.main);
 
-            StartActivity(typeof(AlarmActivity));
+            StartActivity(typeof(KakuActivity));
         }
     }
 }
