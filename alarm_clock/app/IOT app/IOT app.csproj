@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmActivity.cs" />
+    <Compile Include="Code\Alarm.cs" />
+    <Compile Include="Code\AlarmAdapter.cs" />
     <Compile Include="ConnectionActivity.cs" />
     <Compile Include="KakuActivity.cs" />
     <Compile Include="MainActivity.cs" />
@@ -115,6 +117,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Connection.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\listview_item_alarm.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

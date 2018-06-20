@@ -9,7 +9,9 @@ namespace IOT_app
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.main);
+            base.SetContentView(Resource.Layout.main);
+
+            StartActivity(typeof(AlarmActivity));
         }
     }
 }

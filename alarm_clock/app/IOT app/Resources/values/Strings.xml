@@ -1,13 +1,16 @@
 <resources>
-    <string name="app_name">Smart alarm clock App</string>
+    <string name="app_name">Smart Alarm Clock App</string>
     <string name="action_settings">Settings</string>
     
     <!-- Headers-->
-    <string name="header_connections"> Connection details </string>
-    
+    <string name="header_connections">Connection details</string>
+    <string name="header_alarm">Alarm management</string>
+    <string name="header_alarm2">Alarms</string>
+
     <!-- General strings -->
     <string name="btn_cancel">Back</string>
     
+  
     <!-- Main activity -->
     <string name="text_main_header">Quick menu</string>
     <string name="text_main_header2">Settings</string>
@@ -25,10 +28,15 @@
     <string name="text_connection_ip_value">n.a.</string>
     <string name="text_connection_port">Port</string>
     <string name="text_connection_port_value">n.a.</string>
-
     <string name="text_connection_config">Network configuration:</string>
     <string name="etext_connection_ip">IP Address...</string>
     <string name="etext_connection_port">Port...</string>
     <string name="btn_connection_connect">Connect to alarm clock</string>
+    
+    <!-- Alarm activty-->
+    <string name="btn_alarm_create">New alarm...</string>
+    <string name="cb_calendar">Schedule alarms from calendar</string>
+    <string name="text_alarm_explanation">Automatic scheduling will take the first item from your calendar and wake you up 1 hour ahead of time. If there are no items, the alarm will not go off.</string>
+    <string name="text_alarm_explanation2">Tap one of the alarms to edit them or remove the alarm entirely.</string>
 
 </resources>
