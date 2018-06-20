@@ -1,4 +1,24 @@
 <resources>
-    <string name="app_name">IOT_app</string>
+    <string name="app_name">Smart alarm clock App</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Headers-->
+    <string name="header_connections"> Connection details </string>
+    
+    <!-- General strings -->
+    <string name="btn_cancel">Back</string>
+
+    <!-- Connection actvity-->
+    <string name="text_connection_status">Status</string>
+    <string name="text_connection_status_value">Disconnected</string>
+    <string name="text_connection_ip">IP Address</string>
+    <string name="text_connection_ip_value">n.a.</string>
+    <string name="text_connection_port">Port</string>
+    <string name="text_connection_port_value">n.a.</string>
+
+    <string name="text_connection_config">Network configuration:</string>
+    <string name="etext_connection_ip">IP Address...</string>
+    <string name="etext_connection_port">Port...</string>
+    <string name="btn_connection_connect">Connect to alarm clock</string>
+
 </resources>
