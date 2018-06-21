@@ -1,6 +1,8 @@
 ﻿using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Widget;
+using IOT_app.Code;
 
 namespace IOT_app
 {
@@ -9,6 +11,7 @@ namespace IOT_app
     {
         private Button buttonSnoozeAlarms;
         private Button buttonStopAlarms;
+        private TextView textStatus;
 
         //Buttons to goto other activities.
         private Button buttonAlarmActivity;
@@ -22,16 +25,30 @@ namespace IOT_app
             base.SetContentView(Resource.Layout.main);
 
             //Fetch the buttons.
+            buttonSnoozeAlarms = FindViewById<Button>(Resource.Id.btn_quick_snooze);
+            buttonStopAlarms = FindViewById<Button>(Resource.Id.btn_quick_stop);
             buttonAlarmActivity = FindViewById<Button>(Resource.Id.btn_alarm_management);
             buttonConnectionActivity = FindViewById<Button>(Resource.Id.btn_connection_management);
             buttonKakuActivity = FindViewById<Button>(Resource.Id.btn_light_management);
             buttonTimeActivity = FindViewById<Button>(Resource.Id.btn_time_management);
+
+            textStatus = FindViewById<TextView>(Resource.Id.text_status);
 
             //Tell each button to start a different activity.
             buttonAlarmActivity.Click += (o, s) => StartActivity(typeof(AlarmActivity));
             buttonConnectionActivity.Click += (o, s) => StartActivity(typeof(ConnectionActivity));
             buttonKakuActivity.Click += (o, s) => StartActivity(typeof(KakuActivity));
             buttonTimeActivity.Click += (o, s) => StartActivity(typeof(TimeActivity));
+
+            if(SocketWorker.IsConnected)
+            {
+                textStatus.Text = "Status: " + GetString(Resource.String.info_connected);
+                textStatus.SetTextColor(Color.Red);
+            }
+            else
+            {
+
+            }
         }
     }
 }

@@ -48,7 +48,13 @@ namespace IOT_app.Code
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 IAsyncResult result = socket.BeginConnect(new IPEndPoint(ipAddr, port), null, null);
-                bool success = result.AsyncWaitHandle.WaitOne(2500, true);
+                bool didNotTimeout = result.AsyncWaitHandle.WaitOne(500, true);
+
+                if(!didNotTimeout)
+                {
+                    Reset();
+                    return SockErr.ConnectionTimeout;
+                }
 
                 //Erorr handling if we did or did not successfully connect.
                 if (socket.Connected)
