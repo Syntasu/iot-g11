@@ -31,8 +31,8 @@
     <string name="text_connection_port">Port</string>
     <string name="text_connection_port_value">n.a.</string>
     <string name="text_connection_config">Network configuration:</string>
-    <string name="etext_connection_ip">IP Address...</string>
-    <string name="etext_connection_port">Port...</string>
+    <string name="etext_connection_ip">192.168.1.2</string>
+    <string name="etext_connection_port">0</string>
     <string name="btn_connection_connect">Connect to alarm clock</string>
     
     <!-- Alarm activty-->
@@ -53,5 +53,13 @@
     <string name="text_select_date">Select the date:</string>
     <string name="text_select_time">Select the time:</string>
     <string name="btn_set_time">Set date and time</string>
+
+    
+    <!-- String for code-->
+    <string name="sockerr_duplicate">There is already an active connection</string>
+    <string name="sockerr_timeout">The connection has timed out</string>
+    <string name="sockerr_failed">A connection error has occured during connection</string>
+
+
 
 </resources>

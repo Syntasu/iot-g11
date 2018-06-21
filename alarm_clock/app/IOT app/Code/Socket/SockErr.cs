@@ -6,6 +6,7 @@
         ConnectionRefused,
         ConnectionFailed,
         ConnectionDuplicate,
+        ConnectionTimeout,
         SendFailed,
         SendErr,
         ReadFailed,

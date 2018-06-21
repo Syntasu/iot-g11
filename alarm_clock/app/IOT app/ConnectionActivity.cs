@@ -2,6 +2,8 @@
 using Android.OS;
 using Android.Widget;
 using IOT_app.Code;
+using System;
+using System.Text.RegularExpressions;
 
 namespace IOT_app
 {
@@ -12,6 +14,12 @@ namespace IOT_app
         private TextView textIpAddress;
         private TextView textPort;
 
+        private EditText editTextIp;
+        private EditText editTextPort;
+
+        private Button buttonConnect;
+        private Button buttonBack;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -21,20 +29,106 @@ namespace IOT_app
             textIpAddress = FindViewById<TextView>(Resource.Id.text_connection_ip_value);
             textPort = FindViewById<TextView>(Resource.Id.text_connection_port_value);
 
-            SocketWorker.OnSocketConnect += OnConnect;
-            SocketWorker.OnSocketDisconnect += OnDisconnect;
+            editTextIp = FindViewById<EditText>(Resource.Id.etext_connection_ip);
+            editTextPort = FindViewById<EditText>(Resource.Id.etext_connection_port);
+
+            buttonConnect = FindViewById<Button>(Resource.Id.btn_connection_connect);
+            buttonBack = FindViewById<Button>(Resource.Id.btn_connection_back);
+
+            //Update the connection if a connection state changes.
+            SocketWorker.OnSocketConnect += SetConnectionDetails;
+            SocketWorker.OnSocketDisconnect += SetConnectionDetails;
+
+            buttonConnect.Click += (o, s) => Connect();
 
             SetConnectionDetails();
         }
 
-        private void OnDisconnect()
+        /// <summary>
+        ///     Make a connection to the arduino.
+        ///     Parse the user inputs and try to connect.
+        /// </summary>
+        private void Connect()
         {
-            SetConnectionDetails();
+            string ip = editTextIp.Text;
+            string port = editTextPort.Text;
+
+            if(!IsValidIP(ip))
+            {
+                Toast.MakeText(this, "Given ip is not correct", ToastLength.Long).Show();
+                return;
+            }
+
+            if(!IsValidPort(port))
+            {
+                Toast.MakeText(this, "Given port is not correct", ToastLength.Long).Show();
+                return;
+            }
+
+            SockErr err = SocketWorker.Connect(ip, int.Parse(port));
+
+            switch(err)
+            {
+                case SockErr.None:
+                    SetConnectionDetails();
+                    break;
+                case SockErr.ConnectionDuplicate:
+                    Toast.MakeText(this, Resource.String.sockerr_duplicate, ToastLength.Long).Show();
+                    break;
+                case SockErr.ConnectionTimeout:
+                    Toast.MakeText(this, Resource.String.sockerr_timeout, ToastLength.Long).Show();
+                    break;
+                default:
+                    Toast.MakeText(this, Resource.String.sockerr_failed, ToastLength.Long).Show();
+                    break;
+            }
         }
 
-        private void OnConnect()
+        /// <summary>
+        ///     Check if the given IP is valid or not.
+        /// </summary>
+        /// <param name="ip">The input IP.</param>
+        /// <returns>True when valid.</returns>
+        private bool IsValidIP(string ip)
         {
-            SetConnectionDetails();
+            if (!string.IsNullOrEmpty(ip))
+            {
+                Regex regex = new Regex("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.|$)){4}\\b");
+                Match match = regex.Match(ip);
+                return match.Success;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     Checks if the given port is valid.
+        /// </summary>
+        /// <param name="port">The given port we want to check.</param>
+        /// <returns>True if the port is valid.</returns>
+        private bool IsValidPort(string port)
+        {
+            if (!string.IsNullOrEmpty(port))
+            {
+                Regex regex = new Regex("[0-9]+");
+                Match match = regex.Match(port);
+
+                if (match.Success)
+                {
+                    int portAsInteger = Int32.Parse(port);
+                    return (portAsInteger >= 0 && portAsInteger <= 65535);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void SetConnectionDetails()

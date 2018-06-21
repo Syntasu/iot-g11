@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -45,11 +46,15 @@ namespace IOT_app.Code
                 //Construct and connect the socket.
                 IPAddress ipAddr = IPAddress.Parse(ip);
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect(new IPEndPoint(ipAddr, port));
+
+                IAsyncResult result = socket.BeginConnect(new IPEndPoint(ipAddr, port), null, null);
+                bool success = result.AsyncWaitHandle.WaitOne(2500, true);
 
                 //Erorr handling if we did or did not successfully connect.
                 if (socket.Connected)
                 {
+                    socket.EndConnect(result);
+
                     IsConnected = true;
                     ConnectedTo = ipAddr;
                     ConnectedPort = port;
@@ -146,16 +151,17 @@ namespace IOT_app.Code
             if (IsConnected) IsConnected = false;
 
             //Kill off the thread
-            if(socketThread.IsAlive || socketThread != null)
+            if(socketThread != null)
             { 
                 socketThread.Join();
                 socketThread = null;
             }
 
             //Kill sockets.
-            if(socket.Connected)
+            if(socket != null && socket.Connected)
             {
                 socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
                 socket = null;
             }
 

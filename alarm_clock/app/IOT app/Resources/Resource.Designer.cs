@@ -2441,8 +2441,11 @@ namespace IOT_app
 			// aapt resource value: 0x7f0800be
 			public const int btn_alarm_management = 2131230910;
 			
+			// aapt resource value: 0x7f0800da
+			public const int btn_cancel = 2131230938;
+			
 			// aapt resource value: 0x7f0800a1
-			public const int btn_cancel = 2131230881;
+			public const int btn_connection_back = 2131230881;
 			
 			// aapt resource value: 0x7f0800a0
 			public const int btn_connection_connect = 2131230880;
@@ -2678,14 +2681,14 @@ namespace IOT_app
 			// aapt resource value: 0x7f080093
 			public const int lv_alarms = 2131230867;
 			
-			// aapt resource value: 0x7f0800dc
-			public const int masked = 2131230940;
+			// aapt resource value: 0x7f0800dd
+			public const int masked = 2131230941;
 			
 			// aapt resource value: 0x7f0800c7
 			public const int media_actions = 2131230919;
 			
-			// aapt resource value: 0x7f0800da
-			public const int message = 2131230938;
+			// aapt resource value: 0x7f0800db
+			public const int message = 2131230939;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2978,8 +2981,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800db
-			public const int visible = 2131230939;
+			// aapt resource value: 0x7f0800dc
+			public const int visible = 2131230940;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
@@ -3467,6 +3470,15 @@ namespace IOT_app
 			
 			// aapt resource value: 0x7f090011
 			public const int search_menu_title = 2131296273;
+			
+			// aapt resource value: 0x7f09004f
+			public const int sockerr_duplicate = 2131296335;
+			
+			// aapt resource value: 0x7f090051
+			public const int sockerr_failed = 2131296337;
+			
+			// aapt resource value: 0x7f090050
+			public const int sockerr_timeout = 2131296336;
 			
 			// aapt resource value: 0x7f090026
 			public const int status_bar_notification_info_overflow = 2131296294;
