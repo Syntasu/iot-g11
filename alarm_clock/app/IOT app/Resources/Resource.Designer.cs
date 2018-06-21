@@ -3432,6 +3432,12 @@ namespace IOT_app
 			// aapt resource value: 0x7f090020
 			public const int character_counter_pattern = 2131296288;
 			
+			// aapt resource value: 0x7f090053
+			public const int error_invalid_ip = 2131296339;
+			
+			// aapt resource value: 0x7f090052
+			public const int error_invalid_port = 2131296338;
+			
 			// aapt resource value: 0x7f09003f
 			public const int etext_connection_ip = 2131296319;
 			
@@ -3452,6 +3458,15 @@ namespace IOT_app
 			
 			// aapt resource value: 0x7f09002d
 			public const int header_time = 2131296301;
+			
+			// aapt resource value: 0x7f090054
+			public const int info_connected = 2131296340;
+			
+			// aapt resource value: 0x7f090055
+			public const int info_disconnected = 2131296341;
+			
+			// aapt resource value: 0x7f090056
+			public const int na = 2131296342;
 			
 			// aapt resource value: 0x7f090021
 			public const int password_toggle_content_description = 2131296289;

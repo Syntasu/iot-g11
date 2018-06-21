@@ -59,6 +59,12 @@
     <string name="sockerr_duplicate">There is already an active connection</string>
     <string name="sockerr_timeout">The connection has timed out</string>
     <string name="sockerr_failed">A connection error has occured during connection</string>
+    <string name="error_invalid_port">The given port is invalid</string>
+    <string name="error_invalid_ip">The given IP Address is invalid</string>
+    <string name="info_connected">Connected</string>
+    <string name="info_disconnected">Disconnected</string>
+    <string name="na">n.a.</string>
+
 
 
 

@@ -40,6 +40,7 @@ namespace IOT_app
             SocketWorker.OnSocketDisconnect += SetConnectionDetails;
 
             buttonConnect.Click += (o, s) => Connect();
+            buttonBack.Click += (o, s) => StartActivity(typeof(MainActivity));
 
             SetConnectionDetails();
         }
@@ -50,23 +51,27 @@ namespace IOT_app
         /// </summary>
         private void Connect()
         {
+            //Get user input
             string ip = editTextIp.Text;
             string port = editTextPort.Text;
 
+
+            //Sanitize the user input.
             if(!IsValidIP(ip))
             {
-                Toast.MakeText(this, "Given ip is not correct", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.error_invalid_ip, ToastLength.Long).Show();
                 return;
             }
 
             if(!IsValidPort(port))
             {
-                Toast.MakeText(this, "Given port is not correct", ToastLength.Long).Show();
+                Toast.MakeText(this, Resource.String.error_invalid_port, ToastLength.Long).Show();
                 return;
             }
 
             SockErr err = SocketWorker.Connect(ip, int.Parse(port));
 
+            //Handle possible states after connecting.
             switch(err)
             {
                 case SockErr.None:
@@ -135,15 +140,15 @@ namespace IOT_app
         {
             if(SocketWorker.IsConnected)
             {
-                textConnectionStatus.Text = "connected";
+                textConnectionStatus.Text = GetString(Resource.String.info_connected);
                 textIpAddress.Text = SocketWorker.ConnectedTo.ToString();
                 textPort.Text = SocketWorker.ConnectedPort.ToString();
             }
             else
             {
-                textConnectionStatus.Text = "disconnected";
-                textIpAddress.Text = "n.a.";
-                textPort.Text = "n.a.";
+                textConnectionStatus.Text = GetString(Resource.String.info_disconnected);
+                textIpAddress.Text = GetString(Resource.String.na);
+                textPort.Text = GetString(Resource.String.na);
             }
         }
     }
