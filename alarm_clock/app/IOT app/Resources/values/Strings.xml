@@ -7,6 +7,7 @@
     <string name="header_alarm">Alarm management</string>
     <string name="header_alarm2">Alarms</string>
     <string name="header_lights">Lights management</string>
+    <string name="header_time"> Time management</string>
 
     <!-- General strings -->
     <string name="btn_cancel">Back</string>
@@ -46,5 +47,10 @@
     <string name="cb_light3">Light socket 3</string>
     <string name="cb_light4">Light socket 4</string>
     <string name="cb_light5">Light socket 5</string>
+
+    <!-- Time activity -->
+    <string name="text_select_date">Select the date:</string>
+    <string name="text_select_time">Select the time:</string>
+    <string name="btn_set_time">Set date and time</string>
 
 </resources>
