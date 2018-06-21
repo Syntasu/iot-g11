@@ -40,14 +40,21 @@ namespace IOT_app
             buttonKakuActivity.Click += (o, s) => StartActivity(typeof(KakuActivity));
             buttonTimeActivity.Click += (o, s) => StartActivity(typeof(TimeActivity));
 
+            //Check if we have connection. Enable the quick menu when we do.
             if(SocketWorker.IsConnected)
             {
                 textStatus.Text = "Status: " + GetString(Resource.String.info_connected);
-                textStatus.SetTextColor(Color.Red);
+                textStatus.SetTextColor(Color.Rgb(50, 150, 50));
+                buttonSnoozeAlarms.Enabled = true;
+                buttonStopAlarms.Enabled = true;
+
             }
             else
             {
-
+                textStatus.Text = "Status: " + GetString(Resource.String.info_disconnected);
+                textStatus.SetTextColor(Color.Rgb(150, 50, 50));
+                buttonSnoozeAlarms.Enabled = false;
+                buttonStopAlarms.Enabled = false;
             }
         }
     }

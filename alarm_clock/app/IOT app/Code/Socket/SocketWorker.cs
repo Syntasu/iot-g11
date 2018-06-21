@@ -142,7 +142,9 @@ namespace IOT_app.Code
                     string received = Encoding.ASCII.GetString(readBuffer, 0, receivedBytes);
                     OnSocketReceive?.Invoke(received);
                 }
-                catch (SocketException) { } //Woops!
+                catch (SocketException) { } //Woops! Reading failed.. not enough to tell to abort the connection... 
+                                            //we don't want to crash the application either. So that's why we have an empty try catch
+                          
             }
         }
 
