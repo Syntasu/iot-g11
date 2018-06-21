@@ -7,7 +7,7 @@
 class G11Ultrasone
 {
 public:
-	int alarm_state();
+	int alarm_off();
 
 private:
 	long duration;
