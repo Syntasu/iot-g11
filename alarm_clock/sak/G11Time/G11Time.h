@@ -3,6 +3,7 @@
 
 #include "Arduino.h"
 #include "datetime.h"
+#include <DS1302.h>
 
 class G11Time
 {   
@@ -20,6 +21,8 @@ private:
     int milli_bucket = 0;
     date_time current_time;
     String padValue(int);
+	Time t;
+	DS1302 rtc = DS1302(19,18,17);
 };
 
 #endif

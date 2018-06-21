@@ -68,7 +68,15 @@ void G11Time::simulate(unsigned int ms_elapsed)
 
 void G11Time::sync_with_rtc()
 {
-    //TODO: Syncronize with the RTC module
+	
+	t = rtc.getTime();
+	int seconds = t.sec;
+	int minutes = t.min;
+		int hours = t.hour;
+		int days = t.date;
+		int months = t.mon;
+		int years = t.year;
+		this->current_time = date_time(years, months, days, hours, minutes, seconds);
 }
 
 void G11Time::sync_with_net()
