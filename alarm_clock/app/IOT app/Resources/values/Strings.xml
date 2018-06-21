@@ -20,6 +20,7 @@
     <string name="btn_alarm_management">Alarm management</string>
     <string name="btn_light_management">Light management</string>
     <string name="btn_connection_management">Connection management</string>
+    <string name="btn_time_management">Time management</string>
     <string name="text_status">Status: disconnected</string>
 
     <!-- Connection actvity-->

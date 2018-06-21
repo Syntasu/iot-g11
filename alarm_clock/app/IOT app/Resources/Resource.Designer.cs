@@ -2342,8 +2342,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080037
 			public const int SYM = 2131230775;
 			
-			// aapt resource value: 0x7f0800c3
-			public const int action0 = 2131230915;
+			// aapt resource value: 0x7f0800c4
+			public const int action0 = 2131230916;
 			
 			// aapt resource value: 0x7f08007c
 			public const int action_bar = 2131230844;
@@ -2366,17 +2366,17 @@ namespace IOT_app
 			// aapt resource value: 0x7f08005a
 			public const int action_bar_title = 2131230810;
 			
-			// aapt resource value: 0x7f0800c0
-			public const int action_container = 2131230912;
+			// aapt resource value: 0x7f0800c1
+			public const int action_container = 2131230913;
 			
 			// aapt resource value: 0x7f08007d
 			public const int action_context_bar = 2131230845;
 			
-			// aapt resource value: 0x7f0800c7
-			public const int action_divider = 2131230919;
+			// aapt resource value: 0x7f0800c8
+			public const int action_divider = 2131230920;
 			
-			// aapt resource value: 0x7f0800c1
-			public const int action_image = 2131230913;
+			// aapt resource value: 0x7f0800c2
+			public const int action_image = 2131230914;
 			
 			// aapt resource value: 0x7f080003
 			public const int action_menu_divider = 2131230723;
@@ -2393,11 +2393,11 @@ namespace IOT_app
 			// aapt resource value: 0x7f08005c
 			public const int action_mode_close_button = 2131230812;
 			
-			// aapt resource value: 0x7f0800c2
-			public const int action_text = 2131230914;
+			// aapt resource value: 0x7f0800c3
+			public const int action_text = 2131230915;
 			
-			// aapt resource value: 0x7f0800d0
-			public const int actions = 2131230928;
+			// aapt resource value: 0x7f0800d1
+			public const int actions = 2131230929;
 			
 			// aapt resource value: 0x7f08005d
 			public const int activity_chooser_view_content = 2131230813;
@@ -2459,8 +2459,11 @@ namespace IOT_app
 			// aapt resource value: 0x7f0800ba
 			public const int btn_quick_stop = 2131230906;
 			
-			// aapt resource value: 0x7f0800d8
-			public const int btn_set_time = 2131230936;
+			// aapt resource value: 0x7f0800d9
+			public const int btn_set_time = 2131230937;
+			
+			// aapt resource value: 0x7f0800c0
+			public const int btn_time_management = 2131230912;
 			
 			// aapt resource value: 0x7f080094
 			public const int button1 = 2131230868;
@@ -2468,8 +2471,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;
 			
-			// aapt resource value: 0x7f0800c4
-			public const int cancel_action = 2131230916;
+			// aapt resource value: 0x7f0800c5
+			public const int cancel_action = 2131230917;
 			
 			// aapt resource value: 0x7f08008e
 			public const int cb_calendar = 2131230862;
@@ -2501,8 +2504,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080073
 			public const int checkbox = 2131230835;
 			
-			// aapt resource value: 0x7f0800cc
-			public const int chronometer = 2131230924;
+			// aapt resource value: 0x7f0800cd
+			public const int chronometer = 2131230925;
 			
 			// aapt resource value: 0x7f08004e
 			public const int clip_horizontal = 2131230798;
@@ -2552,8 +2555,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080020
 			public const int disableHome = 2131230752;
 			
-			// aapt resource value: 0x7f0800d5
-			public const int dt_picker = 2131230933;
+			// aapt resource value: 0x7f0800d6
+			public const int dt_picker = 2131230934;
 			
 			// aapt resource value: 0x7f08007e
 			public const int edit_query = 2131230846;
@@ -2561,8 +2564,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080030
 			public const int end = 2131230768;
 			
-			// aapt resource value: 0x7f0800d2
-			public const int end_padder = 2131230930;
+			// aapt resource value: 0x7f0800d3
+			public const int end_padder = 2131230931;
 			
 			// aapt resource value: 0x7f08003f
 			public const int enterAlways = 2131230783;
@@ -2621,8 +2624,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f0800bc
 			public const int header_main2 = 2131230908;
 			
-			// aapt resource value: 0x7f0800d3
-			public const int header_time = 2131230931;
+			// aapt resource value: 0x7f0800d4
+			public const int header_time = 2131230932;
 			
 			// aapt resource value: 0x7f080005
 			public const int home = 2131230725;
@@ -2633,8 +2636,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080062
 			public const int icon = 2131230818;
 			
-			// aapt resource value: 0x7f0800d1
-			public const int icon_group = 2131230929;
+			// aapt resource value: 0x7f0800d2
+			public const int icon_group = 2131230930;
 			
 			// aapt resource value: 0x7f08003a
 			public const int ifRoom = 2131230778;
@@ -2642,8 +2645,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f08005f
 			public const int image = 2131230815;
 			
-			// aapt resource value: 0x7f0800cd
-			public const int info = 2131230925;
+			// aapt resource value: 0x7f0800ce
+			public const int info = 2131230926;
 			
 			// aapt resource value: 0x7f080059
 			public const int italic = 2131230809;
@@ -2675,14 +2678,14 @@ namespace IOT_app
 			// aapt resource value: 0x7f080093
 			public const int lv_alarms = 2131230867;
 			
-			// aapt resource value: 0x7f0800db
-			public const int masked = 2131230939;
+			// aapt resource value: 0x7f0800dc
+			public const int masked = 2131230940;
 			
-			// aapt resource value: 0x7f0800c6
-			public const int media_actions = 2131230918;
+			// aapt resource value: 0x7f0800c7
+			public const int media_actions = 2131230919;
 			
-			// aapt resource value: 0x7f0800d9
-			public const int message = 2131230937;
+			// aapt resource value: 0x7f0800da
+			public const int message = 2131230938;
 			
 			// aapt resource value: 0x7f080031
 			public const int middle = 2131230769;
@@ -2705,14 +2708,14 @@ namespace IOT_app
 			// aapt resource value: 0x7f08001e
 			public const int normal = 2131230750;
 			
-			// aapt resource value: 0x7f0800cf
-			public const int notification_background = 2131230927;
+			// aapt resource value: 0x7f0800d0
+			public const int notification_background = 2131230928;
+			
+			// aapt resource value: 0x7f0800ca
+			public const int notification_main_column = 2131230922;
 			
 			// aapt resource value: 0x7f0800c9
-			public const int notification_main_column = 2131230921;
-			
-			// aapt resource value: 0x7f0800c8
-			public const int notification_main_column_container = 2131230920;
+			public const int notification_main_column_container = 2131230921;
 			
 			// aapt resource value: 0x7f08004c
 			public const int parallax = 2131230796;
@@ -2744,11 +2747,11 @@ namespace IOT_app
 			// aapt resource value: 0x7f08004a
 			public const int right = 2131230794;
 			
-			// aapt resource value: 0x7f0800ce
-			public const int right_icon = 2131230926;
+			// aapt resource value: 0x7f0800cf
+			public const int right_icon = 2131230927;
 			
-			// aapt resource value: 0x7f0800ca
-			public const int right_side = 2131230922;
+			// aapt resource value: 0x7f0800cb
+			public const int right_side = 2131230923;
 			
 			// aapt resource value: 0x7f08000c
 			public const int save_image_matrix = 2131230732;
@@ -2852,8 +2855,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f08004b
 			public const int start = 2131230795;
 			
-			// aapt resource value: 0x7f0800c5
-			public const int status_bar_latest_event_content = 2131230917;
+			// aapt resource value: 0x7f0800c6
+			public const int status_bar_latest_event_content = 2131230918;
 			
 			// aapt resource value: 0x7f080076
 			public const int submenuarrow = 2131230838;
@@ -2909,11 +2912,11 @@ namespace IOT_app
 			// aapt resource value: 0x7f0800af
 			public const int text_input_password_toggle = 2131230895;
 			
-			// aapt resource value: 0x7f0800d4
-			public const int text_select_date = 2131230932;
+			// aapt resource value: 0x7f0800d5
+			public const int text_select_date = 2131230933;
 			
-			// aapt resource value: 0x7f0800d6
-			public const int text_select_time = 2131230934;
+			// aapt resource value: 0x7f0800d7
+			public const int text_select_time = 2131230935;
 			
 			// aapt resource value: 0x7f0800bb
 			public const int text_status = 2131230907;
@@ -2924,8 +2927,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080015
 			public const int textinput_error = 2131230741;
 			
-			// aapt resource value: 0x7f0800cb
-			public const int time = 2131230923;
+			// aapt resource value: 0x7f0800cc
+			public const int time = 2131230924;
 			
 			// aapt resource value: 0x7f08001c
 			public const int title = 2131230748;
@@ -2945,8 +2948,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f0800a6
 			public const int touch_outside = 2131230886;
 			
-			// aapt resource value: 0x7f0800d7
-			public const int tp_picker = 2131230935;
+			// aapt resource value: 0x7f0800d8
+			public const int tp_picker = 2131230936;
 			
 			// aapt resource value: 0x7f08000f
 			public const int transition_current_scene = 2131230735;
@@ -2975,8 +2978,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f080016
 			public const int view_offset_helper = 2131230742;
 			
-			// aapt resource value: 0x7f0800da
-			public const int visible = 2131230938;
+			// aapt resource value: 0x7f0800db
+			public const int visible = 2131230939;
 			
 			// aapt resource value: 0x7f08003c
 			public const int withText = 2131230780;
@@ -3375,8 +3378,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f09001f
 			public const int bottom_sheet_behavior = 2131296287;
 			
-			// aapt resource value: 0x7f090041
-			public const int btn_alarm_create = 2131296321;
+			// aapt resource value: 0x7f090042
+			public const int btn_alarm_create = 2131296322;
 			
 			// aapt resource value: 0x7f090033
 			public const int btn_alarm_management = 2131296307;
@@ -3384,8 +3387,8 @@ namespace IOT_app
 			// aapt resource value: 0x7f09002e
 			public const int btn_cancel = 2131296302;
 			
-			// aapt resource value: 0x7f090040
-			public const int btn_connection_connect = 2131296320;
+			// aapt resource value: 0x7f090041
+			public const int btn_connection_connect = 2131296321;
 			
 			// aapt resource value: 0x7f090035
 			public const int btn_connection_management = 2131296309;
@@ -3399,35 +3402,38 @@ namespace IOT_app
 			// aapt resource value: 0x7f090032
 			public const int btn_quick_stop = 2131296306;
 			
-			// aapt resource value: 0x7f09004d
-			public const int btn_set_time = 2131296333;
+			// aapt resource value: 0x7f09004e
+			public const int btn_set_time = 2131296334;
 			
-			// aapt resource value: 0x7f090042
-			public const int cb_calendar = 2131296322;
+			// aapt resource value: 0x7f090036
+			public const int btn_time_management = 2131296310;
 			
-			// aapt resource value: 0x7f090046
-			public const int cb_light1 = 2131296326;
+			// aapt resource value: 0x7f090043
+			public const int cb_calendar = 2131296323;
 			
 			// aapt resource value: 0x7f090047
-			public const int cb_light2 = 2131296327;
+			public const int cb_light1 = 2131296327;
 			
 			// aapt resource value: 0x7f090048
-			public const int cb_light3 = 2131296328;
+			public const int cb_light2 = 2131296328;
 			
 			// aapt resource value: 0x7f090049
-			public const int cb_light4 = 2131296329;
+			public const int cb_light3 = 2131296329;
 			
 			// aapt resource value: 0x7f09004a
-			public const int cb_light5 = 2131296330;
+			public const int cb_light4 = 2131296330;
+			
+			// aapt resource value: 0x7f09004b
+			public const int cb_light5 = 2131296331;
 			
 			// aapt resource value: 0x7f090020
 			public const int character_counter_pattern = 2131296288;
 			
-			// aapt resource value: 0x7f09003e
-			public const int etext_connection_ip = 2131296318;
-			
 			// aapt resource value: 0x7f09003f
-			public const int etext_connection_port = 2131296319;
+			public const int etext_connection_ip = 2131296319;
+			
+			// aapt resource value: 0x7f090040
+			public const int etext_connection_port = 2131296320;
 			
 			// aapt resource value: 0x7f09002a
 			public const int header_alarm = 2131296298;
@@ -3465,35 +3471,35 @@ namespace IOT_app
 			// aapt resource value: 0x7f090026
 			public const int status_bar_notification_info_overflow = 2131296294;
 			
-			// aapt resource value: 0x7f090043
-			public const int text_alarm_explanation = 2131296323;
-			
 			// aapt resource value: 0x7f090044
-			public const int text_alarm_explanation2 = 2131296324;
-			
-			// aapt resource value: 0x7f09003d
-			public const int text_connection_config = 2131296317;
-			
-			// aapt resource value: 0x7f090039
-			public const int text_connection_ip = 2131296313;
-			
-			// aapt resource value: 0x7f09003a
-			public const int text_connection_ip_value = 2131296314;
-			
-			// aapt resource value: 0x7f09003b
-			public const int text_connection_port = 2131296315;
-			
-			// aapt resource value: 0x7f09003c
-			public const int text_connection_port_value = 2131296316;
-			
-			// aapt resource value: 0x7f090037
-			public const int text_connection_status = 2131296311;
-			
-			// aapt resource value: 0x7f090038
-			public const int text_connection_status_value = 2131296312;
+			public const int text_alarm_explanation = 2131296324;
 			
 			// aapt resource value: 0x7f090045
-			public const int text_lights_explanation = 2131296325;
+			public const int text_alarm_explanation2 = 2131296325;
+			
+			// aapt resource value: 0x7f09003e
+			public const int text_connection_config = 2131296318;
+			
+			// aapt resource value: 0x7f09003a
+			public const int text_connection_ip = 2131296314;
+			
+			// aapt resource value: 0x7f09003b
+			public const int text_connection_ip_value = 2131296315;
+			
+			// aapt resource value: 0x7f09003c
+			public const int text_connection_port = 2131296316;
+			
+			// aapt resource value: 0x7f09003d
+			public const int text_connection_port_value = 2131296317;
+			
+			// aapt resource value: 0x7f090038
+			public const int text_connection_status = 2131296312;
+			
+			// aapt resource value: 0x7f090039
+			public const int text_connection_status_value = 2131296313;
+			
+			// aapt resource value: 0x7f090046
+			public const int text_lights_explanation = 2131296326;
 			
 			// aapt resource value: 0x7f09002f
 			public const int text_main_header = 2131296303;
@@ -3501,14 +3507,14 @@ namespace IOT_app
 			// aapt resource value: 0x7f090030
 			public const int text_main_header2 = 2131296304;
 			
-			// aapt resource value: 0x7f09004b
-			public const int text_select_date = 2131296331;
-			
 			// aapt resource value: 0x7f09004c
-			public const int text_select_time = 2131296332;
+			public const int text_select_date = 2131296332;
 			
-			// aapt resource value: 0x7f090036
-			public const int text_status = 2131296310;
+			// aapt resource value: 0x7f09004d
+			public const int text_select_time = 2131296333;
+			
+			// aapt resource value: 0x7f090037
+			public const int text_status = 2131296311;
 			
 			static String()
 			{

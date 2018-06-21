@@ -29,9 +29,9 @@ int G11Alarm::check_alarms(date_time current_time)
         //Get the time difference in seconds
         int diff = alarm_time.difference(current_time);
 
-        if(kill)
+        if(stop_alarms)
         {
-            kill = false;
+            stop_alarms = false;
             return 3;
         }
 
@@ -78,7 +78,7 @@ void G11Alarm::snooze(int snooze_sec)
 
 void G11Alarm::kill(date_time current_time)
 {
-    kill = true;
+    stop_alarms = true;
 
     for(int i = 0; i < this->alarm_count; i++)
     {

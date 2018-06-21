@@ -23,7 +23,7 @@ private:
 
     bool snoozing = false;
     bool ringing = false;
-    bool kill = false;
+    bool stop_alarms = false;
 };
 
 #endif

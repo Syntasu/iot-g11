@@ -65,8 +65,6 @@
             android:id="@+id/btn_cancel"
             android:layout_below="@+id/btn_set_time"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:backgroundTint="#ffffbebe"
-            android:layout_marginLeft="0"
-            android:layout_marginRight="0" />
+            android:backgroundTint="#ffffbebe" />
     </RelativeLayout>
 </LinearLayout>

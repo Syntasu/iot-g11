@@ -78,5 +78,12 @@
             android:layout_below="@+id/btn_alarm_management"
             android:id="@+id/btn_light_management"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+        <Button
+            android:text="@string/btn_time_management"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_light_management"
+            android:id="@+id/btn_time_management"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 </LinearLayout>
