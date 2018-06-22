@@ -46,7 +46,7 @@
     <string name="text_alarm_name">Alarm name:</string>
     <string name="text_alarm_date">Alarm date:</string>
     <string name="text_alarm_time">Alarm time:</string>
-    <string name="btn_alarm_set">Add/Edit Alarm</string>
+    <string name="btn_alarm_set">Save alarm</string>
     <string name="btn_alarm_cancel">Cancel</string>
     
     <!-- Lights activity-->

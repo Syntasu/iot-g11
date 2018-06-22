@@ -67,12 +67,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tp_alarm_time"
             android:layout_marginTop="5dp"
-            android:id="@+id/btn_alarm_set" />
+            android:id="@+id/btn_alarm_set"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
         <Button
             android:text="@string/btn_alarm_cancel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_alarm_set"
-            android:id="@+id/btn_alarm_cancel" />
+            android:id="@+id/btn_alarm_cancel"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 </LinearLayout>

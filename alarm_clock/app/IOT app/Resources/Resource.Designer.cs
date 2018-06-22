@@ -26,6 +26,8 @@ namespace IOT_app
 		
 		public static void UpdateIdValues()
 		{
+			global::PCLStorage.Resource.String.ApplicationName = global::IOT_app.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::IOT_app.Resource.String.Hello;
 		}
 		
 		public partial class Animation
@@ -3312,6 +3314,12 @@ namespace IOT_app
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f090028
+			public const int ApplicationName = 2131296296;
+			
+			// aapt resource value: 0x7f090027
+			public const int Hello = 2131296295;
+			
 			// aapt resource value: 0x7f090000
 			public const int abc_action_bar_home_description = 2131296256;
 			
@@ -3399,11 +3407,11 @@ namespace IOT_app
 			// aapt resource value: 0x7f090010
 			public const int abc_toolbar_collapse_description = 2131296272;
 			
-			// aapt resource value: 0x7f090028
-			public const int action_settings = 2131296296;
+			// aapt resource value: 0x7f09002a
+			public const int action_settings = 2131296298;
 			
-			// aapt resource value: 0x7f090027
-			public const int app_name = 2131296295;
+			// aapt resource value: 0x7f090029
+			public const int app_name = 2131296297;
 			
 			// aapt resource value: 0x7f09001e
 			public const int appbar_scrolling_view_behavior = 2131296286;
@@ -3411,101 +3419,101 @@ namespace IOT_app
 			// aapt resource value: 0x7f09001f
 			public const int bottom_sheet_behavior = 2131296287;
 			
-			// aapt resource value: 0x7f09004b
-			public const int btn_alarm_cancel = 2131296331;
+			// aapt resource value: 0x7f09004d
+			public const int btn_alarm_cancel = 2131296333;
 			
-			// aapt resource value: 0x7f090043
-			public const int btn_alarm_create = 2131296323;
-			
-			// aapt resource value: 0x7f090034
-			public const int btn_alarm_management = 2131296308;
-			
-			// aapt resource value: 0x7f09004a
-			public const int btn_alarm_set = 2131296330;
-			
-			// aapt resource value: 0x7f09002f
-			public const int btn_cancel = 2131296303;
-			
-			// aapt resource value: 0x7f090042
-			public const int btn_connection_connect = 2131296322;
+			// aapt resource value: 0x7f090045
+			public const int btn_alarm_create = 2131296325;
 			
 			// aapt resource value: 0x7f090036
-			public const int btn_connection_management = 2131296310;
+			public const int btn_alarm_management = 2131296310;
 			
-			// aapt resource value: 0x7f090035
-			public const int btn_light_management = 2131296309;
+			// aapt resource value: 0x7f09004c
+			public const int btn_alarm_set = 2131296332;
 			
-			// aapt resource value: 0x7f090032
-			public const int btn_quick_snooze = 2131296306;
-			
-			// aapt resource value: 0x7f090033
-			public const int btn_quick_stop = 2131296307;
-			
-			// aapt resource value: 0x7f090054
-			public const int btn_set_time = 2131296340;
-			
-			// aapt resource value: 0x7f090037
-			public const int btn_time_management = 2131296311;
+			// aapt resource value: 0x7f090031
+			public const int btn_cancel = 2131296305;
 			
 			// aapt resource value: 0x7f090044
-			public const int cb_calendar = 2131296324;
+			public const int btn_connection_connect = 2131296324;
 			
-			// aapt resource value: 0x7f09004d
-			public const int cb_light1 = 2131296333;
+			// aapt resource value: 0x7f090038
+			public const int btn_connection_management = 2131296312;
 			
-			// aapt resource value: 0x7f09004e
-			public const int cb_light2 = 2131296334;
+			// aapt resource value: 0x7f090037
+			public const int btn_light_management = 2131296311;
+			
+			// aapt resource value: 0x7f090034
+			public const int btn_quick_snooze = 2131296308;
+			
+			// aapt resource value: 0x7f090035
+			public const int btn_quick_stop = 2131296309;
+			
+			// aapt resource value: 0x7f090056
+			public const int btn_set_time = 2131296342;
+			
+			// aapt resource value: 0x7f090039
+			public const int btn_time_management = 2131296313;
+			
+			// aapt resource value: 0x7f090046
+			public const int cb_calendar = 2131296326;
 			
 			// aapt resource value: 0x7f09004f
-			public const int cb_light3 = 2131296335;
+			public const int cb_light1 = 2131296335;
 			
 			// aapt resource value: 0x7f090050
-			public const int cb_light4 = 2131296336;
+			public const int cb_light2 = 2131296336;
 			
 			// aapt resource value: 0x7f090051
-			public const int cb_light5 = 2131296337;
+			public const int cb_light3 = 2131296337;
+			
+			// aapt resource value: 0x7f090052
+			public const int cb_light4 = 2131296338;
+			
+			// aapt resource value: 0x7f090053
+			public const int cb_light5 = 2131296339;
 			
 			// aapt resource value: 0x7f090020
 			public const int character_counter_pattern = 2131296288;
 			
-			// aapt resource value: 0x7f090059
-			public const int error_invalid_ip = 2131296345;
-			
-			// aapt resource value: 0x7f090058
-			public const int error_invalid_port = 2131296344;
-			
-			// aapt resource value: 0x7f090040
-			public const int etext_connection_ip = 2131296320;
-			
-			// aapt resource value: 0x7f090041
-			public const int etext_connection_port = 2131296321;
-			
-			// aapt resource value: 0x7f09002e
-			public const int header_addeditalarm = 2131296302;
-			
-			// aapt resource value: 0x7f09002a
-			public const int header_alarm = 2131296298;
-			
-			// aapt resource value: 0x7f09002b
-			public const int header_alarm2 = 2131296299;
-			
-			// aapt resource value: 0x7f090029
-			public const int header_connections = 2131296297;
-			
-			// aapt resource value: 0x7f09002c
-			public const int header_lights = 2131296300;
-			
-			// aapt resource value: 0x7f09002d
-			public const int header_time = 2131296301;
+			// aapt resource value: 0x7f09005b
+			public const int error_invalid_ip = 2131296347;
 			
 			// aapt resource value: 0x7f09005a
-			public const int info_connected = 2131296346;
+			public const int error_invalid_port = 2131296346;
 			
-			// aapt resource value: 0x7f09005b
-			public const int info_disconnected = 2131296347;
+			// aapt resource value: 0x7f090042
+			public const int etext_connection_ip = 2131296322;
+			
+			// aapt resource value: 0x7f090043
+			public const int etext_connection_port = 2131296323;
+			
+			// aapt resource value: 0x7f090030
+			public const int header_addeditalarm = 2131296304;
+			
+			// aapt resource value: 0x7f09002c
+			public const int header_alarm = 2131296300;
+			
+			// aapt resource value: 0x7f09002d
+			public const int header_alarm2 = 2131296301;
+			
+			// aapt resource value: 0x7f09002b
+			public const int header_connections = 2131296299;
+			
+			// aapt resource value: 0x7f09002e
+			public const int header_lights = 2131296302;
+			
+			// aapt resource value: 0x7f09002f
+			public const int header_time = 2131296303;
 			
 			// aapt resource value: 0x7f09005c
-			public const int na = 2131296348;
+			public const int info_connected = 2131296348;
+			
+			// aapt resource value: 0x7f09005d
+			public const int info_disconnected = 2131296349;
+			
+			// aapt resource value: 0x7f09005e
+			public const int na = 2131296350;
 			
 			// aapt resource value: 0x7f090021
 			public const int password_toggle_content_description = 2131296289;
@@ -3525,71 +3533,71 @@ namespace IOT_app
 			// aapt resource value: 0x7f090011
 			public const int search_menu_title = 2131296273;
 			
-			// aapt resource value: 0x7f090055
-			public const int sockerr_duplicate = 2131296341;
-			
 			// aapt resource value: 0x7f090057
-			public const int sockerr_failed = 2131296343;
+			public const int sockerr_duplicate = 2131296343;
 			
-			// aapt resource value: 0x7f090056
-			public const int sockerr_timeout = 2131296342;
+			// aapt resource value: 0x7f090059
+			public const int sockerr_failed = 2131296345;
+			
+			// aapt resource value: 0x7f090058
+			public const int sockerr_timeout = 2131296344;
 			
 			// aapt resource value: 0x7f090026
 			public const int status_bar_notification_info_overflow = 2131296294;
 			
-			// aapt resource value: 0x7f090048
-			public const int text_alarm_date = 2131296328;
-			
-			// aapt resource value: 0x7f090045
-			public const int text_alarm_explanation = 2131296325;
-			
-			// aapt resource value: 0x7f090046
-			public const int text_alarm_explanation2 = 2131296326;
+			// aapt resource value: 0x7f09004a
+			public const int text_alarm_date = 2131296330;
 			
 			// aapt resource value: 0x7f090047
-			public const int text_alarm_name = 2131296327;
+			public const int text_alarm_explanation = 2131296327;
+			
+			// aapt resource value: 0x7f090048
+			public const int text_alarm_explanation2 = 2131296328;
 			
 			// aapt resource value: 0x7f090049
-			public const int text_alarm_time = 2131296329;
+			public const int text_alarm_name = 2131296329;
 			
-			// aapt resource value: 0x7f09003f
-			public const int text_connection_config = 2131296319;
+			// aapt resource value: 0x7f09004b
+			public const int text_alarm_time = 2131296331;
 			
-			// aapt resource value: 0x7f09003b
-			public const int text_connection_ip = 2131296315;
-			
-			// aapt resource value: 0x7f09003c
-			public const int text_connection_ip_value = 2131296316;
+			// aapt resource value: 0x7f090041
+			public const int text_connection_config = 2131296321;
 			
 			// aapt resource value: 0x7f09003d
-			public const int text_connection_port = 2131296317;
+			public const int text_connection_ip = 2131296317;
 			
 			// aapt resource value: 0x7f09003e
-			public const int text_connection_port_value = 2131296318;
+			public const int text_connection_ip_value = 2131296318;
 			
-			// aapt resource value: 0x7f090039
-			public const int text_connection_status = 2131296313;
+			// aapt resource value: 0x7f09003f
+			public const int text_connection_port = 2131296319;
+			
+			// aapt resource value: 0x7f090040
+			public const int text_connection_port_value = 2131296320;
+			
+			// aapt resource value: 0x7f09003b
+			public const int text_connection_status = 2131296315;
+			
+			// aapt resource value: 0x7f09003c
+			public const int text_connection_status_value = 2131296316;
+			
+			// aapt resource value: 0x7f09004e
+			public const int text_lights_explanation = 2131296334;
+			
+			// aapt resource value: 0x7f090032
+			public const int text_main_header = 2131296306;
+			
+			// aapt resource value: 0x7f090033
+			public const int text_main_header2 = 2131296307;
+			
+			// aapt resource value: 0x7f090054
+			public const int text_select_date = 2131296340;
+			
+			// aapt resource value: 0x7f090055
+			public const int text_select_time = 2131296341;
 			
 			// aapt resource value: 0x7f09003a
-			public const int text_connection_status_value = 2131296314;
-			
-			// aapt resource value: 0x7f09004c
-			public const int text_lights_explanation = 2131296332;
-			
-			// aapt resource value: 0x7f090030
-			public const int text_main_header = 2131296304;
-			
-			// aapt resource value: 0x7f090031
-			public const int text_main_header2 = 2131296305;
-			
-			// aapt resource value: 0x7f090052
-			public const int text_select_date = 2131296338;
-			
-			// aapt resource value: 0x7f090053
-			public const int text_select_time = 2131296339;
-			
-			// aapt resource value: 0x7f090038
-			public const int text_status = 2131296312;
+			public const int text_status = 2131296314;
 			
 			static String()
 			{
