@@ -40,6 +40,9 @@ namespace IOT_app
             buttonKakuActivity.Click += (o, s) => StartActivity(typeof(KakuActivity));
             buttonTimeActivity.Click += (o, s) => StartActivity(typeof(TimeActivity));
 
+            buttonSnoozeAlarms.Click += (o, s) => SnoozeAlarms();
+            buttonStopAlarms.Click += (o, s) => StopAlarms();
+
             //Check if we have connection. Enable the quick menu when we do.
             if(SocketWorker.IsConnected)
             {
@@ -56,6 +59,16 @@ namespace IOT_app
                 buttonSnoozeAlarms.Enabled = false;
                 buttonStopAlarms.Enabled = false;
             }
+        }
+
+        private void SnoozeAlarms()
+        {
+            SocketWorker.Send(Commands.AlarmSnooze);
+        }
+
+        private void StopAlarms()
+        {
+            SocketWorker.Send(Commands.AlarmStop);
         }
     }
 }

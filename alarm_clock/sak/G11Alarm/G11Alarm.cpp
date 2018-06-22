@@ -17,6 +17,7 @@ void G11Alarm::schedule_alarm(date_time alarm_time)
 //Check if any of the alarms needs to be played.
 //CURRENT_TIME: The current time of the arduino.
 //RETURN: 0 = no event, 1 = ring, 2 = snooze, 3 = stop
+//TODO: After killing, the alarms stay in snooze mode...
 int G11Alarm::check_alarms(date_time current_time)
 {
     for(int i = 0; i < 8; i++)
@@ -29,6 +30,7 @@ int G11Alarm::check_alarms(date_time current_time)
         //Get the time difference in seconds
         int diff = alarm_time.difference(current_time);
 
+        //Tell the main code to stop sounding alarms.
         if(stop_alarms)
         {
             stop_alarms = false;
@@ -69,6 +71,7 @@ int G11Alarm::check_alarms(date_time current_time)
     }
 }
 
+//Snooze the alarm by a given amount of seconds.
 void G11Alarm::snooze(int snooze_sec)
 {
     snooze_countdown = snooze_sec;
@@ -76,6 +79,7 @@ void G11Alarm::snooze(int snooze_sec)
     snoozing = true;
 }
 
+//Kill all alarms!
 void G11Alarm::kill(date_time current_time)
 {
     stop_alarms = true;
@@ -98,6 +102,7 @@ void G11Alarm::kill(date_time current_time)
         }
     }
 
+    //Reset everything!
     snooze_countdown = 0;
     snooze_count = 0;
     snoozing = false;

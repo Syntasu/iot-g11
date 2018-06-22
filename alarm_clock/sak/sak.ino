@@ -11,7 +11,7 @@
 #define PIN_SPEAKER         9
 #define PIN_LDR             A0
 #define PIN_CLOCK_SDA       A4
-#define PIN_CLOCK_SCL       A3
+#define PIN_CLOCK_SCL       A5
 
 //Include pgmspace, spi and ethernet, so we can write to the program memory
 #include <avr/pgmspace.h>
@@ -33,7 +33,7 @@ G11Kaku m_kaku(28620750, PIN_RF_TRANSMITTER, 260, 3);
 G11Speaker m_speaker(PIN_SPEAKER);
 G11Time m_time;
 G11Alarm m_alarm;
-G11Ultrasone m_ultrasone;
+
 bool alarm_playing = false;
 
 void setup()
@@ -129,7 +129,7 @@ void time_update(int timeDelay)
 
   //Simulate the time based on the delay of one frame/iteration.
   //TODO: Replace this with RTC or time via internet.
-  m_time.sync_with_rtc();
+  m_time.simulate(timeDelay);
 }
 
 void alarm_update()
@@ -139,6 +139,7 @@ void alarm_update()
 
   //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
   int alarm_state = m_alarm.check_alarms(t);
+  Serial.println(alarm_state);
   
   if(alarm_state == 1)
   {
@@ -193,20 +194,5 @@ void cmd_alarm_stop(String command, String a0, String a1, String a2)
 {
   Serial.println("Stop!");
   m_alarm.kill(m_time.get_time());
-}
-void ultrasone_update()
-{
-  int state = m_ultrasone.alarm_off();
- 
-  if(state == 1)
-  {
-    m_alarm.snooze(10); //10 voor testing anders 600 
-    Serial.println("Snooze!");
-  }
-  else if(state == 2)
-  {
-    m_alarm.kill(m_time.get_time())
-     Serial.println("Stop!");
-  }
 }
 

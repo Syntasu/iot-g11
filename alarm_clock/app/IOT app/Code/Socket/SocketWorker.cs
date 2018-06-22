@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -34,9 +35,10 @@ namespace IOT_app.Code
         /// <returns></returns>
         public static SockErr Connect(string ip, int port)
         {
-            //We are already connected, you need to reset the worker first.
+            //We are already connected, you need to reset the worker first in order to reconnect
             if(IsConnected)
             {
+                Debug.WriteLine("Warning: trying to connect when we already have a connection.");
                 return SockErr.ConnectionDuplicate;
             }
 
@@ -50,9 +52,11 @@ namespace IOT_app.Code
                 IAsyncResult result = socket.BeginConnect(new IPEndPoint(ipAddr, port), null, null);
                 bool didNotTimeout = result.AsyncWaitHandle.WaitOne(500, true);
 
+                //If a timeout occured, reset the SocketWorker and make it known an timeout occured.
                 if(!didNotTimeout)
                 {
                     Reset();
+                    Debug.WriteLine("Socket connection timed out.");
                     return SockErr.ConnectionTimeout;
                 }
 
@@ -76,12 +80,14 @@ namespace IOT_app.Code
                 else
                 {
                     Reset();
+                    Debug.WriteLine("Warning: Trying to connect, but is silently failed");
                     return SockErr.ConnectionRefused;
                 }
             }
-            catch (SocketException)
+            catch (SocketException e)
             {
                 Reset();
+                Debug.WriteLine("Socket connection exception: " + e.Message);
                 return SockErr.ConnectionFailed;
             }
         }
@@ -98,14 +104,19 @@ namespace IOT_app.Code
         {
             //We cannot send data without an command. 
             if(string.IsNullOrEmpty(command))
-            { 
+            {
+                Debug.WriteLine("Warning: Trying to send command without specifying a command.");
                 return SockErr.SendErr;
             }
 
-            //Construct the payload
-            string[] toSend = { command, arg1, arg2, arg3 };
-            string sendStr = string.Join(";", toSend);
-            byte[] payload = Encoding.ASCII.GetBytes(sendStr);
+            string data = command + ";";
+
+            //Append the arguments to the end of the command string.
+            if(!string.IsNullOrEmpty(arg1)) data += arg1 + ";";
+            if(!string.IsNullOrEmpty(arg2)) data += arg2 + ";";
+            if(!string.IsNullOrEmpty(arg3)) data += arg3 + ";";
+
+            byte[] payload = Encoding.ASCII.GetBytes(data);
 
             //Send the messages, do error handling and sanity checking.
             if(IsConnected)
@@ -115,13 +126,18 @@ namespace IOT_app.Code
                     socket.Send(payload);
                     return SockErr.None;
                 }
-                catch(SocketException)
+                catch(SocketException e)
                 {
+                    Debug.WriteLine("Socket send exception" + e.Message);
                     return SockErr.SendFailed;
                 }
             }
+            else
+            {
+                Debug.WriteLine("Warning: Trying to send when the connection was not established.");
+                return SockErr.SendFailed;
+            }
 
-            return SockErr.SendFailed;
         }
 
         /// <summary>
@@ -139,12 +155,24 @@ namespace IOT_app.Code
                 {
                     //Read incoming.
                     int receivedBytes = socket.Receive(readBuffer);
+
+                    //Catch read overflows, for now we ignore the message.
+                    if(receivedBytes >= readBuffer.Length)
+                    {
+                        Debug.WriteLine("Warning: Read overflow, considering increasing the read buffer size or send less data.");
+                        return;
+                    }
+
                     string received = Encoding.ASCII.GetString(readBuffer, 0, receivedBytes);
                     OnSocketReceive?.Invoke(received);
                 }
-                catch (SocketException) { } //Woops! Reading failed.. not enough to tell to abort the connection... 
-                                            //we don't want to crash the application either. So that's why we have an empty try catch
-                          
+                //Woops! Reading failed.. not enough to say to abort the connection... 
+                //we don't want to crash the application either. Probably an error occured when reading the socket.
+                catch (SocketException e)
+                {
+                    Debug.WriteLine("Socket read exception: " + e.Message);
+                    return;
+                } 
             }
         }
 
