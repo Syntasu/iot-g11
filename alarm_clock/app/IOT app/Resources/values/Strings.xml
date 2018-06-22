@@ -8,6 +8,7 @@
     <string name="header_alarm2">Alarms</string>
     <string name="header_lights">Lights management</string>
     <string name="header_time"> Time management</string>
+    <string name="header_addeditalarm"> Add or edit alarms</string> 
 
     <!-- General strings -->
     <string name="btn_cancel">Back</string>
@@ -41,6 +42,13 @@
     <string name="text_alarm_explanation">Automatic scheduling will take the first item from your calendar and wake you up 1 hour ahead of time. If there are no items, the alarm will not go off.</string>
     <string name="text_alarm_explanation2">Tap one of the alarms to edit them or remove the alarm entirely.</string>
 
+    <!-- Add/Edit alarm activity-->
+    <string name="text_alarm_name">Alarm name:</string>
+    <string name="text_alarm_date">Alarm date:</string>
+    <string name="text_alarm_time">Alarm time:</string>
+    <string name="btn_alarm_set">Add/Edit Alarm</string>
+    <string name="btn_alarm_cancel">Cancel</string>
+    
     <!-- Lights activity-->
     <string name="text_lights_explanation">Select one of the following to turn the socket on when the alarm rings.</string>
     <string name="cb_light1">Light socket 1</string>
@@ -55,7 +63,7 @@
     <string name="btn_set_time">Set date and time</string>
 
     
-    <!-- String for code-->
+    <!-- Strings in code-->
     <string name="sockerr_duplicate">There is already an active connection</string>
     <string name="sockerr_timeout">The connection has timed out</string>
     <string name="sockerr_failed">An error has occured whilest connecting</string>
@@ -64,8 +72,4 @@
     <string name="info_connected">Connected</string>
     <string name="info_disconnected">Disconnected</string>
     <string name="na">n.a.</string>
-
-
-
-
 </resources>

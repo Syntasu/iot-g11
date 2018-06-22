@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="@string/header_addeditalarm"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header_addeditalarm"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:text="@string/text_alarm_name"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_alarm_name" />
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_alarm_name"
+            android:id="@+id/etext_alarm_name"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:text="@string/text_alarm_date"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etext_alarm_name"
+            android:id="@+id/text_alarm_date"
+            android:layout_marginTop="5dp" />
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_alarm_date"
+            android:id="@+id/dt_alarm_date"
+            android:datePickerMode="spinner"
+            android:minWidth="25px"
+            android:minHeight="25px" />
+        <TextView
+            android:text="@string/text_alarm_time"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dt_alarm_date"
+            android:id="@+id/text_alarm_time"
+            android:layout_marginTop="5dp" />
+        <TimePicker
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_alarm_time"
+            android:id="@+id/tp_alarm_time"
+            android:timePickerMode="spinner" />
+        <Button
+            android:text="@string/btn_alarm_set"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tp_alarm_time"
+            android:layout_marginTop="5dp"
+            android:id="@+id/btn_alarm_set" />
+        <Button
+            android:text="@string/btn_alarm_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_alarm_set"
+            android:id="@+id/btn_alarm_cancel" />
+    </RelativeLayout>
+</LinearLayout>

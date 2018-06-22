@@ -55,6 +55,7 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddEditAlarmActivity.cs" />
     <Compile Include="AlarmActivity.cs" />
     <Compile Include="Code\Alarm.cs" />
     <Compile Include="Code\AlarmAdapter.cs" />
@@ -131,6 +132,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Time.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AddEditAlarm.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
