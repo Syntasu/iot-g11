@@ -6,7 +6,6 @@ using IOT_app.Code;
 using IOT_app.Code.IO;
 using System;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace IOT_app
 {
@@ -28,12 +27,8 @@ namespace IOT_app
             base.OnCreate(savedInstanceState);
             base.SetContentView(Resource.Layout.Alarm);
 
-            //await IOWorker.WriteAlarmFile(alarms);
             List<Alarm> a = await IOWorker.ReadAlarmFile();
             alarms = a;
-
-            //IOWorker.SaveAlarms(alarms);
-
 
             btnAlarmCreate = FindViewById<Button>(Resource.Id.btn_alarm_create);
             btnAlarmCreate.Click += (o, s) => GotoAddEditAlarmsActivity(null);
@@ -44,17 +39,25 @@ namespace IOT_app
             lv_alarms.Adapter = alarmAdapter;
         }
 
-        private void GotoAddEditAlarmsActivity(Alarm alarm)
+        private async void GotoAddEditAlarmsActivity(Alarm alarm)
         {
+            //Save the current alarms.
+            await IOWorker.SaveAlarmFile(alarms);
+
+            //If the given alarm is not null, we are editing an existing one.
+            //There for we pass the alarm in question via the Intent.
             if(alarm != null)
             {
                 Intent intent = new Intent(this, typeof(AddEditAlarmActivity));
                 intent.PutExtra("alarm", alarm.Serialize());
                 StartActivity(intent);
             }
+            //If we do not have given an alarm, we are creating a new one.
             else
             {
-                StartActivity(typeof(AddEditAlarmActivity));
+                Intent intent = new Intent(this, typeof(AddEditAlarmActivity));
+                intent.PutExtra("alarm", "");
+                StartActivity(intent);
             }
         }
     }
