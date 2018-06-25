@@ -64,10 +64,17 @@
             android:id="@+id/btn_alarm_set"
             android:textAppearance="?android:attr/textAppearanceSmall" />
         <Button
-            android:text="@string/btn_alarm_cancel"
+            android:text="@string/btn_alarm_remove"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_alarm_set"
+            android:id="@+id/btn_alarm_remove"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <Button
+            android:text="@string/btn_alarm_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_alarm_remove"
             android:id="@+id/btn_alarm_cancel"
             android:textAppearance="?android:attr/textAppearanceSmall" />
         <TextView

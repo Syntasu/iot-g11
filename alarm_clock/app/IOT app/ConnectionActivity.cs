@@ -25,13 +25,12 @@ namespace IOT_app
             base.OnCreate(savedInstanceState);
             base.SetContentView(Resource.Layout.Connection);
 
+            //Find all the elements from the view.
             textConnectionStatus = FindViewById<TextView>(Resource.Id.text_connection_status_value);
             textIpAddress = FindViewById<TextView>(Resource.Id.text_connection_ip_value);
             textPort = FindViewById<TextView>(Resource.Id.text_connection_port_value);
-
             editTextIp = FindViewById<EditText>(Resource.Id.etext_connection_ip);
             editTextPort = FindViewById<EditText>(Resource.Id.etext_connection_port);
-
             buttonConnect = FindViewById<Button>(Resource.Id.btn_connection_connect);
             buttonBack = FindViewById<Button>(Resource.Id.btn_connection_back);
 
@@ -136,6 +135,7 @@ namespace IOT_app
             }
         }
 
+        //Update the connection details in the UI.
         private void SetConnectionDetails()
         {
             if(SocketWorker.IsConnected)

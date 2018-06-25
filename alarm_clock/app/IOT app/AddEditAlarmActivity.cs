@@ -13,13 +13,15 @@ namespace IOT_app
     public class AddEditAlarmActivity : Activity
     {
         private Button btnSetButton;
+        private Button btnCancel;
+        private Button btnRemove;
         private EditText editTextAlarmName;
         private DatePicker dpAlarmDatePicker;
         private NumberPicker npAlarmHourNumberPicker;
         private NumberPicker npAlarmMinutesNumberPicker;
 
         private List<Alarm> alarms = new List<Alarm>();
-        private Alarm alarmInQuestion = null;
+        private Alarm currentAlarm = null;
 
         protected async override void OnCreate(Bundle savedInstanceState)
         {
@@ -28,6 +30,8 @@ namespace IOT_app
 
             //Load elements from view.
             btnSetButton = FindViewById<Button>(Resource.Id.btn_alarm_set);
+            btnCancel = FindViewById<Button>(Resource.Id.btn_alarm_cancel);
+            btnRemove = FindViewById<Button>(Resource.Id.btn_alarm_remove);
             editTextAlarmName = FindViewById<EditText>(Resource.Id.etext_alarm_name);
             dpAlarmDatePicker = FindViewById<DatePicker>(Resource.Id.dt_alarm_date);
             npAlarmHourNumberPicker = FindViewById<NumberPicker>(Resource.Id.np_alarm_hour);
@@ -49,16 +53,20 @@ namespace IOT_app
             //Read in existing values or use a default values.
             if (!string.IsNullOrEmpty(serializedAlarm))
             {
-                alarmInQuestion = JsonConvert.DeserializeObject<Alarm>(serializedAlarm);
-                SetAlarmFields(alarmInQuestion.Name, alarmInQuestion.Time);
+                currentAlarm = JsonConvert.DeserializeObject<Alarm>(serializedAlarm);
+                SetAlarmFields(currentAlarm.Name, currentAlarm.Time);
+                //btnRemove.Enabled = true;
             }
             else
             {
                 SetAlarmFields("", DateTime.Now);
+                //btnRemove.Enabled = false;
             }
 
             //Bind elements to method(s).
             btnSetButton.Click += (o, s) => SaveAlarms();
+            btnRemove.Click += (o, s) => DeleteAlarm();
+            btnCancel.Click += (o, s) => StartActivity(typeof(AlarmActivity));
         }
 
         /// <summary>
@@ -86,15 +94,30 @@ namespace IOT_app
             //Validate if the user input is valid.
             if(ValidAlarmInputs(out string name, out DateTime time))
             {
-                //Construct a new alarm and add it to the temporary list.
-                Alarm alarm = new Alarm(name, time);
-                tempAlarmList.Add(alarm);
-
-                //Copy over the alarms list, skip any modified alarms.
-                foreach (Alarm a in alarms)
+                //We are modifying an existing alarm
+                if (currentAlarm != null)
                 {
-                    if(a.Id != alarmInQuestion.Id)
+                    currentAlarm.Name = name;
+                    currentAlarm.Time = time;
+                    tempAlarmList.Add(currentAlarm);
+
+                    //Copy over the alarms list, skip any duplicates.
+                    foreach (Alarm a in alarms)
                     {
+                        if (currentAlarm.Id == a.Id) continue;
+                        tempAlarmList.Add(a);
+                    }
+                }
+                //If we are adding a new alarm..
+                else
+                {
+                    Alarm alarm = new Alarm(name, time);
+                    tempAlarmList.Add(alarm);
+
+                    //Copy over the alarms list, skip any duplicates.
+                    foreach (Alarm a in alarms)
+                    {
+                        if (alarm.Id == a.Id) continue;
                         tempAlarmList.Add(a);
                     }
                 }
@@ -125,9 +148,9 @@ namespace IOT_app
             string name = editTextAlarmName.Text;
 
             //Check if the user supplied a name.
-            if (string.IsNullOrEmpty(name) || name.Length > 100)
+            if (string.IsNullOrEmpty(name) || name.Length > 30)
             {
-                Toast.MakeText(this, Resource.String.toast_alarm_name_invalid, ToastLength.Long);
+                Toast.MakeText(this, Resource.String.toast_alarm_name_invalid, ToastLength.Long).Show();
                 alarmName = "";
                 alarmTime = DateTime.Now;
                 return false;
@@ -137,7 +160,7 @@ namespace IOT_app
             alarmName = name;
             alarmTime = new DateTime(
                 date.Year, date.Month, date.Day,    //Take the part from the datepicker
-                hours, minutes, 0                   //Take the part from the time picker.                 
+                hours, minutes, 0                   //Take the part from the timepicker.                 
             );
 
             TimeSpan difference = alarmTime - DateTime.Now;
@@ -147,11 +170,36 @@ namespace IOT_app
             {
                 alarmName = "";
                 alarmTime = DateTime.Now;
-                Toast.MakeText(this, Resource.String.toast_alarm_time_invalid, ToastLength.Long);
+                Toast.MakeText(this, Resource.String.toast_alarm_time_invalid, ToastLength.Long).Show();
                 return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        ///     Remove an alarm from the alarms list.
+        /// </summary>
+        private async void DeleteAlarm()
+        {
+            //Copy over the alarms we want to keep.
+            List<Alarm> tempAlarms = new List<Alarm>();
+
+            foreach (var a in alarms)
+            {
+                if(a.Id != currentAlarm.Id)
+                {
+                    tempAlarms.Add(a);
+                }
+            }
+
+            alarms = tempAlarms;
+
+            //Save the alarms
+            await IOWorker.SaveAlarmFile(alarms);
+
+            //Return to main screen.
+            StartActivity(typeof(AlarmActivity));
         }
     }
 }

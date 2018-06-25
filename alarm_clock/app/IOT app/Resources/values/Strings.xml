@@ -50,6 +50,7 @@
     <string name="text_alarm_minutes">Minutes:</string>
     <string name="btn_alarm_set">Save alarm</string>
     <string name="btn_alarm_cancel">Cancel</string>
+    <string name="btn_alarm_remove">Remove alarm</string>
     
     <!-- Lights activity-->
     <string name="text_lights_explanation">Select one of the following to turn the socket on when the alarm rings.</string>
