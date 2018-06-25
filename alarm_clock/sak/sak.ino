@@ -136,6 +136,8 @@ void time_update(int timeDelay)
   m_time.sync_with_rtc();
 }
 
+ 
+
 void alarm_update()
 {
   //Grab the current time.
@@ -147,11 +149,16 @@ void alarm_update()
   
   if(alarm_state == 1)
   {
+    
     if(!alarm_playing)
-    {
-      m_speaker.play(0, true);
-      m_kaku.set_kaku(0, true);
-      m_kaku.set_kaku(1, true);
+    { 
+      int val = m_sensors.give_ldrval();
+      if( val < 100)                      //300-400 is daglicht in huis
+      {
+        m_speaker.play(0, true);
+        m_kaku.set_kaku(0, true);
+        m_kaku.set_kaku(1, true);
+      }
       alarm_playing = true;
     }
   }
@@ -161,8 +168,8 @@ void alarm_update()
     if(alarm_playing)
     {
       m_speaker.stop();
-      m_kaku.set_kaku(0, false);
-      m_kaku.set_kaku(1, false);
+     // m_kaku.set_kaku(0, false); lights should not go out if alarm stops
+     // m_kaku.set_kaku(1, false); 
       alarm_playing = false;
     }
   }
