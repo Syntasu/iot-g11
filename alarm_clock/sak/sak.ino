@@ -5,9 +5,9 @@
 #define PIN_DISPLAY_DATA    2
 #define PIN_DISPLAY_CLK     3
 #define PIN_DISPLAY_CS      4
-#define PIN_RF_TRANSMITTER  5
-#define PIN_SNOOZE_BUTTON   6
-#define PIN_DHT11_SENSOR    7
+#define PIN_RF_TRANSMITTER  8
+#define PIN_SNOOZE_BUTTON   A2
+#define PIN_DHT11_SENSOR    A1
 #define PIN_SPEAKER         9
 #define PIN_LDR             A0
 #define PIN_CLOCK_SDA       A4
