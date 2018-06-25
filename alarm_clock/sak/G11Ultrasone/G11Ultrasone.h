@@ -16,8 +16,8 @@ private:
 	int sum;
 	int SensVals[6];
 	int count = 0;
-	int trigPin = 6;
-	int echoPin = 8;
+	int trigPin = A2;
+	int echoPin = A3;
 };
 
 #endif

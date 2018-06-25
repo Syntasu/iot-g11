@@ -18,7 +18,7 @@ public:
 private:
 	float hum;
 	float temp;
-	DHT dht = DHT(7, DHT11);
+	DHT dht = DHT(A1, DHT11);
 	int ldrval;
 };
 

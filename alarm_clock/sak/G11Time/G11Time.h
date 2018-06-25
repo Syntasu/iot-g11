@@ -22,7 +22,12 @@ private:
     date_time current_time;
     String padValue(int);
 	Time t;
-	DS1302 rtc = DS1302(19,18,17);
+
+	
+	 int kCePin = 0;  // Chip Enable / rst
+	 int kIoPin = A4;  // DATA 
+	 int kSclkPin = A5;  // Serial Clock		
+	 DS1302 rtc = DS1302(kCePin, kIoPin, kSclkPin);  // Create a DS1302 object.
 };
 
 #endif
