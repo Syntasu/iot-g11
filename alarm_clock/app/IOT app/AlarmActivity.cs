@@ -15,12 +15,7 @@ namespace IOT_app
         private Button btnAlarmCreate;
 
         private ListView lv_alarms;
-        private List<Alarm> alarms = new List<Alarm>
-        {
-            new Alarm("Hel", DateTime.Now),
-            new Alarm("World Peace", DateTime.Now),
-            new Alarm("Google calendar", DateTime.Now),
-        };
+        private List<Alarm> alarms = new List<Alarm>();
 
         protected override async void OnCreate(Bundle savedInstanceState)
         {
@@ -34,9 +29,22 @@ namespace IOT_app
             btnAlarmCreate.Click += (o, s) => GotoAddEditAlarmsActivity(null);
 
             lv_alarms = FindViewById<ListView>(Resource.Id.lv_alarms);
+            lv_alarms.ItemClick += OnClickAlarm;
 
             AlarmAdapter alarmAdapter = new AlarmAdapter(this, alarms);
             lv_alarms.Adapter = alarmAdapter;
+        }
+
+        private void OnClickAlarm(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            if(e.Position < 0 || e.Position >= alarms.Count)
+            {
+                Toast.MakeText(this, $"Index {e.Position} is out of bounds...", ToastLength.Long);
+                return;
+            }
+
+            Alarm alarm = alarms[e.Position];
+            GotoAddEditAlarmsActivity(alarm);
         }
 
         private async void GotoAddEditAlarmsActivity(Alarm alarm)

@@ -65,7 +65,7 @@ namespace IOT_app
         ///     Set all the values in the user interface.
         /// </summary>
         /// <param name="name"> Name of the alarm. </param>
-        /// <param name="time"> THe time of the alarm. </param>
+        /// <param name="time"> The time of the alarm. </param>
         private void SetAlarmFields(string name, DateTime time)
         {
             //Populate the fields if we receive an existing alarm.
@@ -93,7 +93,7 @@ namespace IOT_app
                 //Copy over the alarms list, skip any modified alarms.
                 foreach (Alarm a in alarms)
                 {
-                    if(a.Name != name)
+                    if(a.Id != alarmInQuestion.Id)
                     {
                         tempAlarmList.Add(a);
                     }
@@ -125,7 +125,7 @@ namespace IOT_app
             string name = editTextAlarmName.Text;
 
             //Check if the user supplied a name.
-            if (string.IsNullOrEmpty(name) || name.Length > 20)
+            if (string.IsNullOrEmpty(name) || name.Length > 100)
             {
                 Toast.MakeText(this, Resource.String.toast_alarm_name_invalid, ToastLength.Long);
                 alarmName = "";
