@@ -25,6 +25,8 @@
 #include <G11Time.h>
 #include <G11Speaker.h>
 #include <G11Alarm.h>
+#include <G11Sensors.h>
+#include <G11Ultrasone.h>
 
 //Create an instance of all our classes (defined in the header files).
 G11Util m_util;
@@ -33,6 +35,8 @@ G11Kaku m_kaku(28620750, PIN_RF_TRANSMITTER, 260, 3);
 G11Speaker m_speaker(PIN_SPEAKER);
 G11Time m_time;
 G11Alarm m_alarm;
+G11Ultrasone m_ultrasone;
+G11Sensors m_sensors;
 
 bool alarm_playing = false;
 
@@ -129,7 +133,7 @@ void time_update(int timeDelay)
 
   //Simulate the time based on the delay of one frame/iteration.
   //TODO: Replace this with RTC or time via internet.
-  m_time.simulate(timeDelay);
+  m_time.sync_with_rtc();
 }
 
 void alarm_update()
@@ -194,5 +198,23 @@ void cmd_alarm_stop(String command, String a0, String a1, String a2)
 {
   Serial.println("Stop!");
   m_alarm.kill(m_time.get_time());
+}
+
+void ultrasone_update()
+{
+ 
+    int state = m_ultrasone.alarm_off();
+ 
+    if(state == 1)
+   {
+      m_alarm.snooze(10); //10 voor testing anders 600 
+     Serial.println("Snooze!");
+    }
+   else if(state == 2)
+   {
+     m_alarm.kill(m_time.get_time())
+       Serial.println("Stop!");
+   }
+  
 }
 
