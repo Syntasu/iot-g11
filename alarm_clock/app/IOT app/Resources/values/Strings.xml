@@ -46,6 +46,8 @@
     <string name="text_alarm_name">Alarm name:</string>
     <string name="text_alarm_date">Alarm date:</string>
     <string name="text_alarm_time">Alarm time:</string>
+    <string name="text_alarm_time_hour">Hour:</string>
+    <string name="text_alarm_minutes">Minutes:</string>
     <string name="btn_alarm_set">Save alarm</string>
     <string name="btn_alarm_cancel">Cancel</string>
     
@@ -62,8 +64,7 @@
     <string name="text_select_time">Select the time:</string>
     <string name="btn_set_time">Set date and time</string>
 
-    
-    <!-- Strings in code-->
+    <!-- Toasts -->
     <string name="sockerr_duplicate">There is already an active connection</string>
     <string name="sockerr_timeout">The connection has timed out</string>
     <string name="sockerr_failed">An error has occured whilest connecting</string>
@@ -72,4 +73,7 @@
     <string name="info_connected">Connected</string>
     <string name="info_disconnected">Disconnected</string>
     <string name="na">n.a.</string>
+    <string name="toast_alarm_name_invalid"> The given alarm name is invalid</string>
+    <string name="toast_alarm_time_invalid"> You cannot schedule alarms in the past.</string>
+
 </resources>

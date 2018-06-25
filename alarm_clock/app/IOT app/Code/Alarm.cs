@@ -9,6 +9,10 @@ namespace IOT_app.Code
         public string Name { get; set; }
         public DateTime Time { get; set; }
 
+        //Empty constructor, to make the serializer shut up about
+        //not having a default constructor...
+        public Alarm() { }
+
         //Construct alarm from serialized string.
         public Alarm(string serializedString)
         {

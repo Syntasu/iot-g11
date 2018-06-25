@@ -55,17 +55,11 @@
             android:layout_below="@+id/dt_alarm_date"
             android:id="@+id/text_alarm_time"
             android:layout_marginTop="5dp" />
-        <TimePicker
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_alarm_time"
-            android:id="@+id/tp_alarm_time"
-            android:timePickerMode="spinner" />
         <Button
             android:text="@string/btn_alarm_set"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tp_alarm_time"
+            android:layout_below="@+id/np_alarm_hour"
             android:layout_marginTop="5dp"
             android:id="@+id/btn_alarm_set"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -76,5 +70,37 @@
             android:layout_below="@+id/btn_alarm_set"
             android:id="@+id/btn_alarm_cancel"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:text="@string/text_alarm_time_hour"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_alarm_time"
+            android:id="@+id/text_alarm_hour" />
+        <NumberPicker
+            android:layout_width="200dp"
+            android:layout_below="@+id/text_alarm_hour"
+            android:id="@+id/np_alarm_hour"
+            android:contextClickable="false"
+            android:layout_height="120dp"
+            android:minWidth="25px"
+            android:minHeight="25px" />
+        <NumberPicker
+            android:layout_width="fill_parent"
+            android:layout_toRightOf="@+id/np_alarm_hour"
+            android:id="@+id/np_alarm_minute"
+            android:contextClickable="false"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="false"
+            android:layout_below="@+id/text_alarm_hour"
+            android:layout_marginLeft="5dp" />
+        <TextView
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/text_alarm_hour"
+            android:id="@+id/textView1"
+            android:layout_below="@+id/text_alarm_time" />
     </RelativeLayout>
 </LinearLayout>
