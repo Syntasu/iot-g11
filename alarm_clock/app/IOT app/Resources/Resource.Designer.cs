@@ -2470,6 +2470,9 @@ namespace IOT_app
 			// aapt resource value: 0x7f0800cd
 			public const int btn_light_management = 2131230925;
 			
+			// aapt resource value: 0x7f0800c3
+			public const int btn_lights_cancel = 2131230915;
+			
 			// aapt resource value: 0x7f0800c7
 			public const int btn_quick_snooze = 2131230919;
 			
@@ -2481,9 +2484,6 @@ namespace IOT_app
 			
 			// aapt resource value: 0x7f0800ce
 			public const int btn_time_management = 2131230926;
-			
-			// aapt resource value: 0x7f0800c3
-			public const int button1 = 2131230915;
 			
 			// aapt resource value: 0x7f080063
 			public const int buttonPanel = 2131230819;

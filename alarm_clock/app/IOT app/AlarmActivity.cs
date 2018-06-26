@@ -28,8 +28,12 @@ namespace IOT_app
             btnAlarmCancel = FindViewById<Button>(Resource.Id.btnAlarmCancel);
             
             //Grab the alarms file from disk and add it to the list we want to display.
-            List<Alarm> a = await IOWorker.ReadAlarmFile();
-            alarms = a;
+            List<Alarm> a = await IOWorker.ReadFile<List<Alarm>>(AppFiles.Alarm);
+
+            if (a != null)
+            {
+                alarms = a;
+            }
 
             //Add event listeners for various events.
             btnAlarmCreate.Click += (o, s) => GotoAddEditAlarmsActivity(null);  //Goto add alarm.
@@ -66,7 +70,7 @@ namespace IOT_app
         private async void GotoAddEditAlarmsActivity(Alarm alarm)
         {
             //Save the current alarms.
-            await IOWorker.SaveAlarmFile(alarms);
+            await IOWorker.SaveFile(AppFiles.Alarm, AppFileExtension.JSON, alarms);
 
             //If the given alarm is not null, we are editing an existing one.
             //There for we pass the alarm in question via the Intent.

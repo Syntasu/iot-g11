@@ -26,7 +26,9 @@ namespace IOT_app
             base.SetContentView(Resource.Layout.main);
 
             //TODO: REMOVE;
-            await IOWorker.ClearAlarmFile();
+            //await IOWorker.ClearFile(AppFiles.Alarm, AppFileExtension.JSON);
+            //await IOWorker.ClearFile(AppFiles.LightSocket, AppFileExtension.JSON);
+
 
             //Fetch the buttons.
             buttonSnoozeAlarms = FindViewById<Button>(Resource.Id.btn_quick_snooze);

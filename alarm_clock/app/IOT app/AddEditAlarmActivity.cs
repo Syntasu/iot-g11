@@ -46,7 +46,7 @@ namespace IOT_app
             npAlarmMinutesNumberPicker.MaxValue = 59;
 
             //Load the current alarms from disk.
-            alarms = await IOWorker.ReadAlarmFile();
+            alarms = await IOWorker.ReadFile<List<Alarm>>(AppFiles.Alarm);
 
             string serializedAlarm = Intent.GetStringExtra("alarm");
 
@@ -97,9 +97,12 @@ namespace IOT_app
                 //We are modifying an existing alarm
                 if (currentAlarm != null)
                 {
+                    //Apply changes to existing alarm.
                     currentAlarm.Name = name;
                     currentAlarm.Time = time;
                     tempAlarmList.Add(currentAlarm);
+
+                    //TODO: Sync with arduino. (modified alarm)
 
                     //Copy over the alarms list, skip any duplicates.
                     foreach (Alarm a in alarms)
@@ -111,8 +114,11 @@ namespace IOT_app
                 //If we are adding a new alarm..
                 else
                 {
+                    //Create a new alarm.
                     Alarm alarm = new Alarm(name, time);
                     tempAlarmList.Add(alarm);
+
+                    //TODO: Sync with arduino (new alarm).
 
                     //Copy over the alarms list, skip any duplicates.
                     foreach (Alarm a in alarms)
@@ -124,7 +130,7 @@ namespace IOT_app
 
                 //Save the new alarm array.
                 alarms = tempAlarmList;
-                await IOWorker.SaveAlarmFile(alarms);
+                await IOWorker.SaveFile(AppFiles.Alarm, AppFileExtension.JSON, alarms);
 
                 //Go back to the main alarm form.
                 StartActivity(typeof(AlarmActivity));
@@ -196,7 +202,7 @@ namespace IOT_app
             alarms = tempAlarms;
 
             //Save the alarms
-            await IOWorker.SaveAlarmFile(alarms);
+            await IOWorker.SaveFile(AppFiles.Alarm, AppFileExtension.JSON, alarms);
 
             //Return to main screen.
             StartActivity(typeof(AlarmActivity));

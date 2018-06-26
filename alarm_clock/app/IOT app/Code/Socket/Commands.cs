@@ -7,6 +7,7 @@
         public static string AlarmAdd = "alarm_add";
         public static string AlarmRemove = "alarm_remove";
 
+        public static string SyncKaku = "kaku_sync";
 
 
     }

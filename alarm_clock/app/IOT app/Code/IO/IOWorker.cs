@@ -3,6 +3,18 @@ using PCLStorage;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+public enum AppFiles
+{
+    Alarm,
+    LightSocket
+}
+
+public enum AppFileExtension
+{
+    JSON,
+}
+
+
 namespace IOT_app.Code.IO
 {
     public class IOWorker
@@ -16,28 +28,30 @@ namespace IOT_app.Code.IO
         ///     A list of alarms that was read from the disk.
         ///     If there is nothing on the disk, return an empty list.
         /// </returns>
-        public static async Task<List<Alarm>> ReadAlarmFile()
+        public static async Task<T> ReadFile<T>(AppFiles file, AppFileExtension ext = AppFileExtension.JSON)
         {
+            string fileName = GetFullFileName(file, ext);
+
             //Check if alarm file exists.
-            bool alarmFileExists = await DoesFileExist("alarm.json");
+            bool alarmFileExists = await DoesFileExist(fileName);
 
             if(!alarmFileExists)
             {
-                await CreateFile("alarm.json");
+                await CreateFile(fileName);
             }
 
             //Fetch  the data from the file. (JSON).
-            string data = await ReadFromFile("alarm.json");
+            string data = await ReadFromFile(fileName);
 
             if (string.IsNullOrEmpty(data))
             {
                 //We don't have any stored data, return this.
-                return new List<Alarm>();
+                return default(T);
             }
             else
             {
                 //Convert from json of what ever was on the disk.
-                return JsonConvert.DeserializeObject<List<Alarm>>(data);
+                return JsonConvert.DeserializeObject<T>(data);
             }
         }
 
@@ -46,31 +60,45 @@ namespace IOT_app.Code.IO
         /// </summary>
         /// <param name="alarms"> The list of alarms we want to serialize to disk.</param>
         /// <returns>Void, but async always needs to return Task.</returns>
-        public static async Task SaveAlarmFile(List<Alarm> alarms)
+        public static async Task SaveFile<T>(AppFiles file, AppFileExtension ext, T data)
         {
+            string fileName = GetFullFileName(file, ext);
+
             //Overwrite the existing file.
-            await CreateFile("alarm.json");
+            await CreateFile(fileName);
 
             //Serialize the contents and write it out the disk.
-            string content = JsonConvert.SerializeObject(alarms);
-            await WriteToFile("alarm.json", content);
+            string content = JsonConvert.SerializeObject(data);
+            await WriteToFile(fileName, content);
         }
 
         /// <summary>
         ///     Remove the alarms file, clearing out any previous alarms.
         /// </summary>
         /// <returns>Bool wether we actually cleared the alarms file or not.</returns>
-        public static async Task<bool> ClearAlarmFile()
+        public static async Task<bool> ClearFile(AppFiles file, AppFileExtension ext)
         {
-            bool alarmFileExists = await DoesFileExist("alarm.json");
+            string fileName = GetFullFileName(file, ext);
+            bool alarmFileExists = await DoesFileExist(fileName);
 
             if (alarmFileExists)
             {
-                await DeleteFile("alarm.json");
+                await DeleteFile(fileName);
                 return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        ///     Convert the two enums to a consistent file name.
+        /// </summary>
+        /// <param name="file">The files enum we want to convert</param>
+        /// <param name="ext">The files extension enum we want to convert</param>
+        /// <returns>THe file name of a combination of file and extension.</returns>
+        private static string GetFullFileName(AppFiles file, AppFileExtension ext)
+        {
+            return $"{file.ToString().ToLower()}.{ext.ToString().ToLower()}";
         }
 
         #region Helper functions

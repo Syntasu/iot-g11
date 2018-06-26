@@ -53,7 +53,7 @@
     <string name="btn_alarm_remove">Remove alarm</string>
     
     <!-- Lights activity-->
-    <string name="text_lights_explanation">Select one of the following to turn the socket on when the alarm rings.</string>
+    <string name="text_lights_explanation">Select one of the following to turn the socket on when the alarm rings. The changes will automatically sync with the alarm clock upon changing.</string>
     <string name="cb_light1">Light socket 1</string>
     <string name="cb_light2">Light socket 2</string>
     <string name="cb_light3">Light socket 3</string>
