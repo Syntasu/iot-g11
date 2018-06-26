@@ -30,7 +30,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_alarm_name"
             android:id="@+id/etext_alarm_name"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:inputType="text"
+            android:ellipsize="end"
+            android:lines="1"
+            android:scrollHorizontally="true" />
         <TextView
             android:text="@string/text_alarm_date"
             android:textAppearance="?android:attr/textAppearanceSmall"

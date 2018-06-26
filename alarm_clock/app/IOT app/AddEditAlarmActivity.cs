@@ -55,12 +55,12 @@ namespace IOT_app
             {
                 currentAlarm = JsonConvert.DeserializeObject<Alarm>(serializedAlarm);
                 SetAlarmFields(currentAlarm.Name, currentAlarm.Time);
-                //btnRemove.Enabled = true;
+                btnRemove.Enabled = true;
             }
             else
             {
                 SetAlarmFields("", DateTime.Now);
-                //btnRemove.Enabled = false;
+                btnRemove.Enabled = false;
             }
 
             //Bind elements to method(s).
