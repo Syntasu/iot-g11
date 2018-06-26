@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="288.0dp"
             android:layout_below="@id/text_select_date"
-            android:id="@+id/dt_picker"
+            android:id="@+id/dt_time_picker"
             android:datePickerMode="spinner"
             android:minWidth="25px"
             android:minHeight="25px" />
@@ -40,31 +40,39 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dt_picker"
+            android:layout_below="@+id/dt_time_picker"
             android:id="@+id/text_select_time"
             android:layout_marginTop="20dp" />
-        <TimePicker
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_select_time"
-            android:id="@+id/tp_picker"
-            android:timePickerMode="spinner"
-            android:minWidth="25px"
-            android:minHeight="25px" />
         <Button
             android:text="@string/btn_set_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tp_picker"
+            android:layout_below="@+id/np_time_hour"
             android:id="@+id/btn_set_time"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginTop="5dp" />
         <Button
             android:text="@string/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_cancel"
+            android:id="@+id/btn_time_cancel"
             android:layout_below="@+id/btn_set_time"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:backgroundTint="#ffffbebe" />
+        <NumberPicker
+            android:id="@+id/np_time_hour"
+            android:layout_width="197dp"
+            android:layout_height="150dp"
+            android:layout_below="@+id/text_select_time"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_toRightOf="@+id/np_time_hour" />
+        <NumberPicker
+            android:id="@+id/np_time_minute"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_toRightOf="@+id/np_time_hour"
+            android:layout_below="@+id/text_select_time"
+            android:layout_marginLeft="5dp" />
     </RelativeLayout>
 </LinearLayout>
