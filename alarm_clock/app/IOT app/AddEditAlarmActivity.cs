@@ -115,7 +115,7 @@ namespace IOT_app
                 else
                 {
                     //Create a new alarm.
-                    Alarm alarm = new Alarm(name, time);
+                    Alarm alarm = new Alarm((byte)alarms.Count, name, time);
                     tempAlarmList.Add(alarm);
 
                     //TODO: Sync with arduino (new alarm).

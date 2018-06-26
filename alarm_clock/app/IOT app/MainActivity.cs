@@ -3,7 +3,6 @@ using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using IOT_app.Code;
-using IOT_app.Code.IO;
 
 namespace IOT_app
 {
@@ -28,7 +27,6 @@ namespace IOT_app
             //TODO: REMOVE;
             //await IOWorker.ClearFile(AppFiles.Alarm, AppFileExtension.JSON);
             //await IOWorker.ClearFile(AppFiles.LightSocket, AppFileExtension.JSON);
-
 
             //Fetch the buttons.
             buttonSnoozeAlarms = FindViewById<Button>(Resource.Id.btn_quick_snooze);

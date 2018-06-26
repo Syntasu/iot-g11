@@ -5,7 +5,7 @@ namespace IOT_app.Code
 {
     public class Alarm
     {
-        public Guid Id { get; set; }
+        public byte Id { get; set; }
         public string Name { get; set; }
         public DateTime Time { get; set; }
 
@@ -22,9 +22,9 @@ namespace IOT_app.Code
             Time = a.Time;
         }
 
-        public Alarm(string Name, DateTime Time)
+        public Alarm(byte Id, string Name, DateTime Time)
         {
-            this.Id = Guid.NewGuid();
+            this.Id = Id;
             this.Name = Name;
             this.Time = Time;
         }
