@@ -76,5 +76,5 @@
     <string name="na">n.a.</string>
     <string name="toast_alarm_name_invalid"> The given alarm name is invalid</string>
     <string name="toast_alarm_time_invalid"> You cannot schedule alarms in the past.</string>
-
+    <string name="toast_connected">Connected to alarm clock</string>
 </resources>

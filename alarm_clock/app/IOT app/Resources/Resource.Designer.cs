@@ -3632,6 +3632,9 @@ namespace IOT_app
 			// aapt resource value: 0x7f090063
 			public const int toast_alarm_time_invalid = 2131296355;
 			
+			// aapt resource value: 0x7f090064
+			public const int toast_connected = 2131296356;
+			
 			static String()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

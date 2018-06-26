@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 public enum AppFiles
 {
+    Connection,
     Alarm,
     LightSocket
 }

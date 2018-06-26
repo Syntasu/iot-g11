@@ -62,6 +62,7 @@
     <Compile Include="AlarmActivity.cs" />
     <Compile Include="Code\Alarm.cs" />
     <Compile Include="Code\AlarmAdapter.cs" />
+    <Compile Include="Code\IO\Data\ConnectionData.cs" />
     <Compile Include="Code\IO\IOWorker.cs" />
     <Compile Include="Code\Socket\Commands.cs" />
     <Compile Include="Code\Socket\SockErr.cs" />

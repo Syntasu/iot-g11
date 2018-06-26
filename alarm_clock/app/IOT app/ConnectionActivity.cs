@@ -2,6 +2,8 @@
 using Android.OS;
 using Android.Widget;
 using IOT_app.Code;
+using IOT_app.Code.IO;
+using IOT_app.Code.IO.Data;
 using System;
 using System.Text.RegularExpressions;
 
@@ -54,7 +56,6 @@ namespace IOT_app
             string ip = editTextIp.Text;
             string port = editTextPort.Text;
 
-
             //Sanitize the user input.
             if(!IsValidIP(ip))
             {
@@ -75,6 +76,7 @@ namespace IOT_app
             {
                 case SockErr.None:
                     SetConnectionDetails();
+                    SaveConnectionDetails(ip);
                     break;
                 case SockErr.ConnectionDuplicate:
                     Toast.MakeText(this, Resource.String.sockerr_duplicate, ToastLength.Long).Show();
@@ -150,6 +152,20 @@ namespace IOT_app
                 textIpAddress.Text = GetString(Resource.String.na);
                 textPort.Text = GetString(Resource.String.na);
             }
+        }
+
+        /// <summary>
+        ///     Store the connection data on disk.
+        /// </summary>
+        private async void SaveConnectionDetails(string ip)
+        {
+            ConnectionData data = new ConnectionData(
+                ip,
+                SocketWorker.ConnectedPort
+            );
+
+            string json = data.Serialize();
+            await IOWorker.SaveFile(AppFiles.Connection, AppFileExtension.JSON, data);
         }
     }
 }

@@ -3,6 +3,8 @@ using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using IOT_app.Code;
+using IOT_app.Code.IO;
+using IOT_app.Code.IO.Data;
 
 namespace IOT_app
 {
@@ -24,9 +26,10 @@ namespace IOT_app
             base.OnCreate(savedInstanceState);
             base.SetContentView(Resource.Layout.main);
 
-            //TODO: REMOVE;
+            //TODO, REMOVE: Debug code.
             //await IOWorker.ClearFile(AppFiles.Alarm, AppFileExtension.JSON);
             //await IOWorker.ClearFile(AppFiles.LightSocket, AppFileExtension.JSON);
+            //await IOWorker.ClearFile(AppFiles.Connection, AppFileExtension.JSON);
 
             //Fetch the buttons.
             buttonSnoozeAlarms = FindViewById<Button>(Resource.Id.btn_quick_snooze);
@@ -35,7 +38,6 @@ namespace IOT_app
             buttonConnectionActivity = FindViewById<Button>(Resource.Id.btn_connection_management);
             buttonKakuActivity = FindViewById<Button>(Resource.Id.btn_light_management);
             buttonTimeActivity = FindViewById<Button>(Resource.Id.btn_time_management);
-
             textStatus = FindViewById<TextView>(Resource.Id.text_status);
 
             //Tell each button to start a different activity.
@@ -43,33 +45,62 @@ namespace IOT_app
             buttonConnectionActivity.Click += (o, s) => StartActivity(typeof(ConnectionActivity));
             buttonKakuActivity.Click += (o, s) => StartActivity(typeof(KakuActivity));
             buttonTimeActivity.Click += (o, s) => StartActivity(typeof(TimeActivity));
-
             buttonSnoozeAlarms.Click += (o, s) => SnoozeAlarms();
             buttonStopAlarms.Click += (o, s) => StopAlarms();
 
-            //Check if we have connection. Enable the quick menu when we do.
-            if(SocketWorker.IsConnected)
+            SetUI(SocketWorker.IsConnected);
+
+            //Check if we previously connected and try those connection details.
+            ConnectionData data = await IOWorker.ReadFile<ConnectionData>(AppFiles.Connection);
+
+            //We connected earlier, try those.
+            //Just try, if we fail, just ignore.
+            if (!data.Equals(default(ConnectionData)))
+            {
+                if (!SocketWorker.IsConnected)
+                {
+                    SocketWorker.Connect(data.IP, data.Port);
+                    Toast.MakeText(this, Resource.String.toast_connected, ToastLength.Long).Show();
+                    SetUI(SocketWorker.IsConnected);
+                }
+            }
+
+        }
+
+        /// <summary>
+        ///     Set the state for all the buttons depending on wether if the app is connected or not.
+        /// </summary>
+        private void SetUI(bool connectionState)
+        {
+            if (connectionState)
             {
                 textStatus.Text = "Status: " + GetString(Resource.String.info_connected);
                 textStatus.SetTextColor(Color.Rgb(50, 150, 50));
-                buttonSnoozeAlarms.Enabled = true;
-                buttonStopAlarms.Enabled = true;
-
             }
             else
             {
                 textStatus.Text = "Status: " + GetString(Resource.String.info_disconnected);
                 textStatus.SetTextColor(Color.Rgb(150, 50, 50));
-                buttonSnoozeAlarms.Enabled = false;
-                buttonStopAlarms.Enabled = false;
             }
+ 
+            buttonSnoozeAlarms.Enabled = connectionState;
+            buttonStopAlarms.Enabled = connectionState;
+            buttonAlarmActivity.Enabled = connectionState;
+            buttonKakuActivity.Enabled = connectionState;
+            buttonTimeActivity.Enabled = connectionState;
         }
 
+        /// <summary>
+        ///     Send the command to snooze all alarms on the arduino.
+        /// </summary>
         private void SnoozeAlarms()
         {
             SocketWorker.Send(Commands.AlarmSnooze);
         }
 
+        /// <summary>
+        ///     Send the stop all command to the arduino.
+        /// </summary>
         private void StopAlarms()
         {
             SocketWorker.Send(Commands.AlarmStop);
