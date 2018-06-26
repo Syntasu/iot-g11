@@ -93,6 +93,14 @@ namespace IOT_app.Code
         }
 
         /// <summary>
+        ///     Disconnect
+        /// </summary>
+        public static void Disconnect()
+        {
+            Reset();
+        }
+
+        /// <summary>
         ///     Send an command to the arduino.
         /// </summary>
         /// <param name="command">The command we are sending.</param>
@@ -189,7 +197,7 @@ namespace IOT_app.Code
             //Kill off the thread
             if(socketThread != null)
             { 
-                socketThread.Join();
+                socketThread.Abort();
                 socketThread = null;
             }
 

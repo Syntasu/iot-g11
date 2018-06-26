@@ -20,9 +20,10 @@ namespace IOT_app
         private EditText editTextPort;
 
         private Button buttonConnect;
+        private Button buttonDisconect;
         private Button buttonBack;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected async override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             base.SetContentView(Resource.Layout.Connection);
@@ -34,6 +35,7 @@ namespace IOT_app
             editTextIp = FindViewById<EditText>(Resource.Id.etext_connection_ip);
             editTextPort = FindViewById<EditText>(Resource.Id.etext_connection_port);
             buttonConnect = FindViewById<Button>(Resource.Id.btn_connection_connect);
+            buttonDisconect = FindViewById<Button>(Resource.Id.btn_connection_disconnect);
             buttonBack = FindViewById<Button>(Resource.Id.btn_connection_back);
 
             //Update the connection if a connection state changes.
@@ -41,9 +43,22 @@ namespace IOT_app
             SocketWorker.OnSocketDisconnect += SetConnectionDetails;
 
             buttonConnect.Click += (o, s) => Connect();
+            buttonDisconect.Click += (o, s) => Disconnect();
             buttonBack.Click += (o, s) => StartActivity(typeof(MainActivity));
 
+            //Check if we previously connected and try those connection details.
+            ConnectionData data = 
+                await IOWorker.ReadFile<ConnectionData>(AppFiles.Connection);
+
+            //Set the connection details from previous connection.
+            if (!data.Equals(default(ConnectionData)))
+            {
+                textIpAddress.Text = data.IP;
+                textPort.Text = data.Port.ToString();
+            }
+
             SetConnectionDetails();
+
         }
 
         /// <summary>
@@ -88,6 +103,19 @@ namespace IOT_app
                     Toast.MakeText(this, Resource.String.sockerr_failed, ToastLength.Long).Show();
                     break;
             }
+        }
+
+        /// <summary>
+        ///     Disconnect to whatever we are connected to.
+        ///     Also forget the previous connection details.
+        /// </summary>
+        private async void Disconnect()
+        {
+            SocketWorker.Disconnect();
+            await IOWorker.ClearFile(AppFiles.Connection, AppFileExtension.JSON);
+            SetConnectionDetails();
+
+            Toast.MakeText(this, Resource.String.toast_disconnected, ToastLength.Long).Show();
         }
 
         /// <summary>
@@ -145,12 +173,14 @@ namespace IOT_app
                 textConnectionStatus.Text = GetString(Resource.String.info_connected);
                 textIpAddress.Text = SocketWorker.ConnectedTo.ToString();
                 textPort.Text = SocketWorker.ConnectedPort.ToString();
+                buttonDisconect.Enabled = true;
             }
             else
             {
                 textConnectionStatus.Text = GetString(Resource.String.info_disconnected);
                 textIpAddress.Text = GetString(Resource.String.na);
                 textPort.Text = GetString(Resource.String.na);
+                buttonDisconect.Enabled = false;
             }
         }
 

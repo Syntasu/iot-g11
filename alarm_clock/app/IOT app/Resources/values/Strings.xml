@@ -34,8 +34,9 @@
     <string name="text_connection_config">Network configuration:</string>
     <string name="etext_connection_ip">192.168.1.2</string>
     <string name="etext_connection_port">0</string>
-    <string name="btn_connection_connect">Connect to alarm clock</string>
-    
+    <string name="btn_connection_connect">Connect</string>
+    <string name="btn_connection_disconnect">Disconnect</string>
+
     <!-- Alarm activty-->
     <string name="btn_alarm_create">New alarm...</string>
     <string name="cb_calendar">Schedule alarms from calendar</string>
@@ -77,4 +78,6 @@
     <string name="toast_alarm_name_invalid"> The given alarm name is invalid</string>
     <string name="toast_alarm_time_invalid"> You cannot schedule alarms in the past.</string>
     <string name="toast_connected">Connected to alarm clock</string>
+    <string name="toast_disconnected">Disconnected to alarm clock</string>
+
 </resources>
