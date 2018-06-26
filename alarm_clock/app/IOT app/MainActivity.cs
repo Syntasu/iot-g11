@@ -7,7 +7,7 @@ using IOT_app.Code.IO;
 
 namespace IOT_app
 {
-    [Activity(MainLauncher = true, Label = "MainActivity", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+    [Activity(Icon = "@mipmap/ic_launcher_round", MainLauncher = true, Label = "SAK App", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
         private Button buttonSnoozeAlarms;

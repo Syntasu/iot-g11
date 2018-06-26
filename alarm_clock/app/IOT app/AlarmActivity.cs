@@ -4,7 +4,6 @@ using Android.OS;
 using Android.Widget;
 using IOT_app.Code;
 using IOT_app.Code.IO;
-using System;
 using System.Collections.Generic;
 
 namespace IOT_app
@@ -13,7 +12,7 @@ namespace IOT_app
     public class AlarmActivity : Activity
     {
         private Button btnAlarmCreate;
-        private Button btnCancel;
+        private Button btnAlarmCancel;
 
         private ListView lv_alarms;
         private List<Alarm> alarms = new List<Alarm>();
@@ -24,17 +23,17 @@ namespace IOT_app
             base.SetContentView(Resource.Layout.Alarm);
 
             //Get elements from view.
-            btnAlarmCreate = FindViewById<Button>(Resource.Id.btn_alarm_create);
-            btnCancel = FindViewById<Button>(Resource.Id.btn_alarm_cancel);
             lv_alarms = FindViewById<ListView>(Resource.Id.lv_alarms);
-
+            btnAlarmCreate = FindViewById<Button>(Resource.Id.btn_alarm_create);
+            btnAlarmCancel = FindViewById<Button>(Resource.Id.btnAlarmCancel);
+            
             //Grab the alarms file from disk and add it to the list we want to display.
             List<Alarm> a = await IOWorker.ReadAlarmFile();
             alarms = a;
 
             //Add event listeners for various events.
             btnAlarmCreate.Click += (o, s) => GotoAddEditAlarmsActivity(null);  //Goto add alarm.
-            btnCancel.Click += (o, s) => StartActivity(typeof(MainActivity));   //Go back to the main activity.
+            btnAlarmCancel.Click += (o, s) => StartActivity(typeof(MainActivity));   //Go back to the main activity.
             lv_alarms.ItemClick += OnClickAlarm;                                //Edit an alarm.
 
 
