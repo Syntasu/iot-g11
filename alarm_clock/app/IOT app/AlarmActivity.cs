@@ -13,6 +13,7 @@ namespace IOT_app
     public class AlarmActivity : Activity
     {
         private Button btnAlarmCreate;
+        private Button btnCancel;
 
         private ListView lv_alarms;
         private List<Alarm> alarms = new List<Alarm>();
@@ -22,31 +23,47 @@ namespace IOT_app
             base.OnCreate(savedInstanceState);
             base.SetContentView(Resource.Layout.Alarm);
 
+            //Get elements from view.
+            btnAlarmCreate = FindViewById<Button>(Resource.Id.btn_alarm_create);
+            btnCancel = FindViewById<Button>(Resource.Id.btn_alarm_cancel);
+            lv_alarms = FindViewById<ListView>(Resource.Id.lv_alarms);
+
+            //Grab the alarms file from disk and add it to the list we want to display.
             List<Alarm> a = await IOWorker.ReadAlarmFile();
             alarms = a;
 
-            btnAlarmCreate = FindViewById<Button>(Resource.Id.btn_alarm_create);
-            btnAlarmCreate.Click += (o, s) => GotoAddEditAlarmsActivity(null);
+            //Add event listeners for various events.
+            btnAlarmCreate.Click += (o, s) => GotoAddEditAlarmsActivity(null);  //Goto add alarm.
+            btnCancel.Click += (o, s) => StartActivity(typeof(MainActivity));   //Go back to the main activity.
+            lv_alarms.ItemClick += OnClickAlarm;                                //Edit an alarm.
 
-            lv_alarms = FindViewById<ListView>(Resource.Id.lv_alarms);
-            lv_alarms.ItemClick += OnClickAlarm;
 
+            //Set the adapter for the alarms list.
             AlarmAdapter alarmAdapter = new AlarmAdapter(this, alarms);
             lv_alarms.Adapter = alarmAdapter;
         }
 
+        /// <summary>
+        ///     When we click an existing alarm in the listview, we want to edit it.
+        /// </summary>
         private void OnClickAlarm(object sender, AdapterView.ItemClickEventArgs e)
         {
+            //Sanity check to prevent accesing out of bounds (should theoretically not be possible if the list view is maintained correctly).
             if(e.Position < 0 || e.Position >= alarms.Count)
             {
                 Toast.MakeText(this, $"Index {e.Position} is out of bounds...", ToastLength.Long);
                 return;
             }
 
+            //Get the alarm, start the edit activity.
             Alarm alarm = alarms[e.Position];
             GotoAddEditAlarmsActivity(alarm);
         }
 
+        /// <summary>
+        ///     Add or edit an alarm.
+        /// </summary>
+        /// <param name="alarm">The alarm we want to edit, alarm is null when a new alarm is added.</param>
         private async void GotoAddEditAlarmsActivity(Alarm alarm)
         {
             //Save the current alarms.
@@ -61,6 +78,8 @@ namespace IOT_app
                 StartActivity(intent);
             }
             //If we do not have given an alarm, we are creating a new one.
+            //Thus we do not pass in any json that could be deserialized.
+            //Code in the other activity should handle this.
             else
             {
                 Intent intent = new Intent(this, typeof(AddEditAlarmActivity));
