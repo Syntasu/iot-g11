@@ -41,9 +41,41 @@ bool G11Alarm::edit_alarm(alarm edit_alarm)
     return false;
 }
 
+//Remove an alarm from the pool
 bool G11Alarm::remove_alarm(alarm remove_alarm)
 {
+    this->alarm_count = 0;
+    int writeIndex = 0;
+    for(int i = 0; i < alarm_count; i++)
+    {
+        if(this->alarms[i].id != remove_alarm.id)
+        {
+            this->alarms[writeIndex++] = this->alarms[i];
+            this->alarm_count++;
+        }
+    }
+
     return true;
+}
+
+//Fetch some infor about an alarm.
+alarm G11Alarm::get_alarm(int id)
+{
+    for(int i = 0; i < alarm_count; i++)
+    {
+        if(this->alarms[i].id == id)
+        {
+            return this->alarms[i];
+        }
+    }
+
+    return alarm();
+}
+
+//Fetch the count of alarms.
+int G11Alarm::get_alarm_count()
+{
+    return this->alarm_count;
 }
 
 //Check if any of the alarms needs to be played.

@@ -51,7 +51,7 @@ void G11Display::display_number(int Timearray[], int time_limit) {
 			Serial.println(dp);
 
 			//This function shifts the 8-bit information into the shift register
-			shiftOut(this->DataPin, this->ClockPin, MSBFIRST, display_number);
+			shiftOut(this->DataPin, this->ClockPin, MSBFIRST, dp);
 			digitalWrite(this->LatchPin, HIGH);
 
 			digitalWrite(i, LOW);

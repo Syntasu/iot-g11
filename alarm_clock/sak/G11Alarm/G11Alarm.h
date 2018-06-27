@@ -14,6 +14,9 @@ public:
     bool edit_alarm(alarm);
     bool remove_alarm(alarm);
 
+    alarm get_alarm(int id);
+    int get_alarm_count();
+
     int check_alarms(date_time);
 
     void snooze(int);

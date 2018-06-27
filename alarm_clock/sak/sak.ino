@@ -74,13 +74,13 @@ void net_setup()
 
   //Setting up the binds for the commands.
   m_net.bind("alarm_add", cmd_alarm_add);
-  //m_net.bind("alarm_add", cmd_alarm_add);
-  //m_net.bind("alarm_add", cmd_alarm_add);
+  m_net.bind("alarm_edit", cmd_alarm_edit);
+  m_net.bind("alarm_remove", cmd_alarm_remove);
   
   if (ENABLE_DEBUG)
   {
     log("The SAK is connected on: ");
-    logln(String(Ethernet.localIP()));
+    Serial.println(String(Ethernet.localIP()));
   }
 }
 
@@ -113,7 +113,7 @@ void loop()
 
   time_update(delta);
   alarm_update();
-  //speaker_update(delta);
+  speaker_update(delta);
   net_update();
 }
 
@@ -127,7 +127,7 @@ void time_update(int timeDelay)
   date_time t = m_time.get_time();
 
   //TEST, REMOVE: Print the current time.
-  if (ENABLE_DEBUG)
+  if (ENABLE_DEBUG && false)
   {
     log("This frame took ");
     log(timeDelay);
@@ -183,9 +183,28 @@ void speaker_update(int timeDelay)
   m_util.virtual_delay(consumed_time + 1);
 }
 
+void ultrasone_update()
+{
+   int state = m_ultrasone.alarm_off();
+ 
+   if(state == 1)
+   {
+      m_alarm.snooze(10); //10 voor testing anders 600 
+      logln("Snooze!");
+   }
+   else if(state == 2)
+   {
+      m_alarm.kill(m_time.get_time());
+      //Serial.println("Stop!");
+   }  
+}
+
 //Command handler for adding a new alarm.
 void cmd_alarm_add(String command, String a0, String a1, String a2)
 {
+  logln("alarm_add received");
+  int iac = m_alarm.get_alarm_count();
+  
   int id = a0.toInt();
   date_time alarm_time = m_util.str_to_datetime(a1);
   
@@ -196,11 +215,19 @@ void cmd_alarm_add(String command, String a0, String a1, String a2)
   {
     logln("Failed to add alarm.");
   }
+
+  int nac = m_alarm.get_alarm_count();
+
+  if(iac == nac)
+  {
+    logln("Something went wrong :(");
+  }
 }
 
 //Command handler for editing alarms.
 void cmd_alarm_edit(String command, String a0, String a1, String a2)
 {
+  logln("alarm_edit received");
   int id = a0.toInt();
   date_time alarm_time = m_util.str_to_datetime(a1);
   alarm a = alarm(id, alarm_time);
@@ -210,6 +237,30 @@ void cmd_alarm_edit(String command, String a0, String a1, String a2)
   if(!result)
   {
     logln("Failed to edit alarm");
+  }
+}
+
+void cmd_alarm_remove(String command, String a0, String a1, String a2)
+{
+  logln("alarm_remove received");
+  int iac = m_alarm.get_alarm_count();
+  
+  int id = a0.toInt();
+  date_time alarm_time = m_util.str_to_datetime(a1);
+  
+  alarm a = alarm(id, alarm_time);
+  bool result = m_alarm.add_alarm(a);
+
+  if(!result)
+  {
+    logln("Failed to add alarm.");
+  }
+
+  int nac = m_alarm.get_alarm_count();
+
+  if(iac == nac)
+  {
+    logln("Something went wrong :(");
   }
 }
 
@@ -226,21 +277,6 @@ void cmd_alarm_stop(String command, String a0, String a1, String a2)
   m_alarm.kill(m_time.get_time());
 }
 
-void ultrasone_update()
-{
-   int state = m_ultrasone.alarm_off();
- 
-   if(state == 1)
-   {
-      m_alarm.snooze(10); //10 voor testing anders 600 
-      logln("Snooze!");
-   }
-   else if(state == 2)
-   {
-      m_alarm.kill(m_time.get_time());
-      //Serial.println("Stop!");
-   }  
-}
 
 void logln(String message)
 {
