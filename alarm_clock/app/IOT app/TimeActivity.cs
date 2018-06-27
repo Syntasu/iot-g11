@@ -27,6 +27,7 @@ namespace IOT_app
             npTimeHour = FindViewById<NumberPicker>(Resource.Id.np_time_hour);
             npTimeMinute = FindViewById<NumberPicker>(Resource.Id.np_time_minute);
 
+            //Set the min and max values for the numberpicker..
             npTimeHour.MinValue = 0;
             npTimeHour.MaxValue = 23;
             npTimeMinute.MinValue = 0;

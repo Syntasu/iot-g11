@@ -35,7 +35,7 @@ namespace IOT_app.Code
         /// <returns></returns>
         public static SockErr Connect(string ip, int port)
         {
-            //We are already connected, you need to reset the worker first in order to reconnect
+            //We are already connected, you need to reset (or disconnect) the worker first in order to reconnect
             if(IsConnected)
             {
                 Debug.WriteLine("Warning: trying to connect when we already have a connection.");
@@ -79,6 +79,8 @@ namespace IOT_app.Code
                 }
                 else
                 {
+                    //We did get some sort of connection, but the
+                    //devices actively refused out connection... :thinking:
                     Reset();
                     Debug.WriteLine("Warning: Trying to connect, but is silently failed");
                     return SockErr.ConnectionRefused;
