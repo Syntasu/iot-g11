@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Widget;
 using System;
+using IOT_app.Code;
 
 namespace IOT_app
 {
@@ -37,11 +38,14 @@ namespace IOT_app
             npTimeHour.Value = time.Hour;
             npTimeMinute.Value = time.Minute;
 
-            btnSetTime.Click += (s, e) => SetTime();
+            btnSetTime.Click += (s, e) => SyncDateTime();
             btnCancel.Click += (s, e) => StartActivity(typeof(MainActivity));
         }
 
-        private void SetTime()
+        /// <summary>
+        ///     Tell the arduino to sync with the time we've set from the app.
+        /// </summary>
+        private void SyncDateTime()
         {
             DateTime time = new DateTime(
                 dpDate.DateTime.Year, dpDate.DateTime.Month, dpDate.DateTime.Day,
@@ -49,6 +53,8 @@ namespace IOT_app
             );
 
             //Sync time with arduino.
+            string[] agnosticTime = time.ToAgnosticString();
+            SocketWorker.Send(Commands.SyncTime, agnosticTime[0], agnosticTime[1]);
         }
     }
 }
