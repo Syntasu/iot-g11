@@ -32,7 +32,7 @@ namespace IOT_app.Code
         /// </summary>
         /// <param name="ip">The IP address to connect to.</param>
         /// <param name="port">The port to connect to.</param>
-        /// <returns></returns>
+        /// <returns>Any potential errors, SockErr.None means everything went OK.</returns>
         public static SockErr Connect(string ip, int port)
         {
             //We are already connected, you need to reset (or disconnect) the worker first in order to reconnect

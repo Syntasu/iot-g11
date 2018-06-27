@@ -45,6 +45,9 @@ void G11Socket::update()
     //Store the last received part.
     buff[offset] = temp;
 
+    //REMOVE;
+    Serial.println(buff[0]);
+
     //Invoke the bind. Can't touch this! ~ Rick James
     this->invoke_bind(buff[0], buff[1], buff[2], buff[3]);
 }

@@ -5,9 +5,9 @@
 #define PIN_DISPLAY_DATA    2
 #define PIN_DISPLAY_CLK     3
 #define PIN_DISPLAY_CS      4
-#define PIN_RF_TRANSMITTER  8
-#define PIN_SNOOZE_BUTTON   A2
-#define PIN_DHT11_SENSOR    A1
+#define PIN_RF_TRANSMITTER  5
+#define PIN_SNOOZE_BUTTON   6
+#define PIN_DHT11_SENSOR    7
 #define PIN_SPEAKER         9
 #define PIN_LDR             A0
 #define PIN_CLOCK_SDA       A4
@@ -51,26 +51,22 @@ void setup()
   //Setup each of the modules.
   net_setup();
   time_setup();
-  alarm_setup();
-  kaku_setup();
-
-  //TEST, REMOVE: Play pattern 0.
-  //m_speaker.play(0, true);
+  //alarm_setup();
+  //kaku_setup();
 }
 
 //Make a connection to the interwebs.
 void net_setup()
 {
-  IPAddress ip = IPAddress(192, 168, 1, 16);
+  IPAddress ip = IPAddress(192, 168, 1, 15);
   byte mac[] = { 0x84, 0xAD, 0xE2, 0xA9, 0xEB, 0x9A};
 
   m_net.begin(ip, mac);
 
   //Setting up the binds for the commands.
-  m_net.bind("alarm_set", cmd_alarm_set);
-  m_net.bind("alarm_snooze", cmd_alarm_snooze);
-  m_net.bind("alarm_stop", cmd_alarm_stop);
-  
+  m_net.bind("alarm_add", cmd_alarm_add);
+  //m_net.bind("alarm_add", cmd_alarm_add);
+  //m_net.bind("alarm_add", cmd_alarm_add);
   
   if (ENABLE_DEBUG)
   {
@@ -107,9 +103,9 @@ void loop()
   //True means we want to reset the counter internally.
   int delta = m_util.get_total_delay(true);
 
-  time_update(delta);
-  alarm_update();
-  speaker_update(delta);
+  //time_update(delta);
+  //alarm_update();
+  //speaker_update(delta);
   net_update();
 }
 
@@ -125,18 +121,15 @@ void time_update(int timeDelay)
   //TEST, REMOVE: Print the current time.
   if (ENABLE_DEBUG)
   {
-    //Serial.print("This frame took ");
-    //Serial.print(timeDelay);
-    //Serial.print(", the current time is ");
-    //Serial.println(m_time.get_time_string());
+    Serial.print("This frame took ");
+    Serial.print(timeDelay);
+    Serial.print(", the current time is ");
+    Serial.println(m_time.get_time_string());
   }
 
   //Simulate the time based on the delay of one frame/iteration.
-  //TODO: Replace this with RTC or time via internet.
   m_time.sync_with_rtc();
 }
-
- 
 
 void alarm_update()
 {
@@ -145,20 +138,14 @@ void alarm_update()
 
   //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
   int alarm_state = m_alarm.check_alarms(t);
-  Serial.println(alarm_state);
   
   if(alarm_state == 1)
   {
-    
     if(!alarm_playing)
-    { 
-      int val = m_sensors.give_ldrval();
-      if( val < 100)                      //300-400 is daglicht in huis
-      {
-        m_speaker.play(0, true);
-        m_kaku.set_kaku(0, true);
-        m_kaku.set_kaku(1, true);
-      }
+    {
+      m_speaker.play(0, true);
+      m_kaku.set_kaku(0, true);
+      m_kaku.set_kaku(1, true);
       alarm_playing = true;
     }
   }
@@ -168,8 +155,8 @@ void alarm_update()
     if(alarm_playing)
     {
       m_speaker.stop();
-     // m_kaku.set_kaku(0, false); lights should not go out if alarm stops
-     // m_kaku.set_kaku(1, false); 
+      m_kaku.set_kaku(0, false);
+      m_kaku.set_kaku(1, false);
       alarm_playing = false;
     }
   }
@@ -188,10 +175,12 @@ void speaker_update(int timeDelay)
   m_util.virtual_delay(consumed_time + 1);
 }
 
-void cmd_alarm_set(String command, String a0, String a1, String a2)
+void cmd_alarm_add(String command, String a0, String a1, String a2)
 {
-  //TODO: Parse time.
-  //TODO: Set schedule.
+  Serial.println(command);
+  Serial.println(a0);
+  Serial.println(a1);
+  Serial.println(a2);
 }
 
 void cmd_alarm_snooze(String command, String a0, String a1, String a2)
@@ -209,18 +198,17 @@ void cmd_alarm_stop(String command, String a0, String a1, String a2)
 
 void ultrasone_update()
 {
+   int state = m_ultrasone.alarm_off();
  
-    int state = m_ultrasone.alarm_off();
- 
-    if(state == 1)
+   if(state == 1)
    {
       m_alarm.snooze(10); //10 voor testing anders 600 
-     Serial.println("Snooze!");
-    }
+      Serial.println("Snooze!");
+   }
    else if(state == 2)
    {
-     m_alarm.kill(m_time.get_time())
-       Serial.println("Stop!");
+      m_alarm.kill(m_time.get_time());
+      Serial.println("Stop!");
    }
   
 }
