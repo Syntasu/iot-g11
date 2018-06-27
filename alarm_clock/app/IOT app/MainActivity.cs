@@ -53,15 +53,19 @@ namespace IOT_app
             //Check if we previously connected and try those connection details.
             ConnectionData data = await IOWorker.ReadFile<ConnectionData>(AppFiles.Connection);
 
-            //We connected earlier, try those.
-            //Just try, if we fail, just ignore.
+            //Try to connect to connections details we used earlier.
             if (!data.Equals(default(ConnectionData)))
             {
                 if (!SocketWorker.IsConnected)
                 {
-                    SocketWorker.Connect(data.IP, data.Port);
-                    Toast.MakeText(this, Resource.String.toast_connected, ToastLength.Long).Show();
-                    SetUI(SocketWorker.IsConnected);
+                    SockErr err = SocketWorker.Connect(data.IP, data.Port);
+
+                    //If we do not have an error, notify the user we connected successfully
+                    if (err == SockErr.None)
+                    {
+                        Toast.MakeText(this, Resource.String.toast_connected, ToastLength.Long).Show();
+                        SetUI(SocketWorker.IsConnected);
+                    }
                 }
             }
 
