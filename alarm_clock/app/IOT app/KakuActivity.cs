@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.OS;
 using Android.Widget;
+using IOT_app.Code;
 using IOT_app.Code.IO;
 using System.Threading.Tasks;
 
@@ -30,15 +31,12 @@ namespace IOT_app
             cbLightSocket4 = FindViewById<CheckBox>(Resource.Id.cb_light4);
             cbLightSocket5 = FindViewById<CheckBox>(Resource.Id.cb_light5);
 
-
             //Read current values from disk.
-            bool[] lightSocketDataFromDisk = 
-                await IOWorker.ReadFile<bool[]>(AppFiles.LightSocket);
+            bool[] lightSocketDataFromDisk = await IOWorker.ReadFile<bool[]>(AppFiles.LightSocket);
 
+            //Assign loaded data to local variable.
             if(lightSocketDataFromDisk != null)
-            {
                 socketStates = lightSocketDataFromDisk;
-            }
 
             //Set the values we fetched from disk or default values.
             cbLightSocket1.Checked = socketStates[0];
@@ -65,6 +63,7 @@ namespace IOT_app
         {
             bool state = false;
 
+            //Check which kaku was edited, set the state accordingly
             switch (id)
             {
                 case 1:
@@ -114,7 +113,7 @@ namespace IOT_app
             });
 
             //Syncronize arduino from app.
-            //SocketWorker.Send(Commands.SyncKaku, id.ToString(), state.ToString());
+            SocketWorker.Send(Commands.SyncKaku, id.ToString(), state.ToString());
         }
     }
 }

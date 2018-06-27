@@ -68,7 +68,6 @@ namespace IOT_app
                     }
                 }
             }
-
         }
 
         /// <summary>

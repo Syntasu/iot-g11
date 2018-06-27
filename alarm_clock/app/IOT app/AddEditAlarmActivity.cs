@@ -102,7 +102,8 @@ namespace IOT_app
                     currentAlarm.Time = time;
                     tempAlarmList.Add(currentAlarm);
 
-                    //TODO: Sync with arduino. (modified alarm)
+                    //Sync with arduino, send the alarm ID and date and time to the arduino.
+                    SendAlarmToArduino(Commands.AlarmEdit, currentAlarm);
 
                     //Copy over the alarms list, skip any duplicates.
                     foreach (Alarm a in alarms)
@@ -118,7 +119,8 @@ namespace IOT_app
                     Alarm alarm = new Alarm((byte)alarms.Count, name, time);
                     tempAlarmList.Add(alarm);
 
-                    //TODO: Sync with arduino (new alarm).
+                    //Sync with arduino, send the alarm ID and date and time to the arduino.
+                    SendAlarmToArduino(Commands.AlarmAdd, alarm);
 
                     //Copy over the alarms list, skip any duplicates.
                     foreach (Alarm a in alarms)
@@ -199,7 +201,11 @@ namespace IOT_app
                 }
             }
 
+            //Assign the modified list.
             alarms = tempAlarms;
+
+            //Send the command to the arduino.
+            SendAlarmToArduino(Commands.AlarmRemove, currentAlarm);
 
             //Save the alarms
             await IOWorker.SaveFile(AppFiles.Alarm, AppFileExtension.JSON, alarms);
@@ -207,5 +213,21 @@ namespace IOT_app
             //Return to main screen.
             StartActivity(typeof(AlarmActivity));
         }
+
+        /// <summary>
+        ///     Send the data of the alarm to the arduino.
+        /// </summary>
+        /// <param name="command">The command we want to execute, (Add, edit or remove)</param>
+        /// <param name="alarm">The alarm we want to send.</param>
+        private void SendAlarmToArduino(string command, Alarm alarm)
+        {
+            //Sync with arduino, send the alarm ID and date and time to the arduino.
+            string[] agnosticTime = currentAlarm.Time.ToAgnosticString();
+            SocketWorker.Send(
+                command, currentAlarm.Id.ToString(),
+                agnosticTime[0], agnosticTime[1]
+            );
+        }
+
     }
 }
