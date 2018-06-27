@@ -25,9 +25,20 @@ bool G11Alarm::add_alarm(alarm new_alarm)
     return true;
 }
 
+//Edit an existing alarm.
 bool G11Alarm::edit_alarm(alarm edit_alarm)
 {
+  for(int i = 0; i < alarm_count; i++)
+    {
+        if(this->alarms[i].id == edit_alarm.id)
+        {
+            //Overwrite index with a new value.
+            this->alarms[i] = edit_alarm;
+            return true;
+        }
+    }
 
+    return false;
 }
 
 bool G11Alarm::remove_alarm(alarm remove_alarm)

@@ -48,6 +48,7 @@ void setup()
   if (ENABLE_DEBUG)
   {
     Serial.begin(9600);
+    logln("Running in debug mode...");
   }
 
   //Setup each of the modules.
@@ -78,14 +79,13 @@ void net_setup()
   
   if (ENABLE_DEBUG)
   {
-    Serial.print("The SAK is connected on: ");
-    Serial.println(Ethernet.localIP());
+    log("The SAK is connected on: ");
+    logln(String(Ethernet.localIP()));
   }
 }
 
 void time_setup()
 {
-  //TODO: Fetch time from the correct source (RTC? NET? APP?)
   //Set the starting time by a given date_time struct.
   //Format is as following: yyyy/mm/dd hh:mm:ss
   date_time start_time = date_time(2018, 1, 1, 12, 0, 0);
@@ -129,10 +129,10 @@ void time_update(int timeDelay)
   //TEST, REMOVE: Print the current time.
   if (ENABLE_DEBUG)
   {
-    //Serial.print("This frame took ");
-    //Serial.print(timeDelay);
-    //Serial.print(", the current time is ");
-    //Serial.println(m_time.get_time_string());
+    log("This frame took ");
+    log(timeDelay);
+    log(", the current time is ");
+    logln(m_time.get_time_string());
   }
 
   //Simulate the time based on the delay of one frame/iteration.
@@ -183,6 +183,7 @@ void speaker_update(int timeDelay)
   m_util.virtual_delay(consumed_time + 1);
 }
 
+//Command handler for adding a new alarm.
 void cmd_alarm_add(String command, String a0, String a1, String a2)
 {
   int id = a0.toInt();
@@ -193,20 +194,35 @@ void cmd_alarm_add(String command, String a0, String a1, String a2)
 
   if(!result)
   {
-    Serial.println("Failed to add alarm.");
+    logln("Failed to add alarm.");
+  }
+}
+
+//Command handler for editing alarms.
+void cmd_alarm_edit(String command, String a0, String a1, String a2)
+{
+  int id = a0.toInt();
+  date_time alarm_time = m_util.str_to_datetime(a1);
+  alarm a = alarm(id, alarm_time);
+
+  bool result = m_alarm.edit_alarm(a);
+
+  if(!result)
+  {
+    logln("Failed to edit alarm");
   }
 }
 
 void cmd_alarm_snooze(String command, String a0, String a1, String a2)
 {
-  Serial.println("Snooze!");
+  logln("Snooze!");
   //Snooze for 10 seconds.
   m_alarm.snooze(10);
 }
 
 void cmd_alarm_stop(String command, String a0, String a1, String a2)
 {
-  Serial.println("Stop!");
+  logln("Stop!");
   m_alarm.kill(m_time.get_time());
 }
 
@@ -217,12 +233,29 @@ void ultrasone_update()
    if(state == 1)
    {
       m_alarm.snooze(10); //10 voor testing anders 600 
-      Serial.println("Snooze!");
+      logln("Snooze!");
    }
    else if(state == 2)
    {
       m_alarm.kill(m_time.get_time());
-      Serial.println("Stop!");
+      //Serial.println("Stop!");
    }  
 }
+
+void logln(String message)
+{
+  if(ENABLE_DEBUG)
+  {
+    Serial.println(message);
+  }
+}
+
+void log(String message)
+{
+  if(ENABLE_DEBUG)
+  {
+    Serial.print(message);
+  }
+}
+
 

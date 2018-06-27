@@ -5,7 +5,7 @@
 #include "datetime.h"
 #include "alarm.h"
 
-#define MAX_ALARMS  16
+#define MAX_ALARMS 10
 
 class G11Alarm
 {
