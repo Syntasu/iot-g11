@@ -185,10 +185,16 @@ void speaker_update(int timeDelay)
 
 void cmd_alarm_add(String command, String a0, String a1, String a2)
 {
-  Serial.println(command);
-  Serial.println(a0);
-  Serial.println(a1);
-  Serial.println(a2);
+  int id = a0.toInt();
+  date_time alarm_time = m_util.str_to_datetime(a1);
+  
+  alarm a = alarm(id, alarm_time);
+  bool result = m_alarm.add_alarm(a);
+
+  if(!result)
+  {
+    Serial.println("Failed to add alarm.");
+  }
 }
 
 void cmd_alarm_snooze(String command, String a0, String a1, String a2)

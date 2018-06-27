@@ -10,6 +10,15 @@ bool G11Alarm::add_alarm(alarm new_alarm)
         return false;
     }
 
+    //Don't allow duplicate alarms to be added.
+    for(int i = 0; i < alarm_count; i++)
+    {
+        if(this->alarms[i].id == new_alarm.id)
+        {
+            return false;
+        }
+    }
+
     this->alarms[alarm_count] = new_alarm;
     alarm_count++;
 
@@ -18,7 +27,7 @@ bool G11Alarm::add_alarm(alarm new_alarm)
 
 bool G11Alarm::edit_alarm(alarm edit_alarm)
 {
-    return true;
+
 }
 
 bool G11Alarm::remove_alarm(alarm remove_alarm)
