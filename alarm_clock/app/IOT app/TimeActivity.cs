@@ -54,8 +54,7 @@ namespace IOT_app
             );
 
             //Sync time with arduino.
-            string[] agnosticTime = time.ToAgnosticString();
-            SocketWorker.Send(Commands.SyncTime, agnosticTime[0], agnosticTime[1]);
+            SocketWorker.Send(Commands.SyncTime, time.ToAgnosticString());
         }
     }
 }

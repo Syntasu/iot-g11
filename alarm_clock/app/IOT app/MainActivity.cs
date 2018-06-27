@@ -27,8 +27,8 @@ namespace IOT_app
             base.SetContentView(Resource.Layout.main);
 
             //TODO, REMOVE: Debug code.
-            //await IOWorker.ClearFile(AppFiles.Alarm, AppFileExtension.JSON);
-            //await IOWorker.ClearFile(AppFiles.LightSocket, AppFileExtension.JSON);
+            await IOWorker.ClearFile(AppFiles.Alarm, AppFileExtension.JSON);
+            await IOWorker.ClearFile(AppFiles.LightSocket, AppFileExtension.JSON);
             //await IOWorker.ClearFile(AppFiles.Connection, AppFileExtension.JSON);
 
             //Fetch the buttons.
