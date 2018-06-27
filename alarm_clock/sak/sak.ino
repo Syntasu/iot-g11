@@ -27,6 +27,7 @@
 #include <G11Alarm.h>
 #include <G11Sensors.h>
 #include <G11Ultrasone.h>
+#include <G11Display.h>
 
 //Create an instance of all our classes (defined in the header files).
 G11Util m_util;
@@ -37,6 +38,7 @@ G11Time m_time;
 G11Alarm m_alarm;
 G11Ultrasone m_ultrasone;
 G11Sensors m_sensors;
+G11Display m_display;
 
 bool alarm_playing = false;
 
@@ -53,11 +55,15 @@ void setup()
   time_setup();
   alarm_setup();
   kaku_setup();
+  display_setup();
 
   //TEST, REMOVE: Play pattern 0.
   //m_speaker.play(0, true);
 }
 
+void display_setup(){
+  m_display.init (PIN_DISPLAY_CS,PIN_DISPLAY_CLK ,PIN_DISPLAY_DATA); 
+}
 //Make a connection to the interwebs.
 void net_setup()
 {
@@ -111,6 +117,14 @@ void loop()
   alarm_update();
   speaker_update(delta);
   net_update();
+  display_update();
+}
+
+void display_update(){
+  date_time time = m_time.get_time();
+  int hours = (int)time.hours;
+  int minutes = (int)time.minutes;
+  m_display.update(hours, minutes);
 }
 
 void time_update(int timeDelay)
@@ -219,7 +233,7 @@ void ultrasone_update()
     }
    else if(state == 2)
    {
-     m_alarm.kill(m_time.get_time())
+     m_alarm.kill(m_time.get_time());
        Serial.println("Stop!");
    }
   
