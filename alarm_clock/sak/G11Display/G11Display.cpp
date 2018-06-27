@@ -33,9 +33,10 @@ void G11Display::update(int hour, int min) {
 	
 	}
 }
-void G11Display::display_number(int Timearray[], int 1) {
+void G11Display::display_number(int Timearray[], int time_limit) {
 	int count;
 	int display_number;
+
 	//This entire outer loop is kind of a delay loop, it will loop the four digits displayed over and over until time_limit is reached.
 	for (int t = 0; t < time_limit; t++) {
 		//The loop below will loop through the 4 digits being displayed once.
