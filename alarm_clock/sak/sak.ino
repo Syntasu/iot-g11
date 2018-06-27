@@ -2,9 +2,9 @@
 #define ENABLE_DEBUG true
 
 // Pin configuration for the alarm clock.
-#define PIN_DISPLAY_DATA    2
-#define PIN_DISPLAY_CLK     3
-#define PIN_DISPLAY_CS      4
+#define PIN_DISPLAY_DATA    3
+#define PIN_DISPLAY_CLK     2
+#define PIN_DISPLAY_CS      1
 #define PIN_RF_TRANSMITTER  5
 #define PIN_SNOOZE_BUTTON   6
 #define PIN_DHT11_SENSOR    7
@@ -53,15 +53,16 @@ void setup()
   //Setup each of the modules.
   net_setup();
   time_setup();
-  //alarm_setup();
-  //kaku_setup();
+  alarm_setup();
+  kaku_setup();
   display_setup();
 }
 
 void display_setup()
 {
-  m_display.init (PIN_DISPLAY_CS,PIN_DISPLAY_CLK ,PIN_DISPLAY_DATA); 
+  m_display.init (PIN_DISPLAY_CS, PIN_DISPLAY_CLK, PIN_DISPLAY_DATA); 
 }
+
 //Make a connection to the interwebs.
 void net_setup()
 {
@@ -93,8 +94,8 @@ void time_setup()
 
 void alarm_setup()
 {
-  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 10);
-  m_alarm.schedule_alarm(alarm_time);
+  //date_time alarm_time = date_time(2018, 1, 1, 12, 0, 10);
+  //m_alarm.schedule_alarm(alarm_time);
 }
 
 void kaku_setup()
@@ -111,18 +112,9 @@ void loop()
   int delta = m_util.get_total_delay(true);
 
   time_update(delta);
-  //alarm_update();
+  alarm_update();
   //speaker_update(delta);
   net_update();
-  display_update();
-}
-
-void display_update()
-{
-  date_time time = m_time.get_time();
-  int hours = (int)time.hours;
-  int minutes = (int)time.minutes;
-  m_display.update(hours, minutes);
 }
 
 void time_update(int timeDelay)
@@ -137,10 +129,10 @@ void time_update(int timeDelay)
   //TEST, REMOVE: Print the current time.
   if (ENABLE_DEBUG)
   {
-    Serial.print("This frame took ");
-    Serial.print(timeDelay);
-    Serial.print(", the current time is ");
-    Serial.println(m_time.get_time_string());
+    //Serial.print("This frame took ");
+    //Serial.print(timeDelay);
+    //Serial.print(", the current time is ");
+    //Serial.println(m_time.get_time_string());
   }
 
   //Simulate the time based on the delay of one frame/iteration.

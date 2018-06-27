@@ -10,13 +10,9 @@ namespace IOT_app.Code
         /// </summary>
         /// <param name="time">The time we want to convert to an agnostic string.</param>
         /// <returns>A semi colon seperated string with year, months, day, hour, minute and seconds.</returns>
-        public static string[] ToAgnosticString(this DateTime time)
+        public static string ToAgnosticString(this DateTime time)
         {
-            string[] output = new string[2];
-            output[0] = $"{time.Year};{time.Month};{time.Day}";
-            output[1] = $"{time.Hour};{time.Minute};{time.Second}";
-
-            return output;
+            return $"{time.Year};{time.Month};{time.Day};{time.Hour};{time.Minute};{time.Second}";
         }
 
     }

@@ -3,11 +3,17 @@
 
 #include "Arduino.h"
 #include "datetime.h"
+#include "alarm.h"
+
+#define MAX_ALARMS  16
 
 class G11Alarm
 {
 public:
-    void schedule_alarm(date_time);
+    bool add_alarm(alarm);
+    bool edit_alarm(alarm);
+    bool remove_alarm(alarm);
+
     int check_alarms(date_time);
 
     void snooze(int);
@@ -15,7 +21,7 @@ public:
 
 private:
     int alarm_count = 0;
-    date_time alarms[8];
+    alarm alarms[MAX_ALARMS];
 
     //Time to snooze in seconds.
     int snooze_countdown = 0;

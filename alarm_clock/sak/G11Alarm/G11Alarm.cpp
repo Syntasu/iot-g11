@@ -3,15 +3,27 @@
 
 //Schedule a new alarm by a given date_time.
 //ALARM_TIME: The time we want to sound the alarm.
-void G11Alarm::schedule_alarm(date_time alarm_time)
+bool G11Alarm::add_alarm(alarm new_alarm)
 {
-    this->alarms[alarm_count] = alarm_time;
+    if(alarm_count >= MAX_ALARMS)
+    {
+        return false;
+    }
+
+    this->alarms[alarm_count] = new_alarm;
     alarm_count++;
 
-    if(alarm_count == 8)
-    {
-        alarm_count = 0;
-    }
+    return true;
+}
+
+bool G11Alarm::edit_alarm(alarm edit_alarm)
+{
+    return true;
+}
+
+bool G11Alarm::remove_alarm(alarm remove_alarm)
+{
+    return true;
 }
 
 //Check if any of the alarms needs to be played.
@@ -20,55 +32,57 @@ void G11Alarm::schedule_alarm(date_time alarm_time)
 //TODO: After killing, the alarms stay in snooze mode...
 int G11Alarm::check_alarms(date_time current_time)
 {
-    for(int i = 0; i < 8; i++)
-    {
-        date_time alarm_time = alarms[i];
+    // for(int i = 0; i < 8; i++)
+    // {
+    //     alarm alarm_time = alarms[i];
 
-        //Don't read empty indexes.
-        if(alarm_time.is_identity()) continue;
+    //     //Don't read empty indexes.
+    //     if(alarm_time.is_identity()) continue;
 
-        //Get the time difference in seconds
-        int diff = alarm_time.difference(current_time);
+    //     //Get the time difference in seconds
+    //     int diff = alarm_time.difference(current_time);
 
-        //Tell the main code to stop sounding alarms.
-        if(stop_alarms)
-        {
-            stop_alarms = false;
-            return 3;
-        }
+    //     //Tell the main code to stop sounding alarms.
+    //     if(stop_alarms)
+    //     {
+    //         stop_alarms = false;
+    //         return 3;
+    //     }
 
-        //If we are snoozing...
-        if(snoozing)
-        {
-            //Check if we surpassed the snooze countdown.
-            if(abs(diff) > (snooze_countdown * snooze_count))
-            {
-                snoozing = false;
-                snooze_count++;
-                return 1;
-            }
+    //     //If we are snoozing...
+    //     if(snoozing)
+    //     {
+    //         //Check if we surpassed the snooze countdown.
+    //         if(abs(diff) > (snooze_countdown * snooze_count))
+    //         {
+    //             snoozing = false;
+    //             snooze_count++;
+    //             return 1;
+    //         }
 
-            //Else return 2...
-            return 2;
-        }
+    //         //Else return 2...
+    //         return 2;
+    //     }
 
-        //If we are not snoozing....
-        else
-        {
-            //If we haven't rung out alarms yets..
-            if(!ringing)
-            {
-                //And the time surpassed the alarm, then we want to ring it.
-                if(diff <= 0)
-                {
-                    ringing = true;
-                    return 1;
-                }
-            }
-        }
+    //     //If we are not snoozing....
+    //     else
+    //     {
+    //         //If we haven't rung out alarms yets..
+    //         if(!ringing)
+    //         {
+    //             //And the time surpassed the alarm, then we want to ring it.
+    //             if(diff <= 0)
+    //             {
+    //                 ringing = true;
+    //                 return 1;
+    //             }
+    //         }
+    //     }
 
-        return 0;
-    }
+    //     return 0;
+    // }
+
+    return 0;
 }
 
 //Snooze the alarm by a given amount of seconds.
@@ -82,29 +96,29 @@ void G11Alarm::snooze(int snooze_sec)
 //Kill all alarms!
 void G11Alarm::kill(date_time current_time)
 {
-    stop_alarms = true;
+    // stop_alarms = true;
 
-    for(int i = 0; i < this->alarm_count; i++)
-    {
-        date_time alarm_time = alarms[i];
+    // for(int i = 0; i < this->alarm_count; i++)
+    // {
+    //     date_time alarm_time = alarms[i];
 
-        //Don't read empty indices.
-        if(alarm_time.is_identity()) continue;
+    //     //Don't read empty indices.
+    //     if(alarm_time.is_identity()) continue;
 
-        //Get the time difference in seconds
-        int diff = alarm_time.difference(current_time);
+    //     //Get the time difference in seconds
+    //     int diff = alarm_time.difference(current_time);
 
-        //Remove any alarms that have already rung.
-        if(diff <= 0)
-        {
-            alarms[i] = date_time(); //Assign identity.
-            alarm_count--;
-        }
-    }
+    //     //Remove any alarms that have already rung.
+    //     if(diff <= 0)
+    //     {
+    //         alarms[i] = date_time(); //Assign identity.
+    //         alarm_count--;
+    //     }
+    // }
 
-    //Reset everything!
-    snooze_countdown = 0;
-    snooze_count = 0;
-    snoozing = false;
-    ringing = false;
+    // //Reset everything!
+    // snooze_countdown = 0;
+    // snooze_count = 0;
+    // snoozing = false;
+    // ringing = false;
 }

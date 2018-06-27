@@ -221,11 +221,9 @@ namespace IOT_app
         /// <param name="alarm">The alarm we want to send.</param>
         private void SendAlarmToArduino(string command, Alarm alarm)
         {
-            //Sync with arduino, send the alarm ID and date and time to the arduino.
-            string[] agnosticTime = alarm.Time.ToAgnosticString();
             SocketWorker.Send(
                 command, alarm.Id.ToString(),
-                agnosticTime[0], agnosticTime[1]
+                alarm.Time.ToAgnosticString()
             );
         }
 

@@ -10,11 +10,13 @@ public:
 		void update(int,int);
 
 private:
-	int dec[10] = { 126,72,61,109,75,103,119,76,127,79 };
 	int LatchPin;
 	int ClockPin;
 	int DataPin;
-	void display_number(int Timearray[], int time_limit);
+	int dec[10] = { 126,72,61,109,75,103,119,76,127,79 };
+
+	void display_number(int, int);
+	void DoStuff(int, int);
 };
 
 
