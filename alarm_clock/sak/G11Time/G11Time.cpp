@@ -16,9 +16,9 @@ void G11Time::simulate(float ms_elapsed)
     int inc = 0;
     this->milli_bucket += ms_elapsed;
 
-    if(milli_bucket > 1000.0f)
+    if(this->milli_bucket > 1000.0f)
     {
-        inc = ceil(this->milli_bucket / 1000.0f);
+        inc = (int)(this->milli_bucket / 1000.0f);
         this->milli_bucket -= (inc * 1000.0f);
     }
 

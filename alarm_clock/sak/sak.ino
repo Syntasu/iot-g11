@@ -40,7 +40,7 @@ G11Ultrasone m_ultrasone;
 G11Sensors m_sensors;
 G11Display m_display;
 
-#define SNOOZE_TIME 600
+#define SNOOZE_TIME 30
 
 bool alarm_playing = false;
 
@@ -96,9 +96,9 @@ void time_setup()
 
 void alarm_setup()
 {
-  date_time alarm_time = date_time(2018, 1, 1, 12, 1, 0);
+  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 10);
   alarm a = alarm(0, alarm_time);
-  //m_alarm.add_alarm(a);
+  m_alarm.add_alarm(a);
 }
 
 void kaku_setup()
@@ -108,17 +108,26 @@ void kaku_setup()
   m_kaku.init_kaku(1);
 }
 
+int loopCount = 0;
 void loop()
 {
   //Get how much time this frame took (incl. delay).
   //True means we want to reset the counter internally.
   int delta = m_util.get_total_delay(true);
 
-  time_update(delta);
   alarm_update();
   speaker_update(delta);
   net_update();
   display_update();
+  
+  if(loopCount > 50 || alarm_playing)
+  {
+    ultrasone_update();
+    loopCount = 0;
+  }
+  
+  time_update(delta);
+  loopCount++;
 }
 
 void display_update()
@@ -136,11 +145,16 @@ void time_update(int timeDelay)
   //Grab the current time and return it as date_time.
   date_time t = m_time.get_time();
 
+
+#if 0
   log("The current time is ");
-  logln(m_time.get_time_string());
-    
+  log(m_time.get_time_string());
+  log(" the delay is ");
+  logln(String(timeDelay * (4.275f / timeDelay)));
+#endif
+
   //Simulate the time based on the delay of one frame/iteration.
-  m_time.simulate(4.275f);
+  m_time.simulate(25);
 }
 
 void alarm_update()
@@ -186,18 +200,33 @@ void speaker_update(int timeDelay)
 
 void ultrasone_update()
 {
-   int state = m_ultrasone.alarm_off();
- 
-   if(state == 1)
-   {
-      //m_alarm.snooze(10); //10 voor testing anders 600 
-      //logln("Snooze!");
-   }
-   else if(state == 2)
-   {
-      //m_alarm.stop(m_time.get_time());
-      //Serial.println("Stop!");
-   }  
+  int state = m_ultrasone.get_state();
+  logln(String(state));
+  
+  //Beep once to notify the user.
+  if(state == 0)
+  {
+    tone(PIN_SPEAKER, 2500);
+    delay(200);
+  }
+
+  //Beep twice
+  if(state == 1)
+  {
+    tone(PIN_SPEAKER, 4000);
+    delay(200);
+  }
+
+  //We need to snooze!
+  if(state == 2)
+  {
+    m_alarm.snooze(SNOOZE_TIME);
+  }
+
+  if(state == 3)
+  {
+    m_alarm.stop();
+  }
 }
 
 //Command handler for adding a new alarm.

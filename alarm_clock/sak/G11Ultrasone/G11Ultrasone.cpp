@@ -1,12 +1,14 @@
 #include "Arduino.h"
 #include "G11Ultrasone.h"
-//returns 2 when the ultrasone sensor detects an object within 100cm, returns 0 when it doesn't. 
-//returns 1 when it detects said object for 1.6 seconds or more (=snooze)
-int G11Ultrasone::alarm_off()
+
+//Returns 2 if we should stop all alarms from ringing.
+//Returns 1 if we should snooze the alarms.
+//Returns 0 if nothing significant happend.
+int G11Ultrasone::get_state()
 {
-	sum = 0; s = 0; avg = 0;
+	int avg = 1;
 	
-	for (int x = 0; x<6; x++)
+	for (int x = 0; x < 6; x++)
 	{
 		pinMode(echoPin, INPUT);
 		pinMode(trigPin, OUTPUT);
@@ -15,33 +17,54 @@ int G11Ultrasone::alarm_off()
 		digitalWrite(trigPin, HIGH);
 		delayMicroseconds(10);
 		digitalWrite(trigPin, LOW);
-		duration = pulseIn(echoPin, HIGH, 5882);
-		s = duration * 0.034 / 2;
-		SensVals[x] = s;
-		sum += SensVals[x];
-	}
-	avg = sum / 6;
-
-	delay(300);
-	if (avg == 0)
-	{
-		count = 0;
-		return 0;
-	}
-	else if (count>4)
-	{
-
-		count = 0;
-		return 1;
+		long duration = pulseIn(echoPin, HIGH, 5882);
+		avg += duration * 0.034 / 2;
+		
 	}
 
-	else if ((avg>0) && (avg<100))
+	avg /= 6;
+
+	//We read something from the sensor
+	if (avg > 0)
 	{
+		//Don't keep counting if we rached max.
+		if(count >= 10) return -1;
 
 		count++;
-		return 2;
+
+		if(count == 5)
+		{
+			return_code = 2;
+			return 0; // we should beep.
+		}
+
+		if(count == 10)
+		{
+			return_code = 3;
+			return 1; // we should beep.
+		}
+
+		return -1;
 	}
+	else
+	{
+		//We don\t want to start if we didn't meassure anything.
+		if(count == 0) return -1;
 
+		//Clamp the count value.
+		if(count > 10) count = 10;
 
+		count--; 
+
+		if(count == 0 && return_code > 0)
+		{
+			int c = return_code;
+			return_code = 0;
+			count = 0;
+			return c;
+		}
+
+		return -1;
+	}
 }
 

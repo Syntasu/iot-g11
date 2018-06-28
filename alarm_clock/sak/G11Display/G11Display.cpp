@@ -16,8 +16,8 @@ void G11Display::init(int LatchPin, int ClockPin, int DataPin) {
 	pinMode(7, OUTPUT);
 }
 
-void G11Display::update(int hour, int min) {
-	
+void G11Display::update(int hour, int min) 
+{
 	int digit01 = min % 10;
 	int digit02 = (int)floor(min / 10);
 	int digit03 = hour % 10;
@@ -27,13 +27,12 @@ void G11Display::update(int hour, int min) {
 	int Timearray[][4] = {
 		{ digit01,digit02,digit03,digit04 }
 	};
-	//This will display the numbers in the Time Array.
-	for (int i = 0; i<1; i++) {
-		display_number(Timearray[i], 1);
-	
-	}
+
+	display_number(Timearray[0], 1);
 }
-void G11Display::display_number(int Timearray[], int time_limit) {
+
+void G11Display::display_number(int Timearray[], int time_limit) 
+{
 	int count;
 	int dp;
 
