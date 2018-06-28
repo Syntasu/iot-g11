@@ -10,16 +10,16 @@ void G11Time::initialize(date_time initial_time)
 
 // Simulate the time based on a given elasped time (very inaccurate, debug purposes).
 // MS_ELAPSED: The amout of millisecond that have elapsed this frame.
-void G11Time::simulate(unsigned int ms_elapsed)
+void G11Time::simulate(float ms_elapsed)
 {
     //Convert milliseconds to seconds, keep the remainder in the millisecond bucket.
     int inc = 0;
     this->milli_bucket += ms_elapsed;
 
-    if(milli_bucket > 1000)
+    if(milli_bucket > 1000.0f)
     {
-        inc = ceil(this->milli_bucket / 1000);
-        this->milli_bucket -= (inc * 1000);
+        inc = ceil(this->milli_bucket / 1000.0f);
+        this->milli_bucket -= (inc * 1000.0f);
     }
 
     //Increment time.
@@ -66,22 +66,10 @@ void G11Time::simulate(unsigned int ms_elapsed)
     this->current_time = date_time(years, months, days, hours, minutes, seconds);
 }
 
-void G11Time::sync_with_rtc()
+//Adjust the time and date of the clock
+void G11Time::set_datetime(date_time dt)
 {
-	
-	t = rtc.getTime();
-	int seconds = t.sec;
-	int minutes = t.min;
-		int hours = t.hour;
-		int days = t.date;
-		int months = t.mon;
-		int years = t.year;
-		this->current_time = date_time(years, months, days, hours, minutes, seconds);
-}
-
-void G11Time::sync_with_net()
-{
-    //TODO: Syncronize over net.
+    this->current_time = dt;
 }
 
 //Boilerplate to return the current time.
@@ -123,4 +111,3 @@ String G11Time::padValue(int input)
     outVal += input;
     return outVal;
 }
-

@@ -29,7 +29,7 @@ void G11Display::update(int hour, int min) {
 	};
 	//This will display the numbers in the Time Array.
 	for (int i = 0; i<1; i++) {
-		display_number(Timearray[i], 10);
+		display_number(Timearray[i], 1);
 	
 	}
 }
@@ -48,7 +48,6 @@ void G11Display::display_number(int Timearray[], int time_limit) {
 
 			//We found the number we want to display      
 			dp = this->dec[count];
-			Serial.println(dp);
 
 			//This function shifts the 8-bit information into the shift register
 			shiftOut(this->DataPin, this->ClockPin, MSBFIRST, dp);

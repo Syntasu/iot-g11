@@ -1,5 +1,5 @@
 //Bool to tell the system we are in debug mode, so we want to print all the Serial.print(ln) messages.
-#define ENABLE_DEBUG true
+#define ENABLE_DEBUG false
 
 // Pin configuration for the alarm clock.
 #define PIN_DISPLAY_DATA    3
@@ -80,12 +80,10 @@ void net_setup()
   m_net.bind("alarm_remove", cmd_alarm_remove);
   m_net.bind("alarm_snooze", cmd_alarm_snooze);
   m_net.bind("alarm_stop", cmd_alarm_stop);
+  m_net.bind("time_sync", cmd_time_sync);
   
-  if (ENABLE_DEBUG)
-  {
-    log("The SAK is connected on: ");
-    Serial.println(String(Ethernet.localIP()));
-  }
+  log("The SAK is connected on: ");
+  logln(String(Ethernet.localIP()));
 }
 
 void time_setup()
@@ -98,10 +96,9 @@ void time_setup()
 
 void alarm_setup()
 {
-  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 5);
+  date_time alarm_time = date_time(2018, 1, 1, 12, 1, 0);
   alarm a = alarm(0, alarm_time);
-  
-  m_alarm.add_alarm(a);
+  //m_alarm.add_alarm(a);
 }
 
 void kaku_setup()
@@ -121,28 +118,29 @@ void loop()
   alarm_update();
   speaker_update(delta);
   net_update();
+  display_update();
+}
+
+void display_update()
+{
+  date_time t = m_time.get_time();
+  m_display.update(t.hours, t.minutes);
 }
 
 void time_update(int timeDelay)
 {
-  //Delay for 1 milliseconds, keep track of the time we delayed.
+  //Delay for 3 milliseconds, keep track of the time we delayed.
   //The total time delayed will be used to increment the simulated time.
-  m_util.timed_delay(100);
-
+  m_util.timed_delay(1);
+  
   //Grab the current time and return it as date_time.
   date_time t = m_time.get_time();
 
-  //TEST, REMOVE: Print the current time.
-  if (ENABLE_DEBUG && true)
-  {
-    //log("This frame took ");
-    //log(timeDelay);
-    log("The current time is ");
-    logln(m_time.get_time_string());
-  }
-
+  log("The current time is ");
+  logln(m_time.get_time_string());
+    
   //Simulate the time based on the delay of one frame/iteration.
-  m_time.simulate(timeDelay);
+  m_time.simulate(4.275f);
 }
 
 void alarm_update()
@@ -157,7 +155,7 @@ void alarm_update()
   
   if(alarm_state && !alarm_playing)
   {
-    //m_speaker.play(0, true);
+    m_speaker.play(0, true);
     //m_kaku.set_kaku(0, true);
     //m_kaku.set_kaku(1, true);
     logln("ALARM");
@@ -165,7 +163,7 @@ void alarm_update()
   }
   else if(!alarm_state && alarm_playing)
   {
-    //m_speaker.stop();
+    m_speaker.stop();
     //m_kaku.set_kaku(0, false);
     //m_kaku.set_kaku(1, false);
     logln("STOP ALARM");
@@ -266,6 +264,11 @@ void cmd_alarm_stop(String command, String a0, String a1, String a2)
   m_alarm.stop();
 }
 
+void cmd_time_sync(String command, String a0, String a1, String a2)
+{
+  date_time t = m_util.str_to_datetime(a0);
+  m_time.set_datetime(t);
+}
 
 void logln(String message)
 {
