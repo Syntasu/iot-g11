@@ -98,7 +98,7 @@ void alarm_setup()
 {
   date_time alarm_time = date_time(2018, 1, 1, 12, 0, 10);
   alarm a = alarm(0, alarm_time);
-  m_alarm.add_alarm(a);
+  //m_alarm.add_alarm(a);
 }
 
 void kaku_setup()
@@ -120,7 +120,7 @@ void loop()
   net_update();
   display_update();
   
-  if(loopCount > 50 || alarm_playing)
+  if(loopCount > 200 || alarm_playing)
   {
     ultrasone_update();
     loopCount = 0;
@@ -144,7 +144,6 @@ void time_update(int timeDelay)
   
   //Grab the current time and return it as date_time.
   date_time t = m_time.get_time();
-
 
 #if 0
   log("The current time is ");
@@ -170,16 +169,18 @@ void alarm_update()
   if(alarm_state && !alarm_playing)
   {
     m_speaker.play(0, true);
-    //m_kaku.set_kaku(0, true);
-    //m_kaku.set_kaku(1, true);
+    
+    m_kaku.set_kaku(0, true);
+    m_kaku.set_kaku(1, true);
+    
     logln("ALARM");
     alarm_playing = true;
   }
   else if(!alarm_state && alarm_playing)
   {
     m_speaker.stop();
-    //m_kaku.set_kaku(0, false);
-    //m_kaku.set_kaku(1, false);
+    m_kaku.set_kaku(0, false);
+    m_kaku.set_kaku(1, false);
     logln("STOP ALARM");
     alarm_playing = false;
   }

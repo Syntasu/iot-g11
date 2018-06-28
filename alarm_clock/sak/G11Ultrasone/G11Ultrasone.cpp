@@ -8,7 +8,7 @@ int G11Ultrasone::get_state()
 {
 	int avg = 1;
 	
-	for (int x = 0; x < 6; x++)
+	for (int x = 0; x < 4; x++)
 	{
 		pinMode(echoPin, INPUT);
 		pinMode(trigPin, OUTPUT);
@@ -22,7 +22,7 @@ int G11Ultrasone::get_state()
 		
 	}
 
-	avg /= 6;
+	avg /= 4;
 
 	//We read something from the sensor
 	if (avg > 0)
@@ -32,13 +32,13 @@ int G11Ultrasone::get_state()
 
 		count++;
 
-		if(count == 5)
+		if(count == 3)
 		{
 			return_code = 2;
 			return 0; // we should beep.
 		}
 
-		if(count == 10)
+		if(count == 6)
 		{
 			return_code = 3;
 			return 1; // we should beep.
