@@ -14,13 +14,13 @@ int G11Sensors::give_hum()
 	delay(1000);
 	return hum;
 }
-String G11Sensors::isitdark()
+bool G11Sensors::isitdark()
 {
 	pinMode(A0, INPUT);
 	 ldrval = analogRead(A0);
 	 
-	if (ldrval < 100) { return "yes"; }
-	else { return "no"; }
+	if (ldrval < 100) { return true; }
+	else { return false; }
 }
 int G11Sensors::give_ldrval()
 {

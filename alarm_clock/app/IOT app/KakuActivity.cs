@@ -113,7 +113,8 @@ namespace IOT_app
             });
 
             //Syncronize arduino from app.
-            SocketWorker.Send(Commands.SyncKaku, id.ToString(), state.ToString());
+            string s = state ? "1" : "0";
+            SocketWorker.Send(Commands.SyncKaku, id.ToString(), s);
         }
     }
 }

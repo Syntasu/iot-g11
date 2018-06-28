@@ -15,7 +15,7 @@ public:
     void remove_alarm(int id);
     alarm get_alarm(int id);
     int get_alarm_count();
-    bool update(date_time);
+    int update(date_time);
     void snooze(int);
     void stop();
 

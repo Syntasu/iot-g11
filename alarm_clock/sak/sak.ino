@@ -5,9 +5,9 @@
 #define PIN_DISPLAY_DATA    3
 #define PIN_DISPLAY_CLK     2
 #define PIN_DISPLAY_CS      1
-#define PIN_RF_TRANSMITTER  5
 #define PIN_SNOOZE_BUTTON   6
 #define PIN_DHT11_SENSOR    7
+#define PIN_RF_TRANSMITTER  8
 #define PIN_SPEAKER         9
 #define PIN_LDR             A0
 #define PIN_CLOCK_SDA       A4
@@ -56,9 +56,13 @@ void setup()
   //Setup each of the modules.
   net_setup();
   time_setup();
-  alarm_setup();
-  kaku_setup();
   display_setup();
+  kaku_setup();
+}
+
+void kaku_setup()
+{
+  m_kaku.init();
 }
 
 void display_setup()
@@ -81,6 +85,7 @@ void net_setup()
   m_net.bind("alarm_snooze", cmd_alarm_snooze);
   m_net.bind("alarm_stop", cmd_alarm_stop);
   m_net.bind("time_sync", cmd_time_sync);
+  m_net.bind("kaku_sync", cmd_kaku_sync);
   
   log("The SAK is connected on: ");
   logln(String(Ethernet.localIP()));
@@ -92,20 +97,6 @@ void time_setup()
   //Format is as following: yyyy/mm/dd hh:mm:ss
   date_time start_time = date_time(2018, 1, 1, 12, 0, 0);
   m_time.initialize(start_time);
-}
-
-void alarm_setup()
-{
-  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 10);
-  alarm a = alarm(0, alarm_time);
-  //m_alarm.add_alarm(a);
-}
-
-void kaku_setup()
-{
-  //Ready unit 0 and 1 kakus.
-  m_kaku.init_kaku(0);
-  m_kaku.init_kaku(1);
 }
 
 int loopCount = 0;
@@ -120,7 +111,7 @@ void loop()
   net_update();
   display_update();
   
-  if(loopCount > 200 || alarm_playing)
+  if(loopCount > 1000 || alarm_playing)
   {
     ultrasone_update();
     loopCount = 0;
@@ -163,26 +154,35 @@ void alarm_update()
 
   //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
   bool alarm_state = m_alarm.update(t);
-  
   int alarms = m_alarm.get_alarm_count();
-  
-  if(alarm_state && !alarm_playing)
+
+  //Alarm state one should indicate to start playing.
+  if(alarm_state == 1 && !alarm_playing)
   {
     m_speaker.play(0, true);
+
+    if(m_sensors.isitdark())
+    {
+      m_kaku.toggle(true);
+    }
     
-    m_kaku.set_kaku(0, true);
-    m_kaku.set_kaku(1, true);
-    
-    logln("ALARM");
     alarm_playing = true;
   }
-  else if(!alarm_state && alarm_playing)
+  //Alarm state 0 means no alarms, snooze mode.
+  else if(alarm_state == 0 && alarm_playing)
   {
     m_speaker.stop();
-    m_kaku.set_kaku(0, false);
-    m_kaku.set_kaku(1, false);
-    logln("STOP ALARM");
     alarm_playing = false;
+  }
+  else if(alarm_state == 2)
+  {
+    m_kaku.toggle(false);
+    
+    if(alarm_playing)
+    {
+      m_speaker.stop();
+      alarm_playing = false;
+    }
   }
 }
 
@@ -202,8 +202,6 @@ void speaker_update(int timeDelay)
 void ultrasone_update()
 {
   int state = m_ultrasone.get_state();
-  logln(String(state));
-  
   //Beep once to notify the user.
   if(state == 0)
   {
@@ -227,6 +225,7 @@ void ultrasone_update()
   if(state == 3)
   {
     m_alarm.stop();
+    m_kaku.toggle(false);
   }
 }
 
@@ -291,13 +290,27 @@ void cmd_alarm_snooze(String command, String a0, String a1, String a2)
 
 void cmd_alarm_stop(String command, String a0, String a1, String a2)
 {
-  m_alarm.stop();
+   m_alarm.stop();
+   m_kaku.toggle(false);
 }
 
 void cmd_time_sync(String command, String a0, String a1, String a2)
 {
   date_time t = m_util.str_to_datetime(a0);
   m_time.set_datetime(t);
+}
+
+void cmd_kaku_sync(String command, String a0, String a1, String a2)
+{
+  int id = a0.toInt();
+
+  bool state = false;
+  if(a1 == "1") 
+  {
+    state = true;
+  }
+
+  m_kaku.set_kaku(id, state);
 }
 
 void logln(String message)

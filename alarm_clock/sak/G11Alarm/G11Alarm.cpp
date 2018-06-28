@@ -76,9 +76,9 @@ int G11Alarm::get_alarm_count()
 //Update all the alarms
 //CURRENT_TIME: The current time of the alarm.
 //RETURN: Wether it should ring or not.
-bool G11Alarm::update(date_time current_time)
+int G11Alarm::update(date_time current_time)
 {
-    bool should_ring = false;
+    int state = 0;
 
     for(int i = 0; i < alarm_count; i++)
     {
@@ -92,12 +92,13 @@ bool G11Alarm::update(date_time current_time)
             //We turned off the alarm....
             if(alarm_state == 3)
             {
+                state = 2;
                 this->remove_alarm(a.id);
             }
             //A alarm indicated we should ring the alarm.
             else if(alarm_state == 1)
             {
-                should_ring = true;
+                state = 1;
             }
 
             //Copy back the alarm, we mutated some data in a copy of the alarm struct
@@ -107,7 +108,7 @@ bool G11Alarm::update(date_time current_time)
         }
     }
 
-    return should_ring;
+    return state;
 }
 
 //Snooze the alarm by a given amount of seconds.

@@ -7,15 +7,46 @@ G11Kaku::G11Kaku(unsigned long code, byte pin, unsigned int interval, byte retri
     this->transmitter = NewRemoteTransmitter(code, pin, interval, retries);
 }
 
-//Initialize; Turn off the kaku's by default.
-void G11Kaku::init_kaku(int id)
+void G11Kaku::init()
 {
-    this->transmitter.sendUnit(id, false);
-    delay(260);
+    for(int i = 0; i < 5; i++)
+    {
+        this->kaku_ids[i] = (i + 1);
+        this->kaku_states[i] = false;
+    }
+
 }
 
-//Set the state of the kaku.
+//Enable/disable an kaku
 void G11Kaku::set_kaku(int id, bool state)
 {
-    this->transmitter.sendUnit(id, state);
+    for(int i = 0; i < 5; i++)
+    {
+        Serial.print(this->kaku_ids[i]);
+        Serial.print(" == ");
+        Serial.print(id);
+
+        if(this->kaku_ids[i] == id)
+        {
+            this->kaku_states[i] = state;
+        }
+        Serial.print(" -> ");
+        Serial.println(this->kaku_states[i]);
+    }
+}
+
+
+//Set the state of the kaku.
+void G11Kaku::toggle(bool state)
+{
+    for(int i = 0; i < 5; i++)
+    {
+        Serial.println("toggle");
+        Serial.println(this->kaku_states[i]);
+        if(this->kaku_states[i])
+        {        
+            this->transmitter.sendUnit(i, state);
+            delay(260);
+        }
+    }
 }
