@@ -12,7 +12,7 @@ class G11Alarm
 public:
     bool add_alarm(alarm);
     bool edit_alarm(alarm);
-    bool remove_alarm(alarm);
+    void remove_alarm(int id);
 
     alarm get_alarm(int id);
     int get_alarm_count();

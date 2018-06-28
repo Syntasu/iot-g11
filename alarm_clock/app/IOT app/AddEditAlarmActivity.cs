@@ -205,7 +205,7 @@ namespace IOT_app
             alarms = tempAlarms;
 
             //Send the command to the arduino.
-            SendAlarmToArduino(Commands.AlarmRemove, currentAlarm);
+            SendRemoveAlarm(currentAlarm);
 
             //Save the alarms
             await IOWorker.SaveFile(AppFiles.Alarm, AppFileExtension.JSON, alarms);
@@ -224,6 +224,17 @@ namespace IOT_app
             SocketWorker.Send(
                 command, alarm.Id.ToString(),
                 alarm.Time.ToAgnosticString()
+            );
+        }
+
+        /// <summary>
+        ///     Send the remove alarm command to the arduino.
+        /// </summary>
+        /// <param name="alarm">The alarm we want to remove.</param>
+        private void SendRemoveAlarm(Alarm alarm)
+        {
+            SocketWorker.Send(
+                Commands.AlarmRemove, alarm.Id.ToString()
             );
         }
 

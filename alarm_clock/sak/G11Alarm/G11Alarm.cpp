@@ -10,15 +10,6 @@ bool G11Alarm::add_alarm(alarm new_alarm)
         return false;
     }
 
-    //Don't allow duplicate alarms to be added.
-    for(int i = 0; i < alarm_count; i++)
-    {
-        if(this->alarms[i].id == new_alarm.id)
-        {
-            return false;
-        }
-    }
-
     this->alarms[alarm_count] = new_alarm;
     alarm_count++;
 
@@ -42,20 +33,24 @@ bool G11Alarm::edit_alarm(alarm edit_alarm)
 }
 
 //Remove an alarm from the pool
-bool G11Alarm::remove_alarm(alarm remove_alarm)
+void G11Alarm::remove_alarm(int id)
 {
-    this->alarm_count = 0;
+    //Loop over all the alarms and see which need to be added
+    //  (all the alarms except the one that needs to be removed)
+    //  We simply write over the old array for memory consumption purposes.
     int writeIndex = 0;
     for(int i = 0; i < alarm_count; i++)
     {
-        if(this->alarms[i].id != remove_alarm.id)
+        alarm a = this->alarms[i];
+        
+        if(a.id != id)
         {
-            this->alarms[writeIndex++] = this->alarms[i];
-            this->alarm_count++;
+            this->alarms[writeIndex++] = a;
         }
     }
 
-    return true;
+    //Store the new count.
+    this->alarm_count = writeIndex;
 }
 
 //Fetch some infor about an alarm.

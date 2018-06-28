@@ -212,6 +212,9 @@ void cmd_alarm_add(String command, String a0, String a1, String a2)
   {
     logln("Failed to add alarm.");
   }
+
+  log("Alarm count is now ");
+  logln(m_alarm.get_alarm_count());
 }
 
 //Command handler for editing alarms.
@@ -227,20 +230,18 @@ void cmd_alarm_edit(String command, String a0, String a1, String a2)
   {
     logln("Failed to edit alarm");
   }
+
+  log("Alarm count is now ");
+  logln(m_alarm.get_alarm_count());
 }
 
 void cmd_alarm_remove(String command, String a0, String a1, String a2)
 {
   int id = a0.toInt();
-  date_time alarm_time = m_util.str_to_datetime(a1);
-  
-  alarm a = alarm(id, alarm_time);
-  bool result = m_alarm.add_alarm(a);
+  m_alarm.remove_alarm(id);
 
-  if(!result)
-  {
-    logln("Failed to add alarm.");
-  }
+  log("Alarm count is now ");
+  logln(m_alarm.get_alarm_count());
 }
 
 void cmd_alarm_snooze(String command, String a0, String a1, String a2)
