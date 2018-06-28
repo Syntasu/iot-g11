@@ -202,9 +202,6 @@ void ultrasone_update()
 //Command handler for adding a new alarm.
 void cmd_alarm_add(String command, String a0, String a1, String a2)
 {
-  logln("alarm_add received");
-  int iac = m_alarm.get_alarm_count();
-  
   int id = a0.toInt();
   date_time alarm_time = m_util.str_to_datetime(a1);
   
@@ -215,19 +212,11 @@ void cmd_alarm_add(String command, String a0, String a1, String a2)
   {
     logln("Failed to add alarm.");
   }
-
-  int nac = m_alarm.get_alarm_count();
-
-  if(iac == nac)
-  {
-    logln("Something went wrong :(");
-  }
 }
 
 //Command handler for editing alarms.
 void cmd_alarm_edit(String command, String a0, String a1, String a2)
 {
-  logln("alarm_edit received");
   int id = a0.toInt();
   date_time alarm_time = m_util.str_to_datetime(a1);
   alarm a = alarm(id, alarm_time);
@@ -242,9 +231,6 @@ void cmd_alarm_edit(String command, String a0, String a1, String a2)
 
 void cmd_alarm_remove(String command, String a0, String a1, String a2)
 {
-  logln("alarm_remove received");
-  int iac = m_alarm.get_alarm_count();
-  
   int id = a0.toInt();
   date_time alarm_time = m_util.str_to_datetime(a1);
   
@@ -254,13 +240,6 @@ void cmd_alarm_remove(String command, String a0, String a1, String a2)
   if(!result)
   {
     logln("Failed to add alarm.");
-  }
-
-  int nac = m_alarm.get_alarm_count();
-
-  if(iac == nac)
-  {
-    logln("Something went wrong :(");
   }
 }
 

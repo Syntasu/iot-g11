@@ -42,7 +42,7 @@ date_time G11Util::str_to_datetime(String input)
     {
         char c = input[i];
 
-        if(c == ';')
+        if(c == '/')
         {
             buff[buffIndex++] = temp;
             temp = "";
@@ -61,7 +61,7 @@ date_time G11Util::str_to_datetime(String input)
     int hour = (int)buff[3].toInt();
     int minute = (int)buff[4].toInt();
     int second = (int)buff[5].toInt();
-
+    
     return date_time(year, month, day, hour, minute, second);
 }
 
