@@ -23,7 +23,6 @@ private:
     String padValue(int);
 	Time t;
 
-	
 	 int kCePin = 0;  // Chip Enable / rst
 	 int kIoPin = A4;  // DATA 
 	 int kSclkPin = A5;  // Serial Clock		

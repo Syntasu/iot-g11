@@ -36,14 +36,15 @@ struct date_time
     }
 
     //Find the difference between two date_times in seconds.
-    int difference(date_time t)
+    long difference(date_time t)
     {
-        int seconds = this->seconds - t.seconds;
-        int minutes = (this->minutes - t.minutes) * 60;
-        int hours = (this->hours - t.hours) * 3600;
-        int days = (this->days - t.days) * 86400;
-        int months = (this->months - t.months) * 2629743;
-        int years = (this->years - t.years) * 31556926;
+        //Convert everything to int, it doesn't like substracting unsigned integers to negative numbers :)
+        long seconds = (int)this->seconds - (int)t.seconds;
+        long minutes = ((int)this->minutes - (int)t.minutes) * 60;
+        long hours = ((int)this->hours - (int)t.hours) * 3600;
+        long days = ((int)this->days - (int)t.days) * 86400;
+        long months = ((int)this->months - (int)t.months) * 2629743;
+        long years = ((int)this->years - (int)t.years) * 31556926;
         
         return seconds + minutes + hours + days + months + years;
     }

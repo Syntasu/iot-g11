@@ -40,6 +40,8 @@ G11Ultrasone m_ultrasone;
 G11Sensors m_sensors;
 G11Display m_display;
 
+#define SNOOZE_TIME 600
+
 bool alarm_playing = false;
 
 void setup()
@@ -67,7 +69,7 @@ void display_setup()
 //Make a connection to the interwebs.
 void net_setup()
 {
-  IPAddress ip = IPAddress(192, 168, 1, 15);
+  IPAddress ip = IPAddress(192, 168, 1, 17);
   byte mac[] = { 0x84, 0xAD, 0xE2, 0xA9, 0xEB, 0x9A};
 
   m_net.begin(ip, mac);
@@ -76,6 +78,8 @@ void net_setup()
   m_net.bind("alarm_add", cmd_alarm_add);
   m_net.bind("alarm_edit", cmd_alarm_edit);
   m_net.bind("alarm_remove", cmd_alarm_remove);
+  m_net.bind("alarm_snooze", cmd_alarm_snooze);
+  m_net.bind("alarm_stop", cmd_alarm_stop);
   
   if (ENABLE_DEBUG)
   {
@@ -94,8 +98,10 @@ void time_setup()
 
 void alarm_setup()
 {
-  //date_time alarm_time = date_time(2018, 1, 1, 12, 0, 10);
-  //m_alarm.schedule_alarm(alarm_time);
+  date_time alarm_time = date_time(2018, 1, 1, 12, 0, 5);
+  alarm a = alarm(0, alarm_time);
+  
+  m_alarm.add_alarm(a);
 }
 
 void kaku_setup()
@@ -121,22 +127,22 @@ void time_update(int timeDelay)
 {
   //Delay for 1 milliseconds, keep track of the time we delayed.
   //The total time delayed will be used to increment the simulated time.
-  m_util.timed_delay(83);
+  m_util.timed_delay(100);
 
   //Grab the current time and return it as date_time.
   date_time t = m_time.get_time();
 
   //TEST, REMOVE: Print the current time.
-  if (ENABLE_DEBUG && false)
+  if (ENABLE_DEBUG && true)
   {
-    log("This frame took ");
-    log(timeDelay);
-    log(", the current time is ");
+    //log("This frame took ");
+    //log(timeDelay);
+    log("The current time is ");
     logln(m_time.get_time_string());
   }
 
   //Simulate the time based on the delay of one frame/iteration.
-  m_time.sync_with_rtc();
+  m_time.simulate(timeDelay);
 }
 
 void alarm_update()
@@ -145,28 +151,25 @@ void alarm_update()
   date_time t = m_time.get_time();
 
   //Check if any alarm needs to me sounded. (after the current time exceeds the alarm time).
-  int alarm_state = m_alarm.check_alarms(t);
+  bool alarm_state = m_alarm.update(t);
   
-  if(alarm_state == 1)
+  int alarms = m_alarm.get_alarm_count();
+  
+  if(alarm_state && !alarm_playing)
   {
-    if(!alarm_playing)
-    {
-      m_speaker.play(0, true);
-      m_kaku.set_kaku(0, true);
-      m_kaku.set_kaku(1, true);
-      alarm_playing = true;
-    }
+    //m_speaker.play(0, true);
+    //m_kaku.set_kaku(0, true);
+    //m_kaku.set_kaku(1, true);
+    logln("ALARM");
+    alarm_playing = true;
   }
-
-  if(alarm_state == 2 || alarm_state == 3)
+  else if(!alarm_state && alarm_playing)
   {
-    if(alarm_playing)
-    {
-      m_speaker.stop();
-      m_kaku.set_kaku(0, false);
-      m_kaku.set_kaku(1, false);
-      alarm_playing = false;
-    }
+    //m_speaker.stop();
+    //m_kaku.set_kaku(0, false);
+    //m_kaku.set_kaku(1, false);
+    logln("STOP ALARM");
+    alarm_playing = false;
   }
 }
 
@@ -189,12 +192,12 @@ void ultrasone_update()
  
    if(state == 1)
    {
-      m_alarm.snooze(10); //10 voor testing anders 600 
-      logln("Snooze!");
+      //m_alarm.snooze(10); //10 voor testing anders 600 
+      //logln("Snooze!");
    }
    else if(state == 2)
    {
-      m_alarm.kill(m_time.get_time());
+      //m_alarm.stop(m_time.get_time());
       //Serial.println("Stop!");
    }  
 }
@@ -204,6 +207,8 @@ void cmd_alarm_add(String command, String a0, String a1, String a2)
 {
   int id = a0.toInt();
   date_time alarm_time = m_util.str_to_datetime(a1);
+
+  logln(a1);
   
   alarm a = alarm(id, alarm_time);
   bool result = m_alarm.add_alarm(a);
@@ -246,15 +251,19 @@ void cmd_alarm_remove(String command, String a0, String a1, String a2)
 
 void cmd_alarm_snooze(String command, String a0, String a1, String a2)
 {
-  logln("Snooze!");
-  //Snooze for 10 seconds.
-  m_alarm.snooze(10);
+  if(ENABLE_DEBUG)
+  {
+    m_alarm.snooze(10);
+  }
+  else
+  {
+    m_alarm.snooze(SNOOZE_TIME);
+  }
 }
 
 void cmd_alarm_stop(String command, String a0, String a1, String a2)
 {
-  logln("Stop!");
-  m_alarm.kill(m_time.get_time());
+  m_alarm.stop();
 }
 
 

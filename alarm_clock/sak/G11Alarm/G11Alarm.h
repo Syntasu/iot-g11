@@ -13,26 +13,15 @@ public:
     bool add_alarm(alarm);
     bool edit_alarm(alarm);
     void remove_alarm(int id);
-
     alarm get_alarm(int id);
     int get_alarm_count();
-
-    int check_alarms(date_time);
-
+    bool update(date_time);
     void snooze(int);
-    void kill(date_time);
+    void stop();
 
 private:
     int alarm_count = 0;
     alarm alarms[MAX_ALARMS];
-
-    //Time to snooze in seconds.
-    int snooze_countdown = 0;
-    int snooze_count = 0;
-
-    bool snoozing = false;
-    bool ringing = false;
-    bool stop_alarms = false;
 };
 
 #endif

@@ -42,7 +42,7 @@ void G11Alarm::remove_alarm(int id)
     for(int i = 0; i < alarm_count; i++)
     {
         alarm a = this->alarms[i];
-        
+
         if(a.id != id)
         {
             this->alarms[writeIndex++] = a;
@@ -53,7 +53,7 @@ void G11Alarm::remove_alarm(int id)
     this->alarm_count = writeIndex;
 }
 
-//Fetch some infor about an alarm.
+//Fetch some information  about an alarm.
 alarm G11Alarm::get_alarm(int id)
 {
     for(int i = 0; i < alarm_count; i++)
@@ -73,99 +73,83 @@ int G11Alarm::get_alarm_count()
     return this->alarm_count;
 }
 
-//Check if any of the alarms needs to be played.
-//CURRENT_TIME: The current time of the arduino.
-//RETURN: 0 = no event, 1 = ring, 2 = snooze, 3 = stop
-//TODO: After killing, the alarms stay in snooze mode...
-int G11Alarm::check_alarms(date_time current_time)
+//Update all the alarms
+//CURRENT_TIME: The current time of the alarm.
+//RETURN: Wether it should ring or not.
+bool G11Alarm::update(date_time current_time)
 {
-    // for(int i = 0; i < 8; i++)
-    // {
-    //     alarm alarm_time = alarms[i];
+    bool should_ring = false;
 
-    //     //Don't read empty indexes.
-    //     if(alarm_time.is_identity()) continue;
+    for(int i = 0; i < alarm_count; i++)
+    {
+        alarm a = this->alarms[i];
 
-    //     //Get the time difference in seconds
-    //     int diff = alarm_time.difference(current_time);
+        if(a.id >= 0)
+        {
+            a.update(current_time);
+            int alarm_state = a.get_state();
 
-    //     //Tell the main code to stop sounding alarms.
-    //     if(stop_alarms)
-    //     {
-    //         stop_alarms = false;
-    //         return 3;
-    //     }
+            //We turned off the alarm....
+            if(alarm_state == 3)
+            {
+                this->remove_alarm(a.id);
+            }
+            //A alarm indicated we should ring the alarm.
+            else if(alarm_state == 1)
+            {
+                should_ring = true;
+            }
 
-    //     //If we are snoozing...
-    //     if(snoozing)
-    //     {
-    //         //Check if we surpassed the snooze countdown.
-    //         if(abs(diff) > (snooze_countdown * snooze_count))
-    //         {
-    //             snoozing = false;
-    //             snooze_count++;
-    //             return 1;
-    //         }
+            //Copy back the alarm, we mutated some data in a copy of the alarm struct
+            //There for we need to copy back into the array to make sure the data
+            //is being persisted in the array.
+            this->alarms[i] = a;
+        }
+    }
 
-    //         //Else return 2...
-    //         return 2;
-    //     }
-
-    //     //If we are not snoozing....
-    //     else
-    //     {
-    //         //If we haven't rung out alarms yets..
-    //         if(!ringing)
-    //         {
-    //             //And the time surpassed the alarm, then we want to ring it.
-    //             if(diff <= 0)
-    //             {
-    //                 ringing = true;
-    //                 return 1;
-    //             }
-    //         }
-    //     }
-
-    //     return 0;
-    // }
-
-    return 0;
+    return should_ring;
 }
 
 //Snooze the alarm by a given amount of seconds.
-void G11Alarm::snooze(int snooze_sec)
+void G11Alarm::snooze(int snooze_time)
 {
-    snooze_countdown = snooze_sec;
-    snooze_count++;
-    snoozing = true;
+    for(int i = 0; i < alarm_count; i++)
+    {
+        alarm a = this->alarms[i];
+
+        if(a.id >= 0)
+        {
+            Serial.println(a.id);
+            a.set_snooze(snooze_time);
+
+            //Copy back the alarm, we mutated some data in a copy of the alarm struct
+            //There for we need to copy back into the array to make sure the data
+            //is being persisted in the array.
+            this->alarms[i] = a;
+        }
+    }
 }
 
-//Kill all alarms!
-void G11Alarm::kill(date_time current_time)
+//Stop all the alarms. 
+void G11Alarm::stop()
 {
-    // stop_alarms = true;
+    for(int i = 0; i < alarm_count; i++)
+    {
+        alarm a = this->alarms[i];
 
-    // for(int i = 0; i < this->alarm_count; i++)
-    // {
-    //     date_time alarm_time = alarms[i];
+        if(a.id >= 0)
+        {
+            int alarm_state = a.get_state();
 
-    //     //Don't read empty indices.
-    //     if(alarm_time.is_identity()) continue;
+            if(alarm_state == 1 || alarm_state == 2)
+            {
+                a.stop();
 
-    //     //Get the time difference in seconds
-    //     int diff = alarm_time.difference(current_time);
-
-    //     //Remove any alarms that have already rung.
-    //     if(diff <= 0)
-    //     {
-    //         alarms[i] = date_time(); //Assign identity.
-    //         alarm_count--;
-    //     }
-    // }
-
-    // //Reset everything!
-    // snooze_countdown = 0;
-    // snooze_count = 0;
-    // snoozing = false;
-    // ringing = false;
+                //Copy back the alarm, we mutated some data in a copy of the alarm struct
+                //There for we need to copy back into the array to make sure the data
+                //is being persisted in the array.
+                this->alarms[i] = a;
+            }
+        }
+    }
 }
