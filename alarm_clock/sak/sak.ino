@@ -121,7 +121,7 @@ void time_update(int timeDelay)
 {
   //Delay for 1 milliseconds, keep track of the time we delayed.
   //The total time delayed will be used to increment the simulated time.
-  m_util.timed_delay(1);
+  m_util.timed_delay(83);
 
   //Grab the current time and return it as date_time.
   date_time t = m_time.get_time();
@@ -214,7 +214,7 @@ void cmd_alarm_add(String command, String a0, String a1, String a2)
   }
 
   log("Alarm count is now ");
-  logln(m_alarm.get_alarm_count());
+  logln(String(m_alarm.get_alarm_count()));
 }
 
 //Command handler for editing alarms.
@@ -232,7 +232,7 @@ void cmd_alarm_edit(String command, String a0, String a1, String a2)
   }
 
   log("Alarm count is now ");
-  logln(m_alarm.get_alarm_count());
+  logln(String(m_alarm.get_alarm_count()));
 }
 
 void cmd_alarm_remove(String command, String a0, String a1, String a2)
@@ -241,7 +241,7 @@ void cmd_alarm_remove(String command, String a0, String a1, String a2)
   m_alarm.remove_alarm(id);
 
   log("Alarm count is now ");
-  logln(m_alarm.get_alarm_count());
+  logln(String(m_alarm.get_alarm_count()));
 }
 
 void cmd_alarm_snooze(String command, String a0, String a1, String a2)
