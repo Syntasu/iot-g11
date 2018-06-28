@@ -173,7 +173,7 @@ void alarm_update()
 void net_update()
 {
   //Receive any incoming message
-  m_net.update();
+  m_net.update(ENABLE_DEBUG);
 }
 
 void speaker_update(int timeDelay)

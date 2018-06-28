@@ -3,7 +3,7 @@
 #include <SPI.h>
 #include <Ethernet.h>
 
-//Start the connection. (without DHCP`)
+//Start the connection. (without DHCP)
 void G11Socket::begin(IPAddress ip, byte mac[])
 {
     Ethernet.begin(mac, ip);
@@ -11,7 +11,7 @@ void G11Socket::begin(IPAddress ip, byte mac[])
 }
 
 //Check for any imcoming messages.
-void G11Socket::update()
+void G11Socket::update(bool debug)
 {
     EthernetClient client = server.available();
 
@@ -23,6 +23,11 @@ void G11Socket::update()
     String buff[4];
     int offset = 0;
 
+    if(debug)
+    {
+        Serial.println("New command received...");
+    }
+
     //Read ALL incoming data!
     while (client.available() > 0)
     {
@@ -33,8 +38,18 @@ void G11Socket::update()
         //Reset temp and increment offset.
         if (recvChar == ';')
         {
+            if(debug)
+            {
+                Serial.print("IDX: ");
+                Serial.print(offset);
+                Serial.print(" DATA: ");
+                Serial.print(temp);
+                Serial.println("; ");
+            }
+
             buff[offset++] = temp;
             temp = "";
+
         }
         else
         {

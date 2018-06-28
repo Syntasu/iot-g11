@@ -12,7 +12,7 @@ public:
     G11Socket() {};
 
     void begin(IPAddress, byte[]);
-    void update();
+    void update(bool);
 
     void bind(String, net_cb);
     void invoke_bind(String, String, String, String);

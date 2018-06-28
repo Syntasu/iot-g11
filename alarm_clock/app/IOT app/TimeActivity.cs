@@ -39,6 +39,7 @@ namespace IOT_app
             npTimeHour.Value = time.Hour;
             npTimeMinute.Value = time.Minute;
 
+       
             btnSetTime.Click += (s, e) => SyncDateTime();
             btnCancel.Click += (s, e) => StartActivity(typeof(MainActivity));
         }

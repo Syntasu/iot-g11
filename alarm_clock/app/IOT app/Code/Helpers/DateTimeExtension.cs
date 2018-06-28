@@ -12,7 +12,7 @@ namespace IOT_app.Code
         /// <returns>A semi colon seperated string with year, months, day, hour, minute and seconds.</returns>
         public static string ToAgnosticString(this DateTime time)
         {
-            return $"{time.Year};{time.Month};{time.Day};{time.Hour};{time.Minute};{time.Second}";
+            return $"{time.Year}/{time.Month}/{time.Day}/{time.Hour}/{time.Minute}/{time.Second}";
         }
 
     }
